@@ -15,6 +15,7 @@
     <script src="data/document.js"></script>
     <script src="resources/scripts/prototypePost.js"></script>
     <script src="files/index/data.js"></script>
+    <script type="text/javascript" src="javascripts/convertFile.js"></script>
     <script type="text/javascript">
       $axure.utils.getTransparentGifPath = function() { return 'resources/images/transparent.gif'; };
       $axure.utils.getOtherPath = function() { return 'resources/Other.html'; };
@@ -73,7 +74,7 @@
       <div id="u88" class="ax_default text_field">
         <form id="editfile" method="post" action="/system/upload" enctype="multipart/form-data" style="margin:0 auto;">
           <input name="text" type="text">
-          选择视频：<input name="avatar" id="upfile" type="file">
+          选择视频：<input name="avatar" id="upfile" type="file" onchange="readfile()">
           <!--<div id="u86" class="ax_default button">-->
             <!--<div id="u86_div" class=""></div>-->
             <!--&lt;!&ndash; Unnamed () &ndash;&gt;-->
@@ -82,7 +83,7 @@
               <!--&lt;!&ndash;<p ><span>上传</span></p>&ndash;&gt;-->
             <!--</div>-->
           <!--</div>-->
-          <input type="submit" value="上传">
+          <input type="submit" value="上传" >
           <!--<input type="submit" value="提交">-->
         </form>
         <!--<input id="u88_input" type="text" value="选择本地文件"/>-->
@@ -94,7 +95,7 @@
       <div id="u89" class="ax_default button">
         <div id="u89_div" class=""></div>
         <!-- Unnamed () -->
-        <div id="u90" class="text">
+        <div id="u90" class="text" onclick="get_filename()">
           <p><span>下载</span></p>
         </div>
       </div>
@@ -109,9 +110,14 @@
       </div>
 
       <!-- Unnamed (文本框) -->
-      <div id="u93" class="ax_default text_field">
-        <input id="u93_input" type="text" value="搜索字幕"/>
-      </div>
+      <form id='search_button'  method='post' action='/system/search' enctype='multipart/form-data' class="form" style="float: left">
+        <div id="u93" class="ax_default text_field">
+          <input id="search_text" type="text" name="search_text" value="搜索字幕"/>
+          <input type='submit' value='Search' class="button" />
+        </div>
+
+      </form>
+
 
       <!-- Unnamed (水平线) -->
       <div id="u94" class="ax_default line">
@@ -296,4 +302,12 @@
       </div>
     </div>
   </body>
+<script type="text/javascript">
+  function get_filename() {
+      var filename = document.getElementById("upfile");
+      console.log(filename.value);
+      var text = document.getElementById("u130_input");
+      text.value = filename.value;
+  }
+</script>
 </html>
