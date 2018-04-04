@@ -148,15 +148,15 @@
     <div id="u23" class="ax_default radio_button">
         <label for="u23_input">
             <!-- Unnamed () -->
-            <div id="u24" class="text">
+            <div id="u24" class="text" >
                 <p><span>下次自动登录</span></p>
             </div>
         </label>
-        <input id="u23_input" type="radio" value="radio" name="u23"/>
+        <input id="u23_input" type="radio" value="radio" name="u23" />
     </div>
 
     <!-- Unnamed (矩形) -->
-    <div id="u25" class="ax_default button">
+    <div id="u25" onclick="login()"  class="ax_default button">
         <div id="u25_div" class=""></div>
         <!-- Unnamed () -->
         <div id="u26" class="text">
@@ -255,5 +255,35 @@
     </div>
 </div>
 </body>
+<script>
+    function login() {
+        var account = document.getElementById("u22_input").value;
+        var password = document.getElementById("u21_input").value;
+        alert(account+":"+password);
+        $.ajax({
+            url:"/login",
+            type:"POST",
+            dataType:"text",
+            data:account+":"+password,
+            context: document.body,
+            success: function(data,textStatus){
+                alert("ok");
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert("error");
+            },
+            complete:function(XMLHttpRequest, textStatus) {
+                alert("complete");
+            },
+            statusCode:{
+                404:function(){
+                    alert('404，页面不存在');
+                }
+            }
+        });
+        window.location.href='http://localhost:3000';
+    }
 
+
+</script>
 </html>
