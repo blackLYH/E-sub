@@ -25,8 +25,8 @@
       <file leaf-file-name="login.ejs" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/E-sub/views/login.ejs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
-              <caret line="265" column="28" lean-forward="true" selection-start-line="265" selection-start-column="28" selection-end-line="265" selection-end-column="28" />
+            <state relative-caret-position="166">
+              <caret line="267" column="12" selection-start-line="267" selection-start-column="12" selection-end-line="267" selection-end-column="12" />
             </state>
           </provider>
         </entry>
@@ -227,12 +227,12 @@
       <workItem from="1522740921586" duration="2080000" />
       <workItem from="1522821398764" duration="5724000" />
       <workItem from="1522828812012" duration="76000" />
-      <workItem from="1522834960917" duration="46000" />
+      <workItem from="1522834960917" duration="111000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="13899000" />
+    <option name="totallyTimeSpent" value="13964000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -549,8 +549,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/E-sub/views/login.ejs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="265" column="28" lean-forward="true" selection-start-line="265" selection-start-column="28" selection-end-line="265" selection-end-column="28" />
+        <state relative-caret-position="166">
+          <caret line="267" column="12" selection-start-line="267" selection-start-column="12" selection-end-line="267" selection-end-column="12" />
         </state>
       </provider>
     </entry>
