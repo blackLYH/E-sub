@@ -9,4 +9,11 @@ router.get('/', function(req, res, next) {
 router.get('/login', function(req, res, next) {
     res.render('login', { title: 'Express' });
 });
+
+router.post('/login/test', function(req, res, next) {
+    console.log(req.body)
+
+    //res.render('login', { title: 'Express' });
+});
+
 module.exports = router;

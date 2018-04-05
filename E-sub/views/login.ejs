@@ -255,13 +255,13 @@
     </div>
 </div>
 </body>
-<script>
+<script type="text/javascript">
     function login() {
         var account = document.getElementById("u22_input").value;
         var password = document.getElementById("u21_input").value;
         alert(account+":"+password);
         $.ajax({
-            url:"/login",
+            url:"/login/test",
             type:"POST",
             dataType:"text",
             data:account+":"+password,
