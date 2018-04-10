@@ -26,4 +26,14 @@ router.post('/login/test', function(req, res, next) {
     //res.render('login', { title: 'Express' });
 });
 
+router.get('/register', function(req, res, next) {
+    res.render('register', { title: 'Express' });
+});
+
+router.post('/register', function(req, res, next) {
+    console.log(req.body)
+
+    //res.render('login', { title: 'Express' });
+});
+
 module.exports = router;

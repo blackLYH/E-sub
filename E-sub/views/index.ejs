@@ -110,13 +110,9 @@
       </div>
 
       <!-- Unnamed (文本框) -->
-      <form id='search_button'  method='post' action='/system/search' enctype='multipart/form-data' class="form" style="float: left">
-        <div id="u93" class="ax_default text_field">
-          <input id="search_text" type="text" name="search_text" value="搜索字幕"/>
-          <input type='submit' value='Search' class="button" />
-        </div>
-
-      </form>
+      <div id="u93" class="ax_default text_field">
+        <input id="searchText" type="text" placeholder="搜索字幕"/>
+      </div>
 
 
       <!-- Unnamed (水平线) -->
@@ -282,9 +278,10 @@
       <div id="u128" class="ax_default label">
         <div id="u128_div" class=""></div>
         <!-- Unnamed () -->
-        <div id="u129" class="text">
-          <p><span>已完成：20%</span></p>
-        </div>
+        <!--<div id="u129" class="text">-->
+          <!--<p><span>已完成：20%</span></p>-->
+          <progress value="20" max="100"><span >已完成：20%</span></progress>
+        <!--</div>-->
       </div>
 
       <!-- Unnamed (多行文本框) -->
@@ -292,9 +289,9 @@
         <textarea id="u130_input"></textarea>
       </div>
 
-      <!-- Unnamed (图片) -->
-      <div id="u131" class="ax_default image">
-        <img id="u131_img" class="img " src="images/index/u131.png"/>
+      <!-- Unnamed (图片) 搜索按钮 -->
+      <div id="u131" class="ax_default image" >
+        <img id="u131_img" class="img " src="images/index/u131.png" onclick="search()"/>
         <!-- Unnamed () -->
         <div id="u132" class="text" style="display:none; visibility: hidden">
           <p><span></span></p>
@@ -308,6 +305,32 @@
       console.log(filename.value);
       var text = document.getElementById("u130_input");
       text.value = filename.value;
+  }
+  
+  function search() {
+      var searchContent = document.getElementById("searchText").value;
+      var json = {"search":searchContent}
+      $.ajax({
+          url:"/system/search",
+          type:"POST",
+          dataType:"json",
+          data:json,
+
+          success: function(data,textStatus){
+              console.log("ok");
+          },
+          error: function (XMLHttpRequest, textStatus, errorThrown) {
+              console.log("error");
+          },
+          complete:function(XMLHttpRequest, textStatus) {
+              console.log("complete");
+          },
+          statusCode:{
+              404:function(){
+                  console.log('404，页面不存在');
+              }
+          }
+      });
   }
 </script>
 </html>

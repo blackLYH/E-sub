@@ -136,12 +136,12 @@
 
     <!-- Unnamed (文本框) -->
     <div id="u21" class="ax_default text_field">
-        <input id="u21_input" type="text" value="&nbsp;密码"/>
+        <input id="u21_input" type="text" placeholder="&nbsp;密码"/>
     </div>
 
     <!-- Unnamed (文本框) -->
     <div id="u22" class="ax_default text_field">
-        <input id="u22_input" type="text" value="&nbsp;手机号/用户名"/>
+        <input id="u22_input" type="text" placeholder="&nbsp;手机号/用户名"/>
     </div>
 
     <!-- Unnamed (单选按钮) -->
@@ -219,10 +219,11 @@
     </div>
 
     <!-- Unnamed (矩形) -->
-    <div id="u39" class="ax_default button">
+    <div id="u39" onclick="transToRegister()" ax_default button">
         <div id="u39_div" class=""></div>
         <!-- Unnamed () -->
         <div id="u40" class="text">
+
             <p><span>立即注册</span></p>
         </div>
     </div>
@@ -260,6 +261,23 @@
         var account = document.getElementById("u22_input").value;
         var password = document.getElementById("u21_input").value;
 
+        console.log(account+":"+password);
+        $.ajax({
+            url:"/login/test",
+            type:"POST",
+            dataType:"text",
+            data:account+":"+password,
+            
+            success: function(data,textStatus){
+                console.log("ok");
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                console.log("error");
+            },
+            complete:function(XMLHttpRequest, textStatus) {
+                console.log("complete");
+            },
+
         var transToBack={"Account":account,"Password":password};
         $.ajax({
             url:"/login/test",
@@ -269,12 +287,16 @@
 
             statusCode:{
                 404:function(){
-                    alert('404，页面不存在');
+                    console.log('404，页面不存在');
                 }
             }
         });
         console.log(transToBack);
         //window.location.href='http://localhost:3000';
+    }
+
+    function transToRegister() {
+        window.location.href='http://localhost:3000/regisfter';
     }
 
 
