@@ -259,28 +259,21 @@
     function login() {
         var account = document.getElementById("u22_input").value;
         var password = document.getElementById("u21_input").value;
-        alert(account+":"+password);
+
+        var transToBack={"Account":account,"Password":password};
         $.ajax({
             url:"/login/test",
             type:"POST",
-            dataType:"text",
-            data:account+":"+password,
-            
-            success: function(data,textStatus){
-                alert("ok");
-            },
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                alert("error");
-            },
-            complete:function(XMLHttpRequest, textStatus) {
-                alert("complete");
-            },
+            dataType:"JSON",
+            data:transToBack,
+
             statusCode:{
                 404:function(){
                     alert('404，页面不存在');
                 }
             }
         });
+        console.log(transToBack);
         window.location.href='http://localhost:3000';
     }
 
