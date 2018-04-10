@@ -30,22 +30,22 @@ router.post('/upload', upload.single('avatar'), function (req, res, next) {
 
     var filename = uploadfile;
     filename = filename.split(".")[0];
-    shell.exec('ffmpeg -i ../public/uploads/video/'+ uploadfile +' -acodec copy -y -vn ../public/uploads/video/'+ filename + '.m4a');
+    shell.exec('ffmpeg -i /uploads/video/'+ uploadfile +' -acodec copy -y -vn /uploads/video/'+ filename + '.m4a');
     shell.exec('autosub ../public/uploads/video/'+ filename + '.m4a -S en -D en');
 
 });
 
-router.post('/search', upload.single('search_text'), function (req, res, next) {
-    var query_name = req.body.search_text;
+router.post('/search', function (req, res, next) {
+    var query_name = req.body["search"];
     console.log(query_name);
 
-    shell.exec('../public/uploads/subtitle/shell.sh '+ query_name,  {encoding: 'gbk'},function(code, stdout, stderr) {
+    shell.exec('. /root/lyh/E-sub/E-sub/public/uploads/subtitle/shell.sh '+ query_name +'',  {encoding: 'gbk'},function(code, stdout, stderr) {
         console.log('Exit code:', code);
 
         //console.log('Program output:', stdout);
         var decodedText = iconv.decode(stdout, 'gbk');
         console.log('Program real:',decodedText)
-
+        
         //console.log('Program stderr:', stderr);
     });
     // var child = shell.exec('ls',{async:true});

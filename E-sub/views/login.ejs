@@ -259,7 +259,7 @@
     function login() {
         var account = document.getElementById("u22_input").value;
         var password = document.getElementById("u21_input").value;
-        alert(account+":"+password);
+        console.log(account+":"+password);
         $.ajax({
             url:"/login/test",
             type:"POST",
@@ -267,17 +267,17 @@
             data:account+":"+password,
             
             success: function(data,textStatus){
-                alert("ok");
+                console.log("ok");
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
-                alert("error");
+                console.log("error");
             },
             complete:function(XMLHttpRequest, textStatus) {
-                alert("complete");
+                console.log("complete");
             },
             statusCode:{
                 404:function(){
-                    alert('404，页面不存在');
+                    console.log('404，页面不存在');
                 }
             }
         });
