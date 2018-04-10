@@ -6,6 +6,9 @@ var router = express.Router();
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
+router.get('/index', function(req, res, next) {
+    res.render('index', { title: 'Express' });
+});
 
 router.get('/login', function(req, res, next) {
     res.render('login', { title: 'Express' });
@@ -15,7 +18,6 @@ router.post('/login/test', function(req, res, next) {
 
 
 
-    console.log("boom");
 
     var account=req.body["Account"];
     var password_outside=req.body["Password"];
@@ -32,15 +34,50 @@ router.post('/login/test', function(req, res, next) {
 
     connection.connect();
 
-    connection.query('select password from account where account=?',account, function (error, results) {
-        if (error) throw error;
-        console.log('password: ', results[0].password);
+
+    var _getUser = function(name, callback) {
+
+        var sql = "SELECT password FROM  account  WHERE account=?";
+
+        connection.query(sql, account, function (err, results) {
+            if (!err) {
+                var res = hasUser(results)
+                callback(res);
+
+            } else {
+                callback(error());
+            }
+        });
+
+        function hasUser(results) {
+            if (results.length == 0) {
+                return "not exist";
+            }
+            else {
+                return results[0];
+            }
+        }
+        function error() {
+            return "database error";
+        }
+    }
+
+    var getUser = function(name, callback){
+        return _getUser(name, callback);
+    }
+
+
+
+    getUser(password_outside, function(data) {
+        var User = data;
+
+        if (User.err) {
+            res.status(404);
+        } else {
+            console.log("nima");
+            res.render('index', { title: 'Express' });
+        }
     });
-
-
-
-
-    
 
 
     //res.render('login', { title: 'Express' });
