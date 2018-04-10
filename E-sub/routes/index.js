@@ -1,4 +1,5 @@
 var express = require('express');
+var mysql   = require('mysql');
 var router = express.Router();
 
 /* GET home page. */
@@ -11,7 +12,16 @@ router.get('/login', function(req, res, next) {
 });
 
 router.post('/login/test', function(req, res, next) {
-    console.log(req.body)
+
+
+    var account=req.body["Account"];
+    var password_outside=req.body["Password"];
+
+    console.log(account);
+    console.log(password_outside);
+
+    
+
 
     //res.render('login', { title: 'Express' });
 });
