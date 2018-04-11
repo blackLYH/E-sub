@@ -1,9 +1,13 @@
 var express = require('express');
+var mysql   = require('mysql');
 var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
+});
+router.get('/index', function(req, res, next) {
+    res.render('index', { title: 'Express' });
 });
 
 router.get('/login', function(req, res, next) {
@@ -11,7 +15,70 @@ router.get('/login', function(req, res, next) {
 });
 
 router.post('/login/test', function(req, res, next) {
-    console.log(req.body)
+
+
+
+
+    var account=req.body["Account"];
+    var password_outside=req.body["Password"];
+
+    console.log(account);
+    console.log(password_outside);
+
+    var connection = mysql.createConnection({
+        host     : 'localhost',
+        user     : 'root',
+        password : '123456',
+        database : 'esub'
+    });
+
+    connection.connect();
+
+
+    var _getUser = function(name, callback) {
+
+        var sql = "SELECT password FROM  account  WHERE account=?";
+
+        connection.query(sql, account, function (err, results) {
+            if (!err) {
+                var res = hasUser(results)
+                callback(res);
+
+            } else {
+                callback(error());
+            }
+        });
+
+        function hasUser(results) {
+            if (results.length == 0) {
+                return "not exist";
+            }
+            else {
+                return results[0];
+            }
+        }
+        function error() {
+            return "database error";
+        }
+    }
+
+    var getUser = function(name, callback){
+        return _getUser(name, callback);
+    }
+
+
+
+    getUser(password_outside, function(data) {
+        var User = data;
+
+        if (User.err) {
+            res.status(404);
+        } else {
+            console.log("nima");
+            res.render('index', { title: 'Express' });
+        }
+    });
+
 
     //res.render('login', { title: 'Express' });
 });

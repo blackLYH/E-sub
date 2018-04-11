@@ -262,21 +262,7 @@
         var password = document.getElementById("u21_input").value;
 
         console.log(account+":"+password);
-        $.ajax({
-            url:"/login/test",
-            type:"POST",
-            dataType:"text",
-            data:account+":"+password,
-            
-            success: function(data,textStatus){
-                console.log("ok");
-            },
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                console.log("error");
-            },
-            complete:function(XMLHttpRequest, textStatus) {
-                console.log("complete");
-            },
+
 
         var transToBack={"Account":account,"Password":password};
         $.ajax({
@@ -292,7 +278,7 @@
             }
         });
         console.log(transToBack);
-        window.location.href='http://localhost:3000';
+        //window.location.href='http://localhost:3000';
     }
 
     function transToRegister() {
