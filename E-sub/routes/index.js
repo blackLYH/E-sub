@@ -50,6 +50,7 @@ router.post('/login/test', function(req, res, next) {
         });
 
         function hasUser(results) {
+           // console.log(results);
             if (results.length == 0) {
                 return "not exist";
             }
@@ -71,12 +72,16 @@ router.post('/login/test', function(req, res, next) {
     getUser(password_outside, function(data) {
         var User = data;
 
-        if (User.err) {
+        console.log(User.password);
+
+        if (User.password!=password_outside) {
             res.status(404);
         } else {
             console.log("nima");
+
             res.render('index', { title: 'Express' });
         }
+
     });
 
 
