@@ -16,6 +16,18 @@ router.get('/login', function(req, res, next) {
 
 router.post('/login/test', function(req, res, next) {
 
+    //function:cryption
+    console.log("--------test sha-512 cryption------");
+
+    var plaintext="jianghaha";
+
+    var crypto = require("crypto");
+    var cryption= crypto.createHash('sha512');
+    cryption.update(plaintext);
+    console.log(cryption.digest('hex')) ;
+    console.log("--------test sha-512 cryption end------");
+    //function end
+
 
 
 

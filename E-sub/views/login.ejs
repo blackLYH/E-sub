@@ -261,6 +261,18 @@
         var account = document.getElementById("u22_input").value;
         var password = document.getElementById("u21_input").value;
 
+
+       // console.log("Encryption begin");
+
+        var sha512 = require('js-sha512').sha512;
+        var hash = sha512.create();
+        hash.update(password);
+        password=  hash.hex();
+        console.log(password);
+
+      //  console.log("Encryption end");
+
+
         console.log(account+":"+password);
 
 
