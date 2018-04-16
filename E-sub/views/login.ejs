@@ -20,6 +20,8 @@
         $axure.utils.getOtherPath = function() { return 'resources/Other.html'; };
         $axure.utils.getReloadPath = function() { return 'resources/reload.html'; };
     </script>
+    <script src="javascripts/require.js"></script>
+    <script src="javascripts/sha512.js"></script>
 </head>
 <body>
 <div id="base" class="">
@@ -263,17 +265,27 @@
 
 
        // console.log("Encryption begin");
+        require(['sha512'] ,function(SHA512,callback){
 
-        var sha512 = require('js-sha512').sha512;
-        var hash = sha512.create();
-        hash.update(password);
-        password=  hash.hex();
-        console.log(password);
+            var hash = sha512.create();
+            hash.update(password);
+         var   password_secrt= hash.hex();
+            console.log(password_secrt);
+            return;
+
+        });
+
+     //   var sha512 = require('js-sha512');
+     //   var hash = sha512.create();
+     //   hash.update(password);
+     //   password=  hash.hex();
+     //   console.log(password);
 
       //  console.log("Encryption end");
 
 
         console.log(account+":"+password);
+
 
 
         var transToBack={"Account":account,"Password":password};
