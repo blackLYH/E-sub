@@ -72,14 +72,24 @@ router.post('/login/test', function(req, res, next) {
     getUser(password_outside, function(data) {
         var User = data;
 
+
         console.log(User.password);
+        console.log(password_outside);
 
         if (User.password!=password_outside) {
+
+            console.log("nimabi");
             res.status(404);
+
+            res.json({error:'password wrong'});
+
+
         } else {
+
             console.log("nima");
 
-            res.render('index', { title: 'Express' });
+           res.json({success:'password correct'});
+
         }
 
     });
