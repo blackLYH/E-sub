@@ -272,17 +272,40 @@
             data:transToBack,
 
             error: function(data){
-                console.log("密码错误");
 
-                console.log(data);
+                var respond_json=JSON.parse(data.responseText);
 
-                alert("password WRONG! please try again");
+                console.log(respond_json.error);
 
-                window.location.href="/login";
+
+                if(respond_json.error=='password wrong') {
+
+                    console.log("密码错误");
+
+                    console.log(data);
+
+                    alert("password WRONG! please try again");
+
+                    window.location.href = "/login";
+
+
+
+                }
+                else if(respond_json.error=='NO account'){
+
+                    console.log("账户不存在");
+
+                    alert("Account don't exist");
+
+                    window.location.href = "/register";
+
+
+                }
 
             },
 
             success: function(data){
+
                 console.log("密码正确");
 
                 console.log(data);

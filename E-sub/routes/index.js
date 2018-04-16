@@ -72,6 +72,17 @@ router.post('/login/test', function(req, res, next) {
     getUser(password_outside, function(data) {
         var User = data;
 
+        if(User.password==undefined){
+            console.log("食屎啦你没注册的");
+
+            res.status(404);
+
+            res.json({error:'NO account'});
+
+            return;
+
+        }
+
 
         console.log(User.password);
         console.log(password_outside);
@@ -84,11 +95,13 @@ router.post('/login/test', function(req, res, next) {
             res.json({error:'password wrong'});
 
 
+
         } else {
 
             console.log("nima");
 
            res.json({success:'password correct'});
+
 
         }
 
