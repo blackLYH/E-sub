@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 var mysql   = require('mysql');
 
+var real_password;
+
 /* GET users listing. */
 router.get('/', function(req, res, next) {
   res.send('respond with a resource');
@@ -9,11 +11,24 @@ router.get('/', function(req, res, next) {
 
 router.post('/getForget_change', function(req, res, next) {
 
+    console.log("real password:");
+    console.log(real_password);
+
+
+
 
     var account=req.body["forget_account"];
     var password=req.body["forget_password"];
     console.log(account);
     console.log(password);
+
+    if(real_password==password){
+        console.log("SAME password!");
+
+        res.json({error:'same password'});
+
+        return;
+    }
 
     var connection = mysql.createConnection({
         host     : 'localhost',
@@ -107,6 +122,7 @@ router.post('/getForget_account', function(req, res, next) {
         var User = data;
 
         console.log(User.password);
+        real_password=User.password;
 
         if(User.password==undefined){
             console.log("食屎啦你没注册的");
