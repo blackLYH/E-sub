@@ -348,13 +348,13 @@
                     type:"POST",
                     dataType:"JSON",
                     data:account1,
-                    success: function(){
+                    success: function(data){
                         alert("用户存在！");
                         var sl=$("#u347_input");
                         var ops=sl.find("option");
                         ops.eq(0).val(tele_page1).text("手机号修改："+tele_page1).prop("selected",true);
                     },
-                    nonono: function(){
+                    error: function(data){
                         window.location.reload();
                     },
                     statusCode:{
@@ -394,6 +394,9 @@
                 data:info,
                 success: function(){
                     alert("修改成功！");
+                },
+                error: function(){
+                    alert("修改失败！");
                 },
                 statusCode:{
                     404:function(){

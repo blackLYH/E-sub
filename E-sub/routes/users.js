@@ -11,11 +11,6 @@ router.get('/', function(req, res, next) {
 
 router.post('/getForget_change', function(req, res, next) {
 
-    console.log("real password:");
-    console.log(real_password);
-
-
-
 
     var account=req.body["forget_account"];
     var password=req.body["forget_password"];
@@ -61,9 +56,11 @@ router.post('/getForget_change', function(req, res, next) {
 
     connection.end();
 
+
 });
 
 router.post('/getForget_account', function(req, res, next) {
+
 
     console.log("test for forget");
     var account_outside=req.body["account"];
