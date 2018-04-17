@@ -20,7 +20,7 @@ router.post('/getForget_change', function(req, res, next) {
     if(real_password==password){
         console.log("SAME password!");
 
-        res.json({error:'same password'});
+        res.json({success:'same password'});
 
         return;
     }
