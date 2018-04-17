@@ -178,14 +178,15 @@
 
 <script type="text/javascript">
     var num="";
-
+    var info;
+    var teleNum = document.getElementById("u50_input").value;
+    var reg_account = document.getElementById("u49_input").value;
+    var reg_password = document.getElementById("u58_input").value;
+    var reg_check = document.getElementById("u59_input").value;
 
     function reg() {
-        var teleNum = document.getElementById("u50_input").value;
-        var reg_account = document.getElementById("u49_input").value;
-        var reg_password = document.getElementById("u58_input").value;
-        var reg_check = document.getElementById("u59_input").value;
-        var info={"teleNum":teleNum,"reg_account":reg_account,"reg_password":reg_password};
+
+        info={"teleNum":teleNum,"account":reg_account,"password":reg_password};
         var check = document.getElementById('u64_input');
         console.log(check.checked);
         if(!check.checked){
@@ -202,7 +203,7 @@
             }
             else{
                 $.ajax({
-                    url:"/register",
+                    url:"/users/register_2",
                     type:"POST",
                     dataType:"JSON",
                     data:info,
@@ -228,7 +229,7 @@
         console.log(teleNum);
         if(teleNum.length==11&&teleNum.match("^1[3|4|5|7|8][0-9]\\d{4,8}$"))
         {
-
+            getCheckCode
             return true;
         }
         else
@@ -239,6 +240,53 @@
     }
 
     function getCheckCode() {
+        info={"teleNum":teleNum,"account":reg_account};
+        $.ajax({
+            url:"/users/register_1",
+            type:"POST",
+            dataType:"JSON",
+            data:info,
+            success: function(data){
+
+                var respond_json=data["success"];
+                if(respond_json=="NO account"){
+                    //发验证码
+                    info={"teleNum":teleNum,"account":reg_account,"password":reg_password};
+                    $.ajax({
+                        url:"/users/register_2",
+                        type:"POST",
+                        dataType:"JSON",
+                        data:info,
+                        success: function(){
+                            alert("注册成功！");
+                        },
+
+                        statusCode:{
+                            404:function(){
+                                alert('404，页面不存在');
+                            }
+                        }
+                    });
+
+
+                }
+               else if(respond_json=="account exist"){
+                    alert("账号已存在!");
+                    //不发验证码
+
+
+                }
+            },
+
+            statusCode:{
+                404:function(){
+                    alert('404，页面不存在');
+                }
+            }
+        });
+
+
+
         num = Math.ceil(Math.random()*899999 + 100000);
         alert("验证码："+num);
 
