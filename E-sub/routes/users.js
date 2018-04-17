@@ -7,11 +7,12 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/getForget_change', function(req, res, next) {
-    res.render('getForget', { title: 'Express' });
+    //res.render('getForget', { title: 'Express' });
 });
 
 router.post('/getForget_account', function(req, res, next) {
-    res.render('getForget', { title: 'Express' });
+
+
 });
 
 
