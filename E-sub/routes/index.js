@@ -96,4 +96,7 @@ router.post('/register', function(req, res, next) {
 router.get('/getForget', function(req, res, next) {
     res.render('getForget', { title: 'Express' });
 });
+
+
+
 module.exports = router;
