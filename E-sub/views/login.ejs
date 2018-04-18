@@ -21,6 +21,8 @@
         $axure.utils.getOtherPath = function() { return 'resources/Other.html'; };
         $axure.utils.getReloadPath = function() { return 'resources/reload.html'; };
     </script>
+    <script src="javascripts/require.js"></script>
+    <script src="javascripts/sha512.js"></script>
 </head>
 <body>
 <div id="base" class="">
@@ -262,8 +264,20 @@
         var account = document.getElementById("u22_input").value;
         var password = document.getElementById("u21_input").value;
 
-        console.log(account+":"+password);
 
+       // console.log("Encryption begin");
+        require(['sha512'] ,function(SHA512,callback){
+
+            var hash = sha512.create();
+            hash.update(password);
+         var   password_secrt= hash.hex();
+            console.log(password_secrt);
+            return;
+
+        });
+
+
+        console.log(account+":"+password);
 
         var transToBack={"Account":account,"Password":password};
         $.ajax({
@@ -271,10 +285,55 @@
             type:"POST",
             dataType:"JSON",
             data:transToBack,
-
             success: function(data,textStatus){
                 window.location.href='/index';
                 console.log("ok");
+
+            },
+            error: function(data){
+
+                var respond_json=JSON.parse(data.responseText);
+
+                console.log(respond_json.error);
+
+
+                if(respond_json.error=='password wrong') {
+
+                    console.log("密码错误");
+
+                    console.log(data);
+
+                    alert("password WRONG! please try again");
+
+                    window.location.href = "/login";
+
+
+
+                }
+                else if(respond_json.error=='NO account'){
+
+                    console.log("账户不存在");
+
+                    alert("Account don't exist");
+
+                    window.location.href = "/register";
+
+
+                }
+
+            },
+
+            success: function(data){
+
+                console.log("密码正确");
+
+                console.log(data);
+
+                alert("Welcome");
+
+                window.location.href="/index";
+
+
 
             },
             statusCode:{

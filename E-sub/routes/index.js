@@ -16,6 +16,18 @@ router.get('/login', function(req, res, next) {
 
 router.post('/login/test', function(req, res, next) {
 
+    //function:cryption
+    console.log("--------test sha-512 cryption------");
+
+    var plaintext="jianghaha";
+
+    var crypto = require("crypto");
+    var cryption= crypto.createHash('sha512');
+    cryption.update(plaintext);
+    console.log(cryption.digest('hex')) ;
+    console.log("--------test sha-512 cryption end------");
+    //function end
+
 
 
 
@@ -50,6 +62,7 @@ router.post('/login/test', function(req, res, next) {
         });
 
         function hasUser(results) {
+           // console.log(results);
             if (results.length == 0) {
                 return "not exist";
             }
@@ -71,12 +84,39 @@ router.post('/login/test', function(req, res, next) {
     getUser(password_outside, function(data) {
         var User = data;
 
-        if (User.err) {
+        if(User.password==undefined){
+            console.log("食屎啦你没注册的");
+
             res.status(404);
-        } else {
-            console.log("nima");
-            res.render('index', { title: 'Express' });
+
+            res.json({error:'NO account'});
+
+            return;
+
         }
+
+
+        console.log(User.password);
+        console.log(password_outside);
+
+        if (User.password!=password_outside) {
+
+            console.log("nimabi");
+            res.status(404);
+
+            res.json({error:'password wrong'});
+
+
+
+        } else {
+
+            console.log("nima");
+
+           res.json({success:'password correct'});
+
+
+        }
+
     });
 
 
@@ -96,4 +136,7 @@ router.post('/register', function(req, res, next) {
 router.get('/getForget', function(req, res, next) {
     res.render('getForget', { title: 'Express' });
 });
+
+
+
 module.exports = router;
