@@ -12,6 +12,7 @@
     <script src="resources/scripts/jquery-1.7.1.min.js"></script>
     <script src="resources/scripts/jquery-ui-1.8.10.custom.min.js"></script>
     <script src="resources/scripts/prototypePre.js"></script>
+    <script src="javascripts/convertFile.js"></script>
     <script src="data/document.js"></script>
     <script src="resources/scripts/prototypePost.js"></script>
     <script src="files/login/data.js"></script>
@@ -219,7 +220,7 @@
     </div>
 
     <!-- Unnamed (矩形) -->
-    <div id="u39" onclick="transToRegister()" ax_default button">
+    <div id="u39" onclick="transToRegister()" class ="ax_default button">
         <div id="u39_div" class=""></div>
         <!-- Unnamed () -->
         <div id="u40" class="text">
@@ -271,9 +272,17 @@
             dataType:"JSON",
             data:transToBack,
 
+            success: function(data,textStatus){
+                window.location.href='/index';
+                console.log("ok");
+
+            },
             statusCode:{
+                200:function () {
+                    window.location.href='/index';
+                },
                 404:function(){
-                    console.log('404，页面不存在');
+                    window.location.href='/error';
                 }
             }
         });

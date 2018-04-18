@@ -4,9 +4,14 @@ var shell = require('shelljs');
 var path = require("path");
 var moment = require("moment");
 var iconv = require('iconv-lite');
+var Dictionary = require('dictionaryjs')
 var uploadfile;
 var fs = require('fs');
 
+var languageList = new Dictionary.Dictionary();
+languageList.set("简体中文","zh-CN");
+languageList.set("繁體中文","zh-TW");
+languageList.set("English","en");
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, path.join(__dirname,"/../public/uploads/video"));
@@ -18,20 +23,50 @@ var storage = multer.diskStorage({
     }
 });
 
+// app.use(multer({//设置文件上传到的位置
+//     dest: '/../public/uploads/video',
+//     rename: function (fieldname, filename) {
+//         uploadfile = filename;
+//         return filename;
+//     }
+// }));
+
 var upload = multer({ storage: storage });
 
 var router = express.Router();
 
 /* GET home page. */
-router.post('/upload', upload.single('avatar'), function (req, res, next) {
-    res.send('文件上传成功'+ req.file.path);
-    console.log(uploadfile);
-    console.log(req.body);
-
+router.post('/upload',upload.single('upload_file'), function (req, res, next) {
+    if(!req.file){
+        res.json({error:"没有文件上传"});
+        return ;
+    }
+    var sourcelanguage = languageList.get(req.body["sourcelanguage"]);
+    var targetlanguage = languageList.get(req.body["detlanguage"]);
+    console.log(sourcelanguage);
+    console.log(targetlanguage);
     var filename = uploadfile;
+    console.log(filename);
     filename = filename.split(".")[0];
-    shell.exec('ffmpeg -i /uploads/video/'+ uploadfile +' -acodec copy -y -vn /uploads/video/'+ filename + '.m4a');
-    shell.exec('autosub ../public/uploads/video/'+ filename + '.m4a -S en -D en');
+    var subPath = '/root/lyh/E-sub/E-sub/public/uploads/subtitle/';
+    var videoPath = '/root/lyh/E-sub/E-sub/public/uploads/video/'
+    shell.exec('ffmpeg -i '+videoPath+ uploadfile +' -acodec copy -y -vn '+videoPath+ filename + '.m4a');
+    shell.exec('autosub '+videoPath+ filename + '.m4a -S '+sourcelanguage+' -D '+sourcelanguage+' -o '+subPath+filename+'.srt');
+    if(sourcelanguage != targetlanguage){
+        shell.exec('python ../public/python/translate.py ' + sourcelanguage +' ' +targetlanguage + ' '+subPath+filename+'.srt ' + subPath+filename+targetlanguage+'.srt');
+    }
+    if(targetlanguage == sourcelanguage)
+        targetlanguage = '';
+    shell.exec('cat '+subPath+filename+targetlanguage+'.srt',  {encoding: 'gbk'},function(code, stdout, stderr) {
+        console.log('Exit code:', code);
+
+        //console.log('Program output:', stdout);
+        var decodedText = iconv.decode(stdout, 'gbk');
+        console.log('Program real:',decodedText);
+        res.json({success:decodedText});
+        //console.log('Program stderr:', stderr);
+    });
+    //res.json({"result":{message:"文件上传成功!"}});
 
 });
 
@@ -39,15 +74,16 @@ router.post('/search', function (req, res, next) {
     var query_name = req.body["search"];
     console.log(query_name);
 
-    shell.exec('. /root/lyh/E-sub/E-sub/public/uploads/subtitle/shell.sh '+ query_name +'',  {encoding: 'gbk'},function(code, stdout, stderr) {
+    shell.exec('. /root/lyh/E-sub/E-sub/public/uploads/subtitle/shell.sh '+ query_name +'',function(code, stdout, stderr) {
         console.log('Exit code:', code);
 
-        //console.log('Program output:', stdout);
+        console.log('Program output:', stdout);
         var decodedText = iconv.decode(stdout, 'gbk');
-        console.log('Program real:',decodedText)
-        
+        console.log('Program real:',decodedText);
+        res.json({success:decodedText});
         //console.log('Program stderr:', stderr);
     });
+
     // var child = shell.exec('ls',{async:true});
     // child.stdout.on(){
     //
