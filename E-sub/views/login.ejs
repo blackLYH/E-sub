@@ -264,16 +264,13 @@
         var account = document.getElementById("u22_input").value;
         var password = document.getElementById("u21_input").value;
 
-
        // console.log("Encryption begin");
         require(['sha512'] ,function(SHA512,callback){
-
             var hash = sha512.create();
             hash.update(password);
          var   password_secrt= hash.hex();
             console.log(password_secrt);
             return;
-
         });
 
 
@@ -350,7 +347,7 @@
     }
 
     function transToRegister() {
-        window.location.href='http://localhost:3000/regisfter';
+        window.location.href='/register';
     }
 
 

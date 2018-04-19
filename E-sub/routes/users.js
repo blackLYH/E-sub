@@ -249,15 +249,8 @@ router.post('/register_2', function(req, res, next){
             return;
 
         }
-
-
     });
-
     connection.end();
-
-
-
-
 });
 
 module.exports = router;

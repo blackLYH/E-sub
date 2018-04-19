@@ -48,12 +48,13 @@ router.post('/upload',upload.single('upload_file'), function (req, res, next) {
     var filename = uploadfile;
     console.log(filename);
     filename = filename.split(".")[0];
-    var subPath = '/root/lyh/E-sub/E-sub/public/uploads/subtitle/';
-    var videoPath = '/root/lyh/E-sub/E-sub/public/uploads/video/'
+    var subPath = path.join(__dirname,"/../public/uploads/subtitle/");
+    var videoPath = path.join(__dirname,"/../public/uploads/video/");
+    var translatePath =  path.join(__dirname,"/../public/python/translate.py");
     shell.exec('ffmpeg -i '+videoPath+ uploadfile +' -acodec copy -y -vn '+videoPath+ filename + '.m4a');
     shell.exec('autosub '+videoPath+ filename + '.m4a -S '+sourcelanguage+' -D '+sourcelanguage+' -o '+subPath+filename+'.srt');
     if(sourcelanguage != targetlanguage){
-        shell.exec('python ../public/python/translate.py ' + sourcelanguage +' ' +targetlanguage + ' '+subPath+filename+'.srt ' + subPath+filename+targetlanguage+'.srt');
+        shell.exec('python '+translatePath+ ' ' + sourcelanguage +' ' +targetlanguage + ' '+subPath+filename+'.srt ' + subPath+filename+targetlanguage+'.srt');
     }
     if(targetlanguage == sourcelanguage)
         targetlanguage = '';
@@ -73,8 +74,8 @@ router.post('/upload',upload.single('upload_file'), function (req, res, next) {
 router.post('/search', function (req, res, next) {
     var query_name = req.body["search"];
     console.log(query_name);
-
-    shell.exec('. /root/lyh/E-sub/E-sub/public/uploads/subtitle/shell.sh '+ query_name +'',function(code, stdout, stderr) {
+    var shellPath = path.join(__dirname,"/../public/uploads/subtitle/shell.sh ");
+    shell.exec('. '+shellPath+ query_name +'',function(code, stdout, stderr) {
         console.log('Exit code:', code);
 
         console.log('Program output:', stdout);
