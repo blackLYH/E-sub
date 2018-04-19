@@ -54,7 +54,7 @@ router.post('/upload',upload.single('upload_file'), function (req, res, next) {
     shell.exec('ffmpeg -i '+videoPath+ uploadfile +' -acodec copy -y -vn '+videoPath+ filename + '.m4a');
     shell.exec('autosub '+videoPath+ filename + '.m4a -S '+sourcelanguage+' -D '+sourcelanguage+' -o '+subPath+filename+'.srt');
     if(sourcelanguage != targetlanguage){
-        shell.exec('python '+translatePath+ ' ' + sourcelanguage +' ' +targetlanguage + ' '+subPath+filename+'.srt ' + subPath+filename+targetlanguage+'.srt');
+        shell.exec('python3 '+translatePath+ ' '+ sourcelanguage +' ' +targetlanguage + ' '+subPath+filename+'.srt ' + subPath+filename+targetlanguage+'.srt');
     }
     if(targetlanguage == sourcelanguage)
         targetlanguage = '';
@@ -64,7 +64,7 @@ router.post('/upload',upload.single('upload_file'), function (req, res, next) {
         //console.log('Program output:', stdout);
         var decodedText = iconv.decode(stdout, 'gbk');
         console.log('Program real:',decodedText);
-        res.json({success:decodedText});
+        res.json({"success":decodedText});
         //console.log('Program stderr:', stderr);
     });
     //res.json({"result":{message:"文件上传成功!"}});
@@ -81,7 +81,7 @@ router.post('/search', function (req, res, next) {
         console.log('Program output:', stdout);
         var decodedText = iconv.decode(stdout, 'gbk');
         console.log('Program real:',decodedText);
-        res.json({success:decodedText});
+        res.json({"success":decodedText});
         //console.log('Program stderr:', stderr);
     });
 

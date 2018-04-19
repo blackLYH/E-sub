@@ -326,8 +326,10 @@
           dataType: 'JSON',
           contentType: false,    //不可缺
           processData: false,    //不可缺
-          success: function(data){
-              text.value = data;
+          success: function(data,textStatus){
+              var result = data["success"];
+              text.value = result;
+              //console.log(data);
           },
           error: function(err){
               console.log('error: ' + err);
@@ -352,6 +354,7 @@
   function search() {
       var searchContent = document.getElementById("searchText").value;
       var json = {"search":searchContent}
+      var text = document.getElementById("u130_input");
       $.ajax({
           url:"/system/search",
           type:"POST",
@@ -359,8 +362,10 @@
           data:json,
 
           success: function(data,textStatus){
-              console.log(data);
+              var result = data["success"];
+              console.log(result);
 
+              text.value = result;
           },
           error: function (XMLHttpRequest, textStatus, errorThrown) {
               console.log("error");
