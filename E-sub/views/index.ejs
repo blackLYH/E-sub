@@ -330,9 +330,10 @@
 
       function uploadSuccess(event) {
           if(xhr.readyState == 4){
-              console.log(xhr.response);
-              text.value = xhr.response["success"];
-              file = xhr.response["file"];
+              var result = JSON.parse(xhr.responseText);
+              console.log(typeof JSON.parse(xhr.responseText));
+              text.value = result["success"];
+              file = result["file"];
               console.log(file);
           }
       }
@@ -362,13 +363,13 @@
               progressbar.value = event.loaded;
               progress.innerHTML = complete + '%';
               if(complete >= 100){
-                  progress.innerHTML = "上传完成，请耐心等待生成字幕!"
+                  progress.innerHTML = "字幕生成中"
               }
           }
       }
   }
   function get_filename() {
-      if(file == "") return;
+      if(file == "" || file == undefined) return;
       var json = {"file":file};
       var url = "/system/download"
       var xhr = new XMLHttpRequest();

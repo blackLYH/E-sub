@@ -82,9 +82,10 @@ router.post('/search', function (req, res, next) {
 
         console.log('Program output:', stdout);
         var decodedText = iconv.decode(stdout, 'gbk');
-        console.log('Program real:',decodedText);
+        var result = decodedText.split("\n");
+        console.log('Program real:',result[0]);
 
-        res.json({"success":decodedText,"file":decodedText});
+        res.json({"success":result[0],"file":result[0]});
         //console.log('Program stderr:', stderr);
     });
 
@@ -100,7 +101,7 @@ router.post('/search', function (req, res, next) {
 
 router.get('/download', function(req, res, next) {
 
-    var fileName = "shell.sh";
+    var fileName = req.query["file"];
     var filePath = path.join(__dirname, "/../public/uploads/subtitle/"+fileName);
     console.log(filePath);
     var stats = fs.statSync(filePath);
