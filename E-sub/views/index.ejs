@@ -278,11 +278,12 @@
 
       <!-- Unnamed (矩形) -->
       <div id="u128" class="ax_default label">
-        <div id="u128_div" class=""></div>
+        <!--<div id="u128_div" class=""></div>-->
         <!-- Unnamed () -->
         <!--<div id="u129" class="text">-->
           <!--<p><span>已完成：20%</span></p>-->
-          <span id="progress" >已完成：20%</span>
+          <progress id="progressbar" value=0 max=100></progress>
+          <span id="progress" ></span>
         <!--</div>-->
       </div>
 
@@ -302,11 +303,13 @@
     </div>
   </body>
 <script type="text/javascript">
+    var file;
   function upload_file() {
 
       var file = $("#filename")[0].files;
       var button = document.getElementById("upload");
       var progress = document.querySelector('#progress');
+      var progressbar = document.getElementById("progressbar");
       button.onprogress = setProgress;
       console.log(file[0].type);
       var sourcelangue = document.getElementById("u101_input");
@@ -319,36 +322,79 @@
       });
       data.append('sourcelanguage',sourcelangue.value);
       data.append('detlanguage',detlangue.value);
-      $.ajax({
-          data: data,
-          url: '/system/upload',
-          type:"post",
-          dataType: 'JSON',
-          contentType: false,    //不可缺
-          processData: false,    //不可缺
-          success: function(data,textStatus){
-              var result = data["success"];
-              text.value = result;
-              //console.log(data);
-          },
-          error: function(err){
-              console.log('error: ' + err);
-          },
+      var xhr = new XMLHttpRequest();
+      xhr.onload = uploadSuccess;
+      xhr.upload.addEventListener("progress",setProgress,false);
+      xhr.open("POST","/system/upload",true);
+      xhr.send(data);
 
-      });
+      function uploadSuccess(event) {
+          if(xhr.readyState == 4){
+              console.log(xhr.response);
+              text.value = xhr.response["success"];
+              file = xhr.response["file"];
+              console.log(file);
+          }
+      }
+      // $.ajax({
+      //     data: data,
+      //     url: '/system/upload',
+      //     type:"post",
+      //     dataType: 'JSON',
+      //     contentType: false,    //不可缺
+      //     processData: false,    //不可缺
+      //     success: function(data,textStatus){
+      //         var result = data["success"];
+      //         text.value = result;
+      //         //console.log(data);
+      //     },
+      //     error: function(err){
+      //         console.log('error: ' + err);
+      //     },
+      //
+      // });
+
       function setProgress(event) {
           if (event.lengthComputable) {
               var complete = Number.parseInt(event.loaded / event.total * 100);
               console.log(complete);
+              progressbar.max = event.total;
+              progressbar.value = event.loaded;
               progress.innerHTML = complete + '%';
+              if(complete >= 100){
+                  progress.innerHTML = "上传完成，请耐心等待生成字幕!"
+              }
           }
       }
   }
   function get_filename() {
-      var filename = document.getElementById("upfile");
-      console.log(filename.value);
-      var text = document.getElementById("u130_input");
-      text.value = filename.value;
+      if(file == "") return;
+      var json = {"file":file};
+      var url = "/system/download"
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET',url,true);
+      xhr.responseType = "blob";
+      xhr.onload = function () {
+          // 请求完成
+          if (this.status === 200) {
+              // 返回200
+              var blob = this.response;
+              var reader = new FileReader();
+              reader.readAsDataURL(blob);    // 转换为base64，可以直接放入a表情href
+              reader.onload = function (e) {
+                  // 转换完成，创建一个a标签用于下载
+                  var a = document.createElement('a');
+                  a.download = file;
+                  a.href = e.target.result;
+                  $("body").append(a);    // 修复firefox中无法触发click
+                  a.click();
+                  $(a).remove();
+              }
+          }
+      };
+      xhr.send(json);
+      // $.get("/system/download",json);
+      //window.location.href='/system/download';
   }
   
   function search() {
@@ -363,6 +409,7 @@
 
           success: function(data,textStatus){
               var result = data["success"];
+              file = data["file"];
               console.log(result);
 
               text.value = result;

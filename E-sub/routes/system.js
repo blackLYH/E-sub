@@ -35,6 +35,7 @@ var upload = multer({ storage: storage });
 
 var router = express.Router();
 
+
 /* GET home page. */
 router.post('/upload',upload.single('upload_file'), function (req, res, next) {
     if(!req.file){
@@ -64,7 +65,8 @@ router.post('/upload',upload.single('upload_file'), function (req, res, next) {
         //console.log('Program output:', stdout);
         var decodedText = iconv.decode(stdout, 'gbk');
         console.log('Program real:',decodedText);
-        res.json({"success":decodedText});
+
+        res.json({"success":decodedText,"file":subPath+filename+targetlanguage+'.srt'});
         //console.log('Program stderr:', stderr);
     });
     //res.json({"result":{message:"文件上传成功!"}});
@@ -81,7 +83,8 @@ router.post('/search', function (req, res, next) {
         console.log('Program output:', stdout);
         var decodedText = iconv.decode(stdout, 'gbk');
         console.log('Program real:',decodedText);
-        res.json({"success":decodedText});
+
+        res.json({"success":decodedText,"file":decodedText});
         //console.log('Program stderr:', stderr);
     });
 
@@ -92,6 +95,25 @@ router.post('/search', function (req, res, next) {
     // res.render('search',{file_name : query_name});
 
 
+});
+
+
+router.get('/download', function(req, res, next) {
+
+    var fileName = "shell.sh";
+    var filePath = path.join(__dirname, "/../public/uploads/subtitle/"+fileName);
+    console.log(filePath);
+    var stats = fs.statSync(filePath);
+    if(stats.isFile()){
+        res.set({
+            'Content-Type': 'application/force-download',
+            'Content-Disposition': 'attachment; filename='+fileName,
+            'Content-Length': stats.size
+        });
+        fs.createReadStream(filePath).pipe(res);
+    } else {
+        res.end(404);
+    }
 });
 
 
