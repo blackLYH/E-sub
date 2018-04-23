@@ -370,10 +370,17 @@
   }
   function get_filename() {
       if(file == "" || file == undefined) return;
-      var json = {"file":file};
-      var url = "/system/download"
+
+      var data = {
+          "files" : file
+      }
+      console.log(typeof JSON.parse(JSON.stringify(data)));
+      //data.append('file','shell.sh');
+      var url = "/system/download";
       var xhr = new XMLHttpRequest();
-      xhr.open('GET',url,true);
+
+      xhr.open('POST',url,true);
+      xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
       xhr.responseType = "blob";
       xhr.onload = function () {
           // 请求完成
@@ -393,7 +400,7 @@
               }
           }
       };
-      xhr.send(json);
+      xhr.send("files=" +file);
       // $.get("/system/download",json);
       //window.location.href='/system/download';
   }

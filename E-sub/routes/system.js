@@ -4,6 +4,7 @@ var shell = require('shelljs');
 var path = require("path");
 var moment = require("moment");
 var iconv = require('iconv-lite');
+var bodyParser = require('body-parser');
 var Dictionary = require('dictionaryjs')
 var uploadfile;
 var fs = require('fs');
@@ -73,7 +74,7 @@ router.post('/upload',upload.single('upload_file'), function (req, res, next) {
 
 });
 
-router.post('/search', function (req, res, next) {
+router.post('/search',function (req, res, next) {
     var query_name = req.body["search"];
     console.log(query_name);
     var shellPath = path.join(__dirname,"/../public/uploads/subtitle/shell.sh ");
@@ -99,11 +100,15 @@ router.post('/search', function (req, res, next) {
 });
 
 
-router.get('/download', function(req, res, next) {
+router.post('/download', function(req, res, next) {
 
-    var fileName = req.query["file"];
+
+    var fileName = req.body["files"];
+    if(fileName == undefined) {
+        res.end(404);
+        return ;
+    }
     var filePath = path.join(__dirname, "/../public/uploads/subtitle/"+fileName);
-    console.log(filePath);
     var stats = fs.statSync(filePath);
     if(stats.isFile()){
         res.set({
