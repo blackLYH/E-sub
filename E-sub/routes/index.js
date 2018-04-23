@@ -1,6 +1,8 @@
 var express = require('express');
 var mysql   = require('mysql');
 var router = express.Router();
+var fs = require('fs');
+var path = require("path");
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -132,6 +134,36 @@ router.post('/register', function(req, res, next) {
 
     //res.render('login', { title: 'Express' });
 });
+
+// router.get('/download', function(req, res, next) {
+//
+//     var shellPath = path.join(__dirname,"/../public/uploads/subtitle/");
+//     fs.readdir(shellPath, function(err, results){
+//         if(err) throw err;
+//         if(results.length>0) {
+//
+//             var files = [];
+//             results.forEach(function(file){
+//                 if(fs.statSync(path.join(shellPath, file)).isFile()){
+//                     files.push(file);
+//                 }
+//             })
+//             console.log(files);
+//             res.render('files', {files:files});
+//         } else {
+//             res.end('当前目录下没有文件');
+//         }
+//     });
+//     console.log(shellPath);
+//     // var f = fs.createReadStream(path);
+//     // console.log("ok");
+//     // res.writeHead(200, {
+//     //     'Content-Type': 'application/force-download',
+//     //     'Content-Disposition': 'attachment; filename='+'shell.sh'
+//     // });
+//     //
+//     // f.pipe(res);
+// });
 
 router.get('/getForget', function(req, res, next) {
     res.render('getForget', { title: 'Express' });

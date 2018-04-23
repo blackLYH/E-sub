@@ -12,6 +12,7 @@
     <script src="resources/scripts/jquery-1.7.1.min.js"></script>
     <script src="resources/scripts/jquery-ui-1.8.10.custom.min.js"></script>
     <script src="resources/scripts/prototypePre.js"></script>
+    <script src="javascripts/convertFile.js"></script>
     <script src="data/document.js"></script>
     <script src="resources/scripts/prototypePost.js"></script>
     <script src="files/login/data.js"></script>
@@ -221,7 +222,7 @@
     </div>
 
     <!-- Unnamed (矩形) -->
-    <div id="u39" onclick="transToRegister()" ax_default button">
+    <div id="u39" onclick="transToRegister()" class ="ax_default button">
         <div id="u39_div" class=""></div>
         <!-- Unnamed () -->
         <div id="u40" class="text">
@@ -263,30 +264,17 @@
         var account = document.getElementById("u22_input").value;
         var password = document.getElementById("u21_input").value;
 
-
        // console.log("Encryption begin");
         require(['sha512'] ,function(SHA512,callback){
-
             var hash = sha512.create();
             hash.update(password);
          var   password_secrt= hash.hex();
             console.log(password_secrt);
             return;
-
         });
-
-     //   var sha512 = require('js-sha512');
-     //   var hash = sha512.create();
-     //   hash.update(password);
-     //   password=  hash.hex();
-     //   console.log(password);
-
-      //  console.log("Encryption end");
 
 
         console.log(account+":"+password);
-
-
 
         var transToBack={"Account":account,"Password":password};
         $.ajax({
@@ -294,7 +282,11 @@
             type:"POST",
             dataType:"JSON",
             data:transToBack,
+            success: function(data,textStatus){
+                window.location.href='/index';
+                console.log("ok");
 
+            },
             error: function(data){
 
                 var respond_json=JSON.parse(data.responseText);
@@ -341,10 +333,12 @@
 
 
             },
-
             statusCode:{
+                200:function () {
+                    window.location.href='/index';
+                },
                 404:function(){
-                    console.log('404，页面不存在');
+                    window.location.href='/error';
                 }
             }
         });
@@ -353,7 +347,7 @@
     }
 
     function transToRegister() {
-        window.location.href='http://localhost:3000/regisfter';
+        window.location.href='/register';
     }
 
 

@@ -227,7 +227,7 @@
                 <div id="u343" class="ax_default button">
                     <div id="u343_div" class=""></div>
                     <!-- Unnamed () -->
-                    <div id="u344" onclick="sendCheck()" class="text">
+                    <div id="u344" onclick="sendCheck()" class="text" div style="cursor:pointer;">
                         <p><span>发送验证码</span></p>
                     </div>
                 </div>
@@ -392,10 +392,26 @@
                 type:"POST",
                 dataType:"JSON",
                 data:info,
-                success: function(){
-                    alert("修改成功！");
+                success: function(data){
+
+                    console.log(data);
+                    var respond_json=data["success"];
+                    console.log(respond_json);
+                    if(respond_json=="same password"){
+                        alert("相同的密码！");
+                        document.getElementById("u350_input").value="";
+                        document.getElementById("u353_input").value="";
+                    }
+
+
+                    else if(respond_json=="password correct"){
+                        alert("修改成功！");
+                    }
+
+
                 },
-                error: function(XMLHttpRequest, textStatus){
+
+                error: function(XMLHttpRequest, textStatus) {
                     console.log(XMLHttpRequest);  //XMLHttpRequest.responseText    XMLHttpRequest.status   XMLHttpRequest.readyState
                     console.log(textStatus);
                     $(".box").html("服务器错误！");
