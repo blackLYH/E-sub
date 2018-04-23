@@ -8,7 +8,8 @@ var connection = mysql.createConnection({
     host: '45.76.169.253',
     user: 'hxm',
     password: '123456',
-    database: 'esub'
+    database: 'esub',
+    rejectUnauthorized: false  // 忽略安全警告
 });
 
 // 创建一个SMTP客户端配置

@@ -202,55 +202,8 @@
         {
             window.location.href='/login';
         }
-/*
-        if(judgeTel(teleNum).valueOf()){
-            if(reg_check.valueOf()==""||reg_check.valueOf()!=num.valueOf()){
-                alert("验证码错误！请重新获取");
-                document.getElementById("u59_input").value="";
-                num="";
-            }
-            else{
-<<<<<<< HEAD
-                verifyCode();
-
-                $.ajax({
-                    url:"/users/register_2",
-                    type:"POST",
-                    dataType:"JSON",
-                    data:info,
-                    success: function(){
-                        alert("注册成功！");
-                    },
-
-                    statusCode:{
-                        404:function(){
-                            alert('404，页面不存在');
-                        }
-                    }
-                });
-
-                //window.location.href='http://localhost:3000/login';
-            }
-
-        }
-        */
     }
-    /*
-    function judgeTel(teleNum) {
 
-        console.log(teleNum);
-        if(teleNum.length==11&&teleNum.match("^1[3|4|5|7|8][0-9]\\d{4,8}$"))
-        {
-            getCheckCode();
-            return true;
-        }
-        else
-        {
-            alert("手机号错误");
-            //return false;
-            return true;
-        }
-    }*/
 
     function getCheckCode() {
 
@@ -258,7 +211,9 @@
         alert("验证码已发送");
         getCode();
 
+
         info={"teleNum":teleNum,"account":reg_account};
+
         $.ajax({
             url:"/users/register_1",
             type:"POST",
@@ -270,21 +225,6 @@
                 if(respond_json=="NO account"){
                     //发验证码
                     info={"teleNum":teleNum,"account":reg_account,"password":reg_password};
-                    $.ajax({
-                        url:"/users/register_2",
-                        type:"POST",
-                        dataType:"JSON",
-                        data:info,
-                        success: function(){
-                            alert("注册成功！");
-                        },
-
-                        statusCode:{
-                            404:function(){
-                                alert('404，页面不存在');
-                            }
-                        }
-                    });
 
 
                 }
@@ -308,11 +248,14 @@
 
     //哈敏的邮箱
     function getCode() {
+
+
+
         var email = document.getElementById("u50_input").value;
         var r = {
             "email":email
         }
-        console.log(email);
+
         $.ajax({
             type: "get",
             url: "/users/getcode",
@@ -331,11 +274,16 @@
         var email = document.getElementById("u50_input").value;
         var code = document.getElementById("u59_input").value;
 
+
+
         r = {
             "email":email,
             "code":code
         }
 
+        info={
+            "teleNum":email,"account":reg_account,"password":reg_password
+        }
         $.ajax({
             type: "get",
             url: "/users/verifycode",
@@ -345,14 +293,20 @@
                     alert("验证码正确");
                     //跳转
 
+                    console.log("现在开始向数据库插入数据：");
+                    console.log(info);
+
                     $.ajax({
-                        url:"/register",
+
+                        url:"/register_2",
                         type:"POST",
                         dataType:"JSON",
                         data:info,
+
+
                         success: function(data,textStatus){
                             var result = data["success"];
-                            if(result=="ok"){
+                            if(result=="register success"){
                                 alert("注册成功！");
                             }
                             else {
