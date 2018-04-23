@@ -110,6 +110,8 @@ router.post('/download', function(req, res, next) {
         res.end(404);
         return ;
     }
+    var result = fileName.split("/");
+    fileName = result[result.length-1];
     var filePath = path.join(__dirname, "/../public/uploads/subtitle/"+fileName);
     var stats = fs.statSync(filePath);
     if(stats.isFile()){

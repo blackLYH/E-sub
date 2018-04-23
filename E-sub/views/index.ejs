@@ -306,18 +306,18 @@
     var file;
   function upload_file() {
 
-      var file = $("#filename")[0].files;
+      var file1 = $("#filename")[0].files;
       var button = document.getElementById("upload");
       var progress = document.querySelector('#progress');
       var progressbar = document.getElementById("progressbar");
       button.onprogress = setProgress;
-      console.log(file[0].type);
+      console.log(file1[0].type);
       var sourcelangue = document.getElementById("u101_input");
       var detlangue = document.getElementById("u97_input");
       var text = document.getElementById("u130_input");
       var data = new FormData();
       //为FormData对象添加数据
-      $.each(file, function(i, file) {
+      $.each(file1, function(i, file) {
           data.append('upload_file', file);
       });
       data.append('sourcelanguage',sourcelangue.value);
@@ -358,7 +358,7 @@
       function setProgress(event) {
           if (event.lengthComputable) {
               var complete = Number.parseInt(event.loaded / event.total * 100);
-              console.log(complete);
+
               progressbar.max = event.total;
               progressbar.value = event.loaded;
               progress.innerHTML = complete + '%';
