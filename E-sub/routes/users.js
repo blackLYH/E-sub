@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var mysql   = require('mysql');
+var email = require("../public/javascripts/email");
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -125,6 +126,26 @@ router.post('/getForget_account', function(req, res, next) {
 
 
 });
+
+router.get('/verifycode', function (req, res, next) {
+    var params = req.query;
+    console.log("verifycode reqest : " + params.code)
+
+    email.verifyCode(params.email, params.code, function () {
+        res.send(true)
+    }, function (e) {
+        res.send(false)
+    })
+})
+
+router.get('/getcode', function (req, res, next) {
+    console.log("123");
+    var params = req.query;
+    console.log(params);
+    email.sendCode(params.email, function () {
+        res.send(true)
+    })
+})
 
 
 module.exports = router;
