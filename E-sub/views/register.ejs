@@ -198,10 +198,7 @@
             alert("请阅读并接受《E-sub用户协议》及《E-sub隐私保护权声明》");
             return;
         }
-        if(verifyCode())
-        {
-            window.location.href='/login';
-        }
+        verifyCode();
     }
 
 
@@ -275,6 +272,10 @@
         var code = document.getElementById("u59_input").value;
 
 
+        var teleNum = document.getElementById("u50_input").value;
+        var reg_account = document.getElementById("u49_input").value;
+        var reg_password = document.getElementById("u58_input").value;
+        var reg_check = document.getElementById("u59_input").value;
 
         r = {
             "email":email,
@@ -287,18 +288,19 @@
         $.ajax({
             type: "get",
             url: "/users/verifycode",
-            data: r,\
+            data: r,
             success: function(data) {
                 if(data == true){
                     alert("验证码正确");
                     //跳转
+                    window.location.href='/login';
 
                     console.log("现在开始向数据库插入数据：");
                     console.log(info);
 
                     $.ajax({
 
-                        url:"/register_2",
+                        url:"/users/register_2",
                         type:"POST",
                         dataType:"JSON",
                         data:info,
