@@ -925,9 +925,9 @@
 </div>
 </body>
 <script>
-
+    alert("接受的cookie："+getCookie("lyh"));
     var user = {"account":getCookie("lyh")};
-    alert("接受的cookie："+user);
+
     $.ajax({
         url:"/users/member_center",
         type:"POST",
