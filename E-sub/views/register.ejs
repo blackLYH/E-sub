@@ -208,7 +208,9 @@
         alert("验证码已发送");
         getCode();
 
+
         info={"teleNum":teleNum,"account":reg_account};
+
         $.ajax({
             url:"/users/register_1",
             type:"POST",
@@ -220,21 +222,6 @@
                 if(respond_json=="NO account"){
                     //发验证码
                     info={"teleNum":teleNum,"account":reg_account,"password":reg_password};
-                    $.ajax({
-                        url:"/users/register_2",
-                        type:"POST",
-                        dataType:"JSON",
-                        data:info,
-                        success: function(){
-                            alert("注册成功！");
-                        },
-
-                        statusCode:{
-                            404:function(){
-                                alert('404，页面不存在');
-                            }
-                        }
-                    });
 
 
                 }
@@ -258,11 +245,14 @@
 
     //哈敏的邮箱
     function getCode() {
+
+
+
         var email = document.getElementById("u50_input").value;
         var r = {
             "email":email
         }
-        console.log(email);
+
         $.ajax({
             type: "get",
             url: "/users/getcode",
@@ -281,11 +271,20 @@
         var email = document.getElementById("u50_input").value;
         var code = document.getElementById("u59_input").value;
 
+
+        var teleNum = document.getElementById("u50_input").value;
+        var reg_account = document.getElementById("u49_input").value;
+        var reg_password = document.getElementById("u58_input").value;
+        var reg_check = document.getElementById("u59_input").value;
+
         r = {
             "email":email,
             "code":code
         }
 
+        info={
+            "teleNum":email,"account":reg_account,"password":reg_password
+        }
         $.ajax({
             type: "get",
             url: "/users/verifycode",
@@ -296,14 +295,22 @@
                     //跳转
                     window.location.href='/login';
 
+
+                    console.log("现在开始向数据库插入数据：");
+                    console.log(info);
+
+
                     $.ajax({
-                        url:"/register",
+
+                        url:"/users/register_2",
                         type:"POST",
                         dataType:"JSON",
                         data:info,
+
+
                         success: function(data,textStatus){
                             var result = data["success"];
-                            if(result=="ok"){
+                            if(result=="register success"){
                                 alert("注册成功！");
                             }
                             else {
