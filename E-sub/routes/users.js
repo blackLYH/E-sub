@@ -274,4 +274,47 @@ router.post('/register_2', function(req, res, next){
     connection.end();
 });
 
+router.post('/member_center', function(req, res, next){
+
+    console.log("Memver center!");
+
+    var account=req.body["account"];
+
+    console.log(account);
+
+    var connection = mysql.createConnection({
+        host     : 'localhost',
+        user     : 'root',
+        password : '123456',
+        database : 'esub'
+    });
+
+    connection.connect();
+
+    var  sql = 'select * from account where account=?';
+    var piss=account;
+
+    connection.query(sql,piss,function (err, result) {
+        if (err) {
+            console.log('[Search account ERROR] - ', err.message);
+            return;
+        }
+        else {
+
+          //  console.log(result);
+
+            res.json({success:result});
+
+
+            return;
+
+        }
+
+    });
+    connection.end();
+
+
+
+});
+
 module.exports = router;
