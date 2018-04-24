@@ -926,6 +926,24 @@
 </body>
 <script>
 
+    var user = {"account":getCookie("lyh")};
+    alert("接受的cookie："+user);
+    $.ajax({
+        url:"/users/member_center",
+        type:"POST",
+        dataType:"JSON",
+        data:user,
+        success: function(data,textStatus){
+            var userInfo = data["user"];
+            alert(userInfo);
+
+        },
+        statusCode:{
+            404:function(){
+                alert('404，页面不存在');
+            }
+        }
+    });
 
     function getCookie(name)
     {
@@ -940,7 +958,8 @@
         var arr = document.cookie.match(new RegExp("(^| )"+name+"=([^;]*)(;|$)"));
         if(arr !=null) return unescape(arr[2]); return null;
     }
-    alert("接受的cookie："+getCookie("lyh"));
+
+
 </script>
 
 </html>
