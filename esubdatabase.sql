@@ -10,12 +10,12 @@
 验证码是否激活
 用户头像
 */
-create table user (
+create table account (
 id int primary key not null auto_increment,
-name varchar(20) not null,
-password varchar(20) not null,
-phone int(11),
-mail varchar(30),
+account varchar(30) not null,
+password  not null,
+phone varchar(20),
+mail varchar(100),
 identitycode varchar(8),
 identitytime timestamp,
 identity int(1) default 0,
