@@ -169,6 +169,10 @@ router.get('/getForget', function(req, res, next) {
     res.render('getForget', { title: 'Express' });
 });
 
+router.get('/member_center', function(req, res, next) {
+    res.render('member_center', { title: 'Express' });
+});
+
 
 
 module.exports = router;

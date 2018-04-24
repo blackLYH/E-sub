@@ -232,10 +232,10 @@
       </div>
 
       <!-- Unnamed (矩形) -->
-      <div id="u118" class="ax_default button">
+      <div id="u118" onclick="member_center()" class="ax_default button">
         <img id="u118_img" class="img " src="images/login/u41.png"/>
         <!-- Unnamed () -->
-        <div id="u119" class="text">
+        <div id="u119" class="text" div style="cursor:pointer;">
           <p><span>会员中心</span></p>
         </div>
       </div>
@@ -304,6 +304,29 @@
   </body>
 <script type="text/javascript">
     var file;
+    function member_center() {
+        setCookie("lyh","niubi");
+        window.location.href='/member_center';
+        alert("haha");
+    }
+    function setCookie(name,value)
+    {
+        /*
+        *--------------- setCookie(name,value) -----------------
+        * setCookie(name,value)
+        * 功能:设置得变量name的值
+        * 参数:name,字符串;value,字符串.
+        * 实例:setCookie('username','baobao')
+        *--------------- setCookie(name,value) -----------------
+        */
+        var Days = 30; //此 cookie 将被保存 30 天
+        var exp　= new Date();
+        exp.setTime(exp.getTime() + Days*24*60*60*1000);
+        document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString();
+        location.href = "/member_center"; //接收页面.
+    }
+
+
   function upload_file() {
 
       var file1 = $("#filename")[0].files;
