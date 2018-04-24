@@ -190,67 +190,17 @@
         var reg_account = document.getElementById("u49_input").value;
         var reg_password = document.getElementById("u58_input").value;
         var reg_check = document.getElementById("u59_input").value;
-        var info={"teleNum":teleNum,"reg_account":reg_account,"reg_password":reg_password};
+        var info = {"teleNum": teleNum, "reg_account": reg_account, "reg_password": reg_password};
 
         var check = document.getElementById('u64_input');
         console.log(check.checked);
-        if(!check.checked){
+        if (!check.checked) {
             alert("请阅读并接受《E-sub用户协议》及《E-sub隐私保护权声明》");
             return;
         }
-        if(verifyCode())
-        {
-            window.location.href='/login';
-        }
-/*
-        if(judgeTel(teleNum).valueOf()){
-            if(reg_check.valueOf()==""||reg_check.valueOf()!=num.valueOf()){
-                alert("验证码错误！请重新获取");
-                document.getElementById("u59_input").value="";
-                num="";
-            }
-            else{
-<<<<<<< HEAD
-                verifyCode();
-
-                $.ajax({
-                    url:"/users/register_2",
-                    type:"POST",
-                    dataType:"JSON",
-                    data:info,
-                    success: function(){
-                        alert("注册成功！");
-                    },
-
-                    statusCode:{
-                        404:function(){
-                            alert('404，页面不存在');
-                        }
-                    }
-                });
-
-                //window.location.href='http://localhost:3000/login';
-            }
-
-        }
-        */
+        verifyCode();
     }
-    /*
-    function judgeTel(teleNum) {
 
-        console.log(teleNum);
-        if(teleNum.length==11&&teleNum.match("^1[3|4|5|7|8][0-9]\\d{4,8}$"))
-        {
-            getCheckCode();
-            return true;
-        }
-        else
-        {
-            alert("手机号错误");
-            //return false;
-            return true;
-        }
-    }*/
 
     function getCheckCode() {
 
@@ -344,6 +294,7 @@
                 if(data == true){
                     alert("验证码正确");
                     //跳转
+                    window.location.href='/login';
 
                     $.ajax({
                         url:"/register",
