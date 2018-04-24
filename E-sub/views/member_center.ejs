@@ -934,8 +934,18 @@
         dataType:"JSON",
         data:user,
         success: function(data,textStatus){
-            var userInfo = data["user"];
-            alert(userInfo);
+
+
+
+            var userInfo =data["success"] ;
+
+            console.log(userInfo);
+
+
+
+            var userpassword=userInfo.password;
+
+            console.log(userpassword);
 
         },
         statusCode:{

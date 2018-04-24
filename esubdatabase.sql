@@ -11,8 +11,8 @@
 用户头像
 */
 create table account (
-id int primary key not null auto_increment,
-account varchar(30) not null,
+
+account varchar(30) not null primary key,
 password  not null,
 phone varchar(20),
 mail varchar(100),
