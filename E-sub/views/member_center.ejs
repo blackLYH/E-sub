@@ -49,7 +49,7 @@
         <div id="u353" class="ax_default button">
             <div id="u353_div" class=""></div>
             <!-- Unnamed () -->
-            <div id="u354" class="text">
+            <div id="u354" onclick="saveInfo()" class="text" style="cursor:pointer;">
                 <p><span>保存</span></p>
             </div>
         </div>
@@ -71,7 +71,7 @@
                     <p><span>&nbsp;男</span></p>
                 </div>
             </label>
-            <input id="u357_input" type="radio" value="radio" name="u357"/>
+            <input id="u357_input" onclick="radioclick(1)" type="radio" value="radio" name="u357"/>
         </div>
 
         <!-- Unnamed (单选按钮) -->
@@ -82,7 +82,7 @@
                     <p><span>&nbsp;女</span></p>
                 </div>
             </label>
-            <input id="u359_input" type="radio" value="radio" name="u359"/>
+            <input id="u359_input" onclick="radioclick(2)" type="radio" value="radio" name="u359"/>
         </div>
 
         <!-- Unnamed (矩形) -->
@@ -268,7 +268,7 @@
                     <p><span>&nbsp;其他</span></p>
                 </div>
             </label>
-            <input id="u368_input" type="radio" value="radio" name="u368"/>
+            <input id="u368_input" onclick="radioclick(3)" type="radio" value="radio" name="u368"/>
         </div>
     </div>
 
@@ -925,6 +925,10 @@
 </div>
 </body>
 <script>
+
+    var sex;
+    var useraccount;
+
     alert("接受的cookie："+getCookie("user"));
     var user = {"account":getCookie("user")};
 
@@ -941,13 +945,59 @@
 
             console.log(userInfo);
 
-            var userpassword=userInfo[0].password;
+            useraccount=userInfo[0].account;
             var userphone=userInfo[0].phone;
             var usermail=userInfo[0].mail;
+            var usersex = userInfo[0].sex;
+            var userbirthday_year = userInfo[0].birthday_year;
+            var userbirthday_month = userInfo[0].birthday_month;
+            var userbirthday_day = userInfo[0].birthday_day;
+            var userblood = userInfo[0].blood;
 
-            console.log(userpassword);
+
             console.log(userphone);
             console.log(usermail);
+            console.log(usersex);
+            console.log(userbirthday_year);
+            console.log(userbirthday_month);
+            console.log(userbirthday_day);
+            console.log(userblood);
+            //document.getElementById("u373").innerHtml.value=useraccount;
+            //document.getElementById("u406").innerHtml.value=useraccount;
+
+            $("#u373").text(useraccount);
+            $("#u406").text(useraccount);
+            sex=usersex;
+            if(usersex=="man"){
+                document.getElementById("u357_input").checked=true;
+                document.getElementById("u359_input").checked=false;
+                document.getElementById("u368_input").checked=false;
+            }
+            else if(usersex=="woman"){
+                document.getElementById("u357_input").checked=false;
+                document.getElementById("u359_input").checked=true;
+                document.getElementById("u368_input").checked=false;
+            }
+            else if(usersex=="other"){
+                document.getElementById("u357_input").checked=false;
+                document.getElementById("u359_input").checked=false;
+                document.getElementById("u368_input").checked=true;
+            }
+            else{
+                document.getElementById("u357_input").checked=false;
+                document.getElementById("u359_input").checked=false;
+                document.getElementById("u368_input").checked=false;
+            }
+            var sl=$("#u363_input");
+            var ops=sl.find("option");
+            ops.eq(0).val(userbirthday_year).text(userbirthday_year).prop("selected",true);
+            var sl=$("#u364_input");
+            var ops=sl.find("option");
+            ops.eq(0).val(userbirthday_month).text(userbirthday_month).prop("selected",true);
+            var sl=$("#u367_input");
+            var ops=sl.find("option");
+            ops.eq(0).val(userblood).text(userblood).prop("selected",true);
+
 
         },
         statusCode:{
@@ -970,7 +1020,62 @@
         var arr = document.cookie.match(new RegExp("(^| )"+name+"=([^;]*)(;|$)"));
         if(arr !=null) return unescape(arr[2]); return null;
     }
+    function radioclick(a) {
+        if(a==1){
+            document.getElementById("u357_input").checked=true;
+            document.getElementById("u359_input").checked=false;
+            document.getElementById("u368_input").checked=false;
+            sex="man";
+        }
+        else if(a==2){
+            document.getElementById("u357_input").checked=false;
+            document.getElementById("u359_input").checked=true;
+            document.getElementById("u368_input").checked=false;
+            sex="woman";
+        }
+        else {
+            document.getElementById("u357_input").checked=false;
+            document.getElementById("u359_input").checked=false;
+            document.getElementById("u368_input").checked=true;
+            sex="other";
+        }
+    }
 
+    function saveInfo() {
+        var ddl1 = document.getElementById("u363_input")
+        var index1 = ddl1.selectedIndex;
+        var ddl2 = document.getElementById("u364_input")
+        var index2 = ddl2.selectedIndex;
+        var ddl3 = document.getElementById("u367_input")
+        var index3 = ddl3.selectedIndex;
+
+        var Value_year = ddl1.options[index1].value;
+        var Value_month = ddl2.options[index2].value;
+        var Value_blood = ddl3.options[index3].value;
+        var user_save ={"account":useraccount,"year":Value_year,"month":Value_month,"blood":Value_blood};
+        console.log(user_save);
+
+        $.ajax({
+            url:"/users/member_center_save",
+            type:"POST",
+            dataType:"JSON",
+            data:user_save,
+            success: function(data,textStatus){
+
+                var userInfo =data["success"] ;
+                if(data=="ok")
+                    alert("保存成功！");
+
+            },
+            statusCode:{
+                404:function(){
+                    alert('404，页面不存在');
+                }
+            }
+        });
+    
+
+    }
 
 </script>
 

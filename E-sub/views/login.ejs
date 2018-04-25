@@ -162,7 +162,7 @@
     <div id="u25" onclick="login()"  class="ax_default button">
         <div id="u25_div" class=""></div>
         <!-- Unnamed () -->
-        <div id="u26" class="text">
+        <div id="u26" class="text" div style="cursor:pointer;">
             <p><span>登录</span></p>
         </div>
     </div>
@@ -283,7 +283,8 @@
             dataType:"JSON",
             data:transToBack,
             success: function(data,textStatus){
-                setCookie("user",account);
+
+
                 window.location.href='/index';
                 console.log("ok");
 
@@ -323,6 +324,7 @@
             },
 
             success: function(data){
+                setCookie("user",account);
 
                 console.log("密码正确");
 
