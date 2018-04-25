@@ -56,7 +56,7 @@
       <div id="u84" class="ax_default label">
         <div id="u84_div" class=""></div>
         <!-- Unnamed () -->
-        <div id="u85" class="text">
+        <div id="u85" onclick="member_center()" class="text" div style="cursor:pointer;">
           <p><span>昵称</span></p>
         </div>
       </div>
@@ -232,7 +232,7 @@
       </div>
 
       <!-- Unnamed (矩形) -->
-      <div id="u118" onclick="member_center()" class="ax_default button">
+      <div id="u118"  class="ax_default button">
         <img id="u118_img" class="img " src="images/login/u41.png"/>
         <!-- Unnamed () -->
         <div id="u119" class="text" div style="cursor:pointer;">
@@ -304,7 +304,7 @@
   </body>
 <script type="text/javascript">
     var file;
-    alert("接受的cookie："+getCookie("user"));
+    //alert("接受的cookie："+getCookie("user"));
 
     $("#u85").text(getCookie("user"));
 
