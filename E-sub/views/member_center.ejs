@@ -1053,7 +1053,8 @@
         var Value_month = ddl2.options[index2].value;
         var Value_blood = ddl3.options[index3].value;
 
-        var user_save ={"account":useraccount,"year":Value_year,"month":Value_month,"blood":Value_blood};
+        var user_save ={"account":useraccount,"year":Value_year,"month":Value_month,"blood":Value_blood,"sex":sex};
+
         console.log(user_save);
 
         $.ajax({
@@ -1064,8 +1065,10 @@
             success: function(data,textStatus){
 
                 var userInfo =data["success"] ;
-                if(data=="ok")
+                if(userInfo=="ok") {
                     alert("保存成功！");
+                    window.location.href = '/member_center';
+                }
 
             },
             statusCode:{
