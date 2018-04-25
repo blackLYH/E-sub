@@ -5,6 +5,9 @@ var email = require("../public/javascripts/email");
 
 var real_password;
 
+var sqlURL='45.76.169.253';
+var sqlUSER='hxm';
+
 /* GET users listing. */
 router.get('/', function(req, res, next) {
   res.send('respond with a resource');
@@ -27,8 +30,8 @@ router.post('/getForget_change', function(req, res, next) {
     }
 
     var connection = mysql.createConnection({
-        host     : 'localhost',
-        user     : 'root',
+        host     :sqlURL,
+        user     : sqlUSER,
         password : '123456',
         database : 'esub'
     });
@@ -74,8 +77,8 @@ router.post('/getForget_account', function(req, res, next) {
     var password="haha";
 
     var connection = mysql.createConnection({
-        host     : 'localhost',
-        user     : 'root',
+        host     : sqlURL,
+        user     : sqlUSER,
         password : '123456',
         database : 'esub'
     });
@@ -172,8 +175,8 @@ router.post('/register_1', function(req, res, next) {
 
 
     var connection = mysql.createConnection({
-        host     : 'localhost',
-        user     : 'root',
+        host     : sqlURL,
+        user     : sqlUSER,
         password : '123456',
         database : 'esub'
     });
@@ -245,8 +248,8 @@ router.post('/register_2', function(req, res, next){
     console.log(password);
 
     var connection = mysql.createConnection({
-        host     : 'localhost',
-        user     : 'root',
+        host     : sqlURL,
+        user     : sqlUSER,
         password : '123456',
         database : 'esub'
     });
@@ -283,8 +286,8 @@ router.post('/member_center', function(req, res, next){
     console.log(account);
 
     var connection = mysql.createConnection({
-        host     : 'localhost',
-        user     : 'root',
+        host     :sqlURL,
+        user     : sqlUSER,
         password : '123456',
         database : 'esub'
     });
@@ -301,7 +304,9 @@ router.post('/member_center', function(req, res, next){
         }
         else {
 
-          //  console.log(result);
+            console.log(result);
+
+         //   console.log(result.password);
 
             res.json({success:result});
 

@@ -941,11 +941,13 @@
 
             console.log(userInfo);
 
-
-
-            var userpassword=userInfo.password;
+            var userpassword=userInfo[0].password;
+            var userphone=userInfo[0].phone;
+            var usermail=userInfo[0].mail;
 
             console.log(userpassword);
+            console.log(userphone);
+            console.log(usermail);
 
         },
         statusCode:{

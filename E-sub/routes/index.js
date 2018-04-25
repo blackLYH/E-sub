@@ -4,6 +4,9 @@ var router = express.Router();
 var fs = require('fs');
 var path = require("path");
 
+var sqlURL='localhost';
+var sqlUSER='root';
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
@@ -40,8 +43,8 @@ router.post('/login/test', function(req, res, next) {
     console.log(password_outside);
 
     var connection = mysql.createConnection({
-        host     : 'localhost',
-        user     : 'root',
+        host     : sqlURL,
+        user     : sqlUSER,
         password : '123456',
         database : 'esub'
     });
