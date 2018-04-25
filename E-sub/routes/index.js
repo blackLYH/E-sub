@@ -23,17 +23,40 @@ router.get('/login', function(req, res, next) {
 
 router.post('/login/test', function(req, res, next) {
 
-    //function:cryption
-    console.log("--------test sha-512 cryption------");
 
-    var plaintext="jianghaha";
+    console.log("---------NOW start RSA------------");
 
-    var crypto = require("crypto");
-    var cryption= crypto.createHash('sha512');
-    cryption.update(plaintext);
-    console.log(cryption.digest('hex')) ;
-    console.log("--------test sha-512 cryption end------");
-    //function end
+    var NodeRSA = require('node-rsa');
+
+     var fs = require('fs');
+
+
+      var publicPem = fs.readFileSync('./pub.pem').toString();
+      var privatePem = fs.readFileSync('./private.pem').toString();
+
+
+      var publickey=new NodeRSA(publicPem);
+      var privatekey=new NodeRSA(privatePem);
+
+
+    publickey.setOptions({encryptionScheme: 'pkcs1'});
+
+    privatekey.setOptions({encryptionScheme: 'pkcs1'});
+
+
+   var plaintext='梁宇航';
+
+    var encrypted = publickey.encrypt(plaintext, 'base64');
+
+   console.log(encrypted);
+
+   var decrypted=privatekey.decrypt(encrypted,'utf8');
+
+   console.log(decrypted);
+
+
+    console.log("---------NOW end RSA------------");
+
 
 
 
@@ -41,8 +64,6 @@ router.post('/login/test', function(req, res, next) {
     var account=req.body["Account"];
     var password_outside=req.body["Password"];
 
-    console.log(account);
-    console.log(password_outside);
 
     var connection = mysql.createConnection({
         host     : sqlURL,

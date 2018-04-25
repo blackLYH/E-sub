@@ -23,6 +23,9 @@
     </script>
     <script src="javascripts/require.js"></script>
     <script src="javascripts/sha512.js"></script>
+    <script src="javascripts/jsencrypt.js"></script>
+
+
 </head>
 <body>
 <div id="base" class="">
@@ -261,22 +264,37 @@
 </body>
 <script type="text/javascript">
     function login() {
+
+
+
         var account = document.getElementById("u22_input").value;
         var password = document.getElementById("u21_input").value;
 
-       // console.log("Encryption begin");
-        require(['sha512'] ,function(SHA512,callback){
-            var hash = sha512.create();
-            hash.update(password);
-         var   password_secrt= hash.hex();
-            console.log(password_secrt);
-            return;
-        });
+        var crypt = new JSEncrypt();
+
+        crypt.setPublicKey('-----BEGIN PUBLIC KEY-----\n' +
+            'MIGeMA0GCSqGSIb3DQEBAQUAA4GMADCBiAKBgF0i2uZK7qW0FF6UUGP+IZgnuuG5\n' +
+            'avF3ljIrSLRRP5m2pSeSneJG2ow8G0UxNOpHXRiOjNQAYImOIZceokwzyXk+LvwK\n' +
+            'vpRM4H/CVQBvMxaGIIC4oDjicGu6FsDp3nUYAjvPbefyh9VTBYQhBkkTFcnG3RGj\n' +
+            'fJspCguML6aHkQtXAgMBAAE=\n' +
+            '-----END PUBLIC KEY-----');
 
 
-        console.log(account+":"+password);
+
+
+        var text="OKOKOKOK";
+
+        crypt.encrypt(text);
+
+        console.log("==================================");
+        console.log(crypt);
+
+
+
+
 
         var transToBack={"Account":account,"Password":password};
+
         $.ajax({
             url:"/login/test",
             type:"POST",
