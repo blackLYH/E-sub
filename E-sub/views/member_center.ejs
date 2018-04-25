@@ -529,7 +529,7 @@
     <div id="u427" class="ax_default label">
         <div id="u427_div" class=""></div>
         <!-- Unnamed () -->
-        <div id="u428" class="text">
+        <div id="u428" onclick="clearcookie()" class="text" style="cursor:pointer;">
             <p><span style="text-decoration:underline;">退出</span></p>
         </div>
     </div>
@@ -929,7 +929,7 @@
     var sex;
     var useraccount;
 
-    alert("接受的cookie："+getCookie("user"));
+    //alert("接受的cookie："+getCookie("user"));
     var user = {"account":getCookie("user")};
 
     $.ajax({
@@ -1007,6 +1007,11 @@
         }
     });
 
+    function clearcookie() {
+        //setCookie(user, "", -1);
+        window.location.href = '/login';
+    }
+
     function getCookie(name)
     {
         /*
@@ -1080,6 +1085,8 @@
 
 
     }
+
+
 
 </script>
 

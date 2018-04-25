@@ -142,7 +142,7 @@
 
     <!-- Unnamed (文本框) -->
     <div id="u21" class="ax_default text_field">
-        <input id="u21_input" type="text" placeholder="&nbsp;密码"/>
+        <input id="u21_input" type="password" placeholder="&nbsp;密码"/>
     </div>
 
     <!-- Unnamed (文本框) -->
@@ -174,7 +174,7 @@
     <div id="u27" class="ax_default label">
         <div id="u27_div" class=""></div>
         <!-- Unnamed () -->
-        <div id="u28" class="text">
+        <div id="u28" onclick="forget()" class="text" style="cursor:pointer;">
             <p><span>忘记密码？</span></p>
         </div>
     </div>
@@ -387,6 +387,10 @@
         exp.setTime(exp.getTime() + Days*24*60*60*1000);
         document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString();
         location.href = "/index"; //接收页面.
+    }
+
+    function forget() {
+        window.location.href='/getForget';
     }
 
 
