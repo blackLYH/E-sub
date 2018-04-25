@@ -322,4 +322,54 @@ router.post('/member_center', function(req, res, next){
 
 });
 
+router.post('/member_center_save', function(req, res, next){
+
+    console.log("Memver center  SAVE !");
+
+    var account=req.body["account"];
+    var year=req.body["year"];
+    var month=req.body["month"];
+    var blood=req.body["blood"];
+    var sex=req.body["sex"];
+
+
+    console.log(account);
+
+    var connection = mysql.createConnection({
+        host     :sqlURL,
+        user     : sqlUSER,
+        password : '123456',
+        database : 'esub'
+    });
+
+    connection.connect();
+
+    var  sql = 'update account set birthday_year=?,birthday_month=?,blood=?,sex=? where account=?';
+    var piss=[year,month,blood,sex,account];
+
+    connection.query(sql,piss,function (err, result) {
+        if (err) {
+            console.log('[update account ERROR] - ', err.message);
+            return;
+        }
+        else {
+
+           // console.log(result);
+
+            //   console.log(result.password);
+
+            res.json({success:"ok"});
+
+
+            return;
+
+        }
+
+    });
+    connection.end();
+
+
+
+});
+
 module.exports = router;
