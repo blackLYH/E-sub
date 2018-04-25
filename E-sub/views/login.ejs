@@ -281,21 +281,16 @@
             '-----END PUBLIC KEY-----');
 
 
+        var cryptdata= crypt.encrypt(password);
 
+        //console.log("==================================");
 
-        var text="OKOKOKOK";
-
-        crypt.encrypt(text);
-
-        console.log("==================================");
-        console.log(crypt);
-
-
-        alert(crypt);
+        //console.log(cryptdata);
+       // alert(cryptdata);
 
 
 
-        var transToBack={"Account":account,"Password":password};
+        var transToBack={"Account":account,"Password":cryptdata};
 
         $.ajax({
             url:"/login/test",

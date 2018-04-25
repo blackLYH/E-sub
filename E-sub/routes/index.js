@@ -24,45 +24,24 @@ router.get('/login', function(req, res, next) {
 router.post('/login/test', function(req, res, next) {
 
 
-    console.log("---------NOW start RSA------------");
-
     var NodeRSA = require('node-rsa');
 
      var fs = require('fs');
 
-
-      var publicPem = fs.readFileSync('./pub.pem').toString();
       var privatePem = fs.readFileSync('./private.pem').toString();
 
-
-      var publickey=new NodeRSA(publicPem);
       var privatekey=new NodeRSA(privatePem);
-
-
-    publickey.setOptions({encryptionScheme: 'pkcs1'});
 
     privatekey.setOptions({encryptionScheme: 'pkcs1'});
 
 
-   var plaintext='梁宇航';
-
-    var encrypted = publickey.encrypt(plaintext, 'base64');
-
-   console.log(encrypted);
-
-   var decrypted=privatekey.decrypt(encrypted,'utf8');
-
-   console.log(decrypted);
-
-
-    console.log("---------NOW end RSA------------");
-
-
-
-
-
     var account=req.body["Account"];
     var password_outside=req.body["Password"];
+
+    var decrypted=privatekey.decrypt(password_outside,'utf8');
+
+
+    password_outside=decrypted;
 
 
     var connection = mysql.createConnection({
