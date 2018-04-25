@@ -10,17 +10,23 @@
 验证码是否激活
 用户头像
 */
-create table account (
+CREATE TABLE `account` (
+  `account` varchar(20) NOT NULL,
+  `password` varchar(100) NOT NULL,
+  `phone` varchar(20) DEFAULT NULL,
+  `mail` varchar(50) DEFAULT NULL,
+  `image` varchar(50) DEFAULT NULL,
+  `sex` varchar(255) DEFAULT NULL,
+  `birthday_year` varchar(255) DEFAULT NULL,
+  `birthday_month` varchar(255) DEFAULT NULL,
+  `blood` varchar(255) DEFAULT NULL,
+  `identitycode` varchar(8) DEFAULT NULL,
+  `identitytime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `identity` int(1) DEFAULT '0',
+  PRIMARY KEY (`account`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-account varchar(30) not null primary key,
-password  not null,
-phone varchar(20),
-mail varchar(100),
-identitycode varchar(8),
-identitytime timestamp,
-identity int(1) default 0,
-image varchar(50)
-);
+
 /*
 视频id
 所属用户id
@@ -29,15 +35,16 @@ image varchar(50)
 原视频id
 语言
 */
-create table video(
-vid int primary key not null auto_increment,
-userid int,
-vname varchar(50) not null,
-address varchar(200) not null,
-indentity int,
-language varchar(20)
-);
-alter table video add foreign key abc(userid) references user(id);
+CREATE TABLE `video` (
+  `vid` int(11) NOT NULL AUTO_INCREMENT,
+  `userid` int(11) DEFAULT NULL,
+  `vname` varchar(50) NOT NULL,
+  `address` varchar(200) NOT NULL,
+  `indentity` int(11) DEFAULT NULL,
+  `language` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`vid`),
+  KEY `abc` (`userid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*
 DELIMITER $$
 CREATE PROCEDURE Mypro(in idd int)
