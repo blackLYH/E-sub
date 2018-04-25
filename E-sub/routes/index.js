@@ -5,7 +5,9 @@ var fs = require('fs');
 var path = require("path");
 
 var sqlURL='45.76.169.253';
-var sqlUSER='hxm';
+
+var sqlUSER='root';
+
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
