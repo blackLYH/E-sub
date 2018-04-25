@@ -46,7 +46,7 @@
     <div id="u305" class="ax_default label">
         <div id="u305_div" class=""></div>
         <!-- Unnamed () -->
-        <div id="u306" class="text">
+        <div id="u306" onclick="log()" class="text" style="cursor:pointer;">
             <p><span style="text-decoration:underline;">登录</span></p>
         </div>
     </div>
@@ -55,7 +55,7 @@
     <div id="u307" class="ax_default label">
         <div id="u307_div" class=""></div>
         <!-- Unnamed () -->
-        <div id="u308" class="text">
+        <div id="u308" onclick="reg()" class="text" style="cursor:pointer;">
             <p><span style="text-decoration:underline;">注册</span></p>
         </div>
     </div>
@@ -553,6 +553,14 @@
                 ctx.fill();
             }
         }
+    }
+
+    function log() {
+        window.location.href='/login';
+    }
+
+    function reg() {
+        window.location.href='/register';
     }
 
 </script>
