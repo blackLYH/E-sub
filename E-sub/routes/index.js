@@ -4,7 +4,7 @@ var router = express.Router();
 var fs = require('fs');
 var path = require("path");
 
-var sqlURL='localhost';
+var sqlURL='45.76.169.253';
 var sqlUSER='root';
 
 /* GET home page. */
