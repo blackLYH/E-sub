@@ -7,7 +7,7 @@ var path = require("path");
 
 
 
-var sqlURL='45.76.169.253';
+var sqlURL='localhost';
 
 var sqlUSER='root';
 

@@ -935,7 +935,28 @@
         var formData = new FormData();
         formData.append('file',file.files[0]);
         imagename=file.files[0].name;
-        console.log(file.files[0]);
+
+
+        var date = new Date();
+        var seperator1 = "-";
+        var seperator2 = ":";
+        var month = date.getMonth() + 1;
+        var strDate = date.getDate();
+        if (month >= 1 && month <= 9) {
+            month = "0" + month;
+        }
+        if (strDate >= 0 && strDate <= 9) {
+            strDate = "0" + strDate;
+        }
+        var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
+            + " " + date.getHours() + seperator2 + date.getMinutes()
+            + seperator2 + date.getSeconds();
+        console.log(currentdate);
+
+
+
+        console.log(file.files[0].name);
+
         $.ajax({
             url: '/users/upload',
             type: 'POST',
@@ -998,7 +1019,8 @@
             var userbirthday_month = userInfo[0].birthday_month;
             var userbirthday_day = userInfo[0].birthday_day;
             var userblood = userInfo[0].blood;
-            var userimage = userInfo[0].userimage;
+            var userimage = userInfo[0].image;
+            var password_strength=userInfo[0].pwd_strength;
 
 
             console.log(userphone);
@@ -1105,8 +1127,8 @@
         var Value_year = ddl1.options[index1].value;
         var Value_month = ddl2.options[index2].value;
         var Value_blood = ddl3.options[index3].value;
-
-        var user_save ={"account":useraccount,"year":Value_year,"month":Value_month,"blood":Value_blood,"sex":sex,"image":imagename};
+       // console.log("1243q21e213214124234"+imagename);
+        var user_save ={"account":useraccount,"year":Value_year,"month":Value_month,"blood":Value_blood,"sex":sex,"image":useraccount+imagename};
 
         console.log(user_save);
 

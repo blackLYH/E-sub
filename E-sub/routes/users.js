@@ -5,8 +5,10 @@ var email = require("../public/javascripts/email");
 
 var real_password;
 
-var sqlURL='45.76.169.253';
-var sqlUSER='hxm';
+var sqlURL='localhost';
+var sqlUSER='root';
+
+
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -406,6 +408,7 @@ router.post('/member_center_save', function(req, res, next){
     var month=req.body["month"];
     var blood=req.body["blood"];
     var sex=req.body["sex"];
+    var headpic=req.body["image"];
 
 
     console.log(account);
@@ -419,8 +422,23 @@ router.post('/member_center_save', function(req, res, next){
 
     connection.connect();
 
-    var  sql = 'update account set birthday_year=?,birthday_month=?,blood=?,sex=? where account=?';
-    var piss=[year,month,blood,sex,account];
+    var sql;
+    var piss;
+
+    console.log("---------------------"+headpic);
+
+
+    if(headpic=="") {
+        sql = 'update account set birthday_year=?,birthday_month=?,blood=?,sex=? where account=?';
+        piss=[year,month,blood,sex,account];
+    }
+    else {
+        sql = 'update account set birthday_year=?,birthday_month=?,blood=?,sex=?,image=? where account=?';
+        piss=[year,month,blood,sex,headpic,account];
+       // console.log(sql);
+
+    }
+
 
     connection.query(sql,piss,function (err, result) {
         if (err) {
@@ -454,6 +472,8 @@ var storage = multer.diskStorage({
         cb(null, './public/images/head')
     },
     filename: function (req, file, cb){
+        console.log("[[[[[[[[[[[[[[[[[[[["+file.originalname);
+        file.originalname='jiang.jpg';
         cb(null, file.originalname)
     }
 });
