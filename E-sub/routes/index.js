@@ -6,6 +6,7 @@ var path = require("path");
 
 
 
+
 var sqlURL='45.76.169.253';
 
 var sqlUSER='root';
@@ -51,6 +52,15 @@ router.post('/login/test', function(req, res, next) {
 
 
 /*
+    var taiPasswordStrength = require("tai-password-strength")
+    var strengthTester = new taiPasswordStrength.PasswordStrength();
+    strengthTester.addCommonPasswords(taiPasswordStrength.commonPasswords);
+    strengthTester.addTrigraphMap(taiPasswordStrength.trigraphs);
+    var password_strength = strengthTester.check(password_outside);
+*/
+
+
+/*
     console.log("==================================");
     var sha512 = require('sha512')
     var textsha512="123";
@@ -69,7 +79,7 @@ router.post('/login/test', function(req, res, next) {
 
    password_outside=hash01.toString('hex');
 
-    console.log(password_outside);
+   // console.log(password_outside);
 
     var connection = mysql.createConnection({
         host     : sqlURL,
