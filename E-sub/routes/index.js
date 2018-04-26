@@ -4,9 +4,13 @@ var router = express.Router();
 var fs = require('fs');
 var path = require("path");
 
+
+
 var sqlURL='45.76.169.253';
 
 var sqlUSER='root';
+
+
 
 
 /* GET home page. */
@@ -43,6 +47,29 @@ router.post('/login/test', function(req, res, next) {
 
     password_outside=decrypted;
 
+    password_outside=password_outside.substring(0,password_outside.length-64);
+
+
+/*
+    console.log("==================================");
+    var sha512 = require('sha512')
+    var textsha512="123";
+    var hash = sha512(textsha512);
+    console.log(hash.toString('hex'));
+    console.log("==================================");
+    */
+
+    var sha512 = require('sha512');
+
+    var salt='NhTOqqJqLm6WsCEpPJkgrz1gPFhBA4vqn8tUEXrnLRmlVqKmqNpJVvS4Ix3Cws7F5ew5IjhQSnsioZVE2QLxGJ3NLLLXk9MhLphAX0Sl5dfdiJ3SHalqRzjMwi7BMu8w7Gj8OY6imGCwPcM6D1PK28';
+
+    var composure=password_outside+salt;
+
+    var hash01=sha512(composure);
+
+   password_outside=hash01.toString('hex');
+
+    console.log(password_outside);
 
     var connection = mysql.createConnection({
         host     : sqlURL,
@@ -103,8 +130,18 @@ router.post('/login/test', function(req, res, next) {
         }
 
 
-        console.log(User.password);
-        console.log(password_outside);
+        /*
+        var hash03=sha512(User.password+salt);
+
+        var encrypt03=hash03.toString();
+
+        var hash04=sha512(encrypt03);
+
+        User.password=hash04.toString();
+        */
+
+      //  console.log(User.password);
+      //  console.log(password_outside);
 
         if (User.password!=password_outside) {
 

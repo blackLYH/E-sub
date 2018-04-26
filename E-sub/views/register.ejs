@@ -21,6 +21,7 @@
         $axure.utils.getOtherPath = function() { return 'resources/Other.html'; };
         $axure.utils.getReloadPath = function() { return 'resources/reload.html'; };
     </script>
+    <script src="javascripts/jsencrypt.min.js"></script>
 </head>
 <body>
 <div id="base" class="">
@@ -198,6 +199,8 @@
             alert("请阅读并接受《E-sub用户协议》及《E-sub隐私保护权声明》");
             return;
         }
+
+
         verifyCode();
     }
 
@@ -282,8 +285,26 @@
             "code":code
         }
 
+
+        var crypt = new JSEncrypt();
+
+        crypt.setPublicKey('-----BEGIN PUBLIC KEY-----\n' +
+            'MIGeMA0GCSqGSIb3DQEBAQUAA4GMADCBiAKBgF0i2uZK7qW0FF6UUGP+IZgnuuG5\n' +
+            'avF3ljIrSLRRP5m2pSeSneJG2ow8G0UxNOpHXRiOjNQAYImOIZceokwzyXk+LvwK\n' +
+            'vpRM4H/CVQBvMxaGIIC4oDjicGu6FsDp3nUYAjvPbefyh9VTBYQhBkkTFcnG3RGj\n' +
+            'fJspCguML6aHkQtXAgMBAAE=\n' +
+            '-----END PUBLIC KEY-----');
+
+        var salt='-rMC](s\\s}>UW0,,3`{G)wj\')Sf{,uNdwet+y{WgQOwLQi-;Vb:+uqu)UUL`1hz-';
+
+        var cryptdata= crypt.encrypt(reg_password+salt);
+
+
+
+
+
         info={
-            "teleNum":email,"account":reg_account,"password":reg_password
+            "teleNum":email,"account":reg_account,"password":cryptdata
         }
         $.ajax({
             type: "get",

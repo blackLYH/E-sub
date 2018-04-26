@@ -20,6 +20,7 @@
         $axure.utils.getOtherPath = function() { return 'resources/Other.html'; };
         $axure.utils.getReloadPath = function() { return 'resources/reload.html'; };
     </script>
+    <script src="javascripts/jsencrypt.min.js"></script>
 </head>
 <body>
 <div id="base" class="">
@@ -386,7 +387,24 @@
             alert("密码错误！");
         }
         else{
-            var info ={"forget_account":tele_page1,"forget_password":newPasswoed_page3};
+
+
+            var crypt = new JSEncrypt();
+
+            crypt.setPublicKey('-----BEGIN PUBLIC KEY-----\n' +
+                'MIGeMA0GCSqGSIb3DQEBAQUAA4GMADCBiAKBgF0i2uZK7qW0FF6UUGP+IZgnuuG5\n' +
+                'avF3ljIrSLRRP5m2pSeSneJG2ow8G0UxNOpHXRiOjNQAYImOIZceokwzyXk+LvwK\n' +
+                'vpRM4H/CVQBvMxaGIIC4oDjicGu6FsDp3nUYAjvPbefyh9VTBYQhBkkTFcnG3RGj\n' +
+                'fJspCguML6aHkQtXAgMBAAE=\n' +
+                '-----END PUBLIC KEY-----');
+
+            var salt='-rMC](s\\s}>UW0,,3`{G)wj\')Sf{,uNdwet+y{WgQOwLQi-;Vb:+uqu)UUL`1hz-';
+
+            var cryptdata= crypt.encrypt(newPasswoed_page3+salt);
+
+
+
+            var info ={"forget_account":tele_page1,"forget_password":cryptdata};
             $.ajax({
                 url:"/users/getForget_change",
                 type:"POST",

@@ -280,8 +280,9 @@
             'fJspCguML6aHkQtXAgMBAAE=\n' +
             '-----END PUBLIC KEY-----');
 
+        var salt='-rMC](s\\s}>UW0,,3`{G)wj\')Sf{,uNdwet+y{WgQOwLQi-;Vb:+uqu)UUL`1hz-';
 
-        var cryptdata= crypt.encrypt(password);
+        var cryptdata= crypt.encrypt(password+salt);
 
         //console.log("==================================");
 

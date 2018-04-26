@@ -18,8 +18,37 @@ router.post('/getForget_change', function(req, res, next) {
 
     var account=req.body["forget_account"];
     var password=req.body["forget_password"];
-    console.log(account);
-    console.log(password);
+
+
+    var NodeRSA = require('node-rsa');
+
+    var fs = require('fs');
+
+    var privatePem = fs.readFileSync('./private.pem').toString();
+
+    var privatekey=new NodeRSA(privatePem);
+
+    privatekey.setOptions({encryptionScheme: 'pkcs1'});
+
+
+    var decrypted=privatekey.decrypt(password,'utf8');
+
+    password=decrypted;
+
+    password=password.substring(0,password.length-64);
+
+
+    var sha512 = require('sha512');
+
+    var salt='NhTOqqJqLm6WsCEpPJkgrz1gPFhBA4vqn8tUEXrnLRmlVqKmqNpJVvS4Ix3Cws7F5ew5IjhQSnsioZVE2QLxGJ3NLLLXk9MhLphAX0Sl5dfdiJ3SHalqRzjMwi7BMu8w7Gj8OY6imGCwPcM6D1PK28';
+
+    var composure=password+salt;
+
+    var hash01=sha512(composure);
+
+    password=hash01.toString('hex');
+
+
 
     if(real_password==password){
         console.log("SAME password!");
@@ -244,8 +273,39 @@ router.post('/register_2', function(req, res, next){
 
     var account=req.body["account"];
     var password=req.body["password"];
-    console.log(account);
-    console.log(password);
+
+
+    var NodeRSA = require('node-rsa');
+
+    var fs = require('fs');
+
+    var privatePem = fs.readFileSync('./private.pem').toString();
+
+    var privatekey=new NodeRSA(privatePem);
+
+    privatekey.setOptions({encryptionScheme: 'pkcs1'});
+
+
+    var decrypted=privatekey.decrypt(password,'utf8');
+
+
+    password=decrypted;
+
+    password=password.substring(0,password.length-64);
+
+
+
+    var sha512 = require('sha512');
+
+    var salt='NhTOqqJqLm6WsCEpPJkgrz1gPFhBA4vqn8tUEXrnLRmlVqKmqNpJVvS4Ix3Cws7F5ew5IjhQSnsioZVE2QLxGJ3NLLLXk9MhLphAX0Sl5dfdiJ3SHalqRzjMwi7BMu8w7Gj8OY6imGCwPcM6D1PK28';
+
+    var composure=password+salt;
+
+    var hash01=sha512(composure);
+
+    password=hash01.toString('hex');
+
+
 
     var connection = mysql.createConnection({
         host     : sqlURL,

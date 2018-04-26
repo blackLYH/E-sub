@@ -12,7 +12,7 @@
 */
 CREATE TABLE `account` (
   `account` varchar(20) NOT NULL,
-  `password` varchar(100) NOT NULL,
+  `password` varchar(255) NOT NULL,
   `phone` varchar(20) DEFAULT NULL,
   `mail` varchar(50) DEFAULT NULL,
   `image` varchar(50) DEFAULT NULL,
@@ -23,6 +23,7 @@ CREATE TABLE `account` (
   `identitycode` varchar(8) DEFAULT NULL,
   `identitytime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `identity` int(1) DEFAULT '0',
+  `password_for_developer` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`account`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
