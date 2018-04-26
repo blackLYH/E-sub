@@ -274,8 +274,8 @@
 
     <!-- Unnamed (图片) -->
     <div id="u370" class="ax_default image">
-        <img id="u370_img" onclick="uploadfile()" class="img " src="images/main/u82.png" style="cursor:pointer;">
-        <input type="file" name="file" id="file" style="cursor:pointer;" >
+        <img id="u370_img"  class="img " src="images/main/u82.png" style="cursor:pointer;">
+        <input type="file" name="file" id="file" style="cursor:pointer;" onchange="uploadfile()">
         <!-- Unnamed () -->
         <div id="u371" class="text" style="display:none; visibility: hidden">
             <p><span></span></p>
@@ -934,8 +934,7 @@
         var file = document.getElementById("file")
         var formData = new FormData();
         formData.append('file',file.files[0]);
-        imagename=file.files[0].name;
-
+        imagename= file.files[0].name;
 
         var date = new Date();
         var seperator1 = "-";
@@ -1030,6 +1029,7 @@
             console.log(userbirthday_month);
             console.log(userbirthday_day);
             console.log(userblood);
+            console.log(userimage);
             //document.getElementById("u373").innerHtml.value=useraccount;
             //document.getElementById("u406").innerHtml.value=useraccount;
 
@@ -1067,6 +1067,7 @@
             ops.eq(0).val(userblood).text(userblood).prop("selected",true);
 
             document.getElementById('u370_img').src="images/head/"+userimage;
+            document.getElementById('u403_img').src="images/head/"+userimage;
 
 
         },
@@ -1128,7 +1129,7 @@
         var Value_month = ddl2.options[index2].value;
         var Value_blood = ddl3.options[index3].value;
        // console.log("1243q21e213214124234"+imagename);
-        var user_save ={"account":useraccount,"year":Value_year,"month":Value_month,"blood":Value_blood,"sex":sex,"image":useraccount+imagename};
+        var user_save ={"account":useraccount,"year":Value_year,"month":Value_month,"blood":Value_blood,"sex":sex,"image":imagename};
 
         console.log(user_save);
 

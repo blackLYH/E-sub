@@ -5,7 +5,7 @@ var email = require("../public/javascripts/email");
 
 var real_password;
 
-var sqlURL='localhost';
+var sqlURL='45.76.169.253';
 var sqlUSER='root';
 
 
@@ -472,8 +472,8 @@ var storage = multer.diskStorage({
         cb(null, './public/images/head')
     },
     filename: function (req, file, cb){
-        console.log("[[[[[[[[[[[[[[[[[[[["+file.originalname);
-        file.originalname='jiang.jpg';
+
+
         cb(null, file.originalname)
     }
 });
