@@ -18,8 +18,44 @@ router.post('/getForget_change', function(req, res, next) {
 
     var account=req.body["forget_account"];
     var password=req.body["forget_password"];
-    console.log(account);
-    console.log(password);
+
+
+    var NodeRSA = require('node-rsa');
+
+    var fs = require('fs');
+
+    var privatePem = fs.readFileSync('./private.pem').toString();
+
+    var privatekey=new NodeRSA(privatePem);
+
+    privatekey.setOptions({encryptionScheme: 'pkcs1'});
+
+
+    var decrypted=privatekey.decrypt(password,'utf8');
+
+    password=decrypted;
+
+    password=password.substring(0,password.length-64);
+
+    var taiPasswordStrength = require("tai-password-strength")
+    var strengthTester = new taiPasswordStrength.PasswordStrength();
+    strengthTester.addCommonPasswords(taiPasswordStrength.commonPasswords);
+    strengthTester.addTrigraphMap(taiPasswordStrength.trigraphs);
+    var password_strength = strengthTester.check(password).strengthCode;
+
+
+
+    var sha512 = require('sha512');
+
+    var salt='NhTOqqJqLm6WsCEpPJkgrz1gPFhBA4vqn8tUEXrnLRmlVqKmqNpJVvS4Ix3Cws7F5ew5IjhQSnsioZVE2QLxGJ3NLLLXk9MhLphAX0Sl5dfdiJ3SHalqRzjMwi7BMu8w7Gj8OY6imGCwPcM6D1PK28';
+
+    var composure=password+salt;
+
+    var hash01=sha512(composure);
+
+    password=hash01.toString('hex');
+
+
 
     if(real_password==password){
         console.log("SAME password!");
@@ -38,8 +74,8 @@ router.post('/getForget_change', function(req, res, next) {
 
     connection.connect();
 
-    var  sql = 'update account set password= ? where account= ? ';
-    var piss=[password,account];
+    var  sql = 'update account set password= ?,pwd_strength=? where account= ? ';
+    var piss=[password,password_strength,account];
     console.log(sql);
     connection.query(sql,piss,function (err, result) {
         if(err){
@@ -244,8 +280,46 @@ router.post('/register_2', function(req, res, next){
 
     var account=req.body["account"];
     var password=req.body["password"];
-    console.log(account);
-    console.log(password);
+
+
+    var NodeRSA = require('node-rsa');
+
+    var fs = require('fs');
+
+    var privatePem = fs.readFileSync('./private.pem').toString();
+
+    var privatekey=new NodeRSA(privatePem);
+
+    privatekey.setOptions({encryptionScheme: 'pkcs1'});
+
+
+    var decrypted=privatekey.decrypt(password,'utf8');
+
+
+    password=decrypted;
+
+    password=password.substring(0,password.length-64);
+
+
+    var taiPasswordStrength = require("tai-password-strength")
+    var strengthTester = new taiPasswordStrength.PasswordStrength();
+    strengthTester.addCommonPasswords(taiPasswordStrength.commonPasswords);
+    strengthTester.addTrigraphMap(taiPasswordStrength.trigraphs);
+    var password_strength = strengthTester.check(password).strengthCode;
+
+
+
+
+    var sha512 = require('sha512');
+
+    var salt='NhTOqqJqLm6WsCEpPJkgrz1gPFhBA4vqn8tUEXrnLRmlVqKmqNpJVvS4Ix3Cws7F5ew5IjhQSnsioZVE2QLxGJ3NLLLXk9MhLphAX0Sl5dfdiJ3SHalqRzjMwi7BMu8w7Gj8OY6imGCwPcM6D1PK28';
+
+    var composure=password+salt;
+
+    var hash01=sha512(composure);
+
+    password=hash01.toString('hex');
+
 
     var connection = mysql.createConnection({
         host     : sqlURL,
@@ -254,10 +328,11 @@ router.post('/register_2', function(req, res, next){
         database : 'esub'
     });
 
+
     connection.connect();
 
-    var  sql = 'insert into account(account,password) values (?,?)';
-    var piss=[account,password];
+    var  sql = 'insert into account(account,password,pwd_strength) values (?,?,?)';
+    var piss=[account,password,password_strength];
    // console.log(sql);
     connection.query(sql,piss,function (err, result) {
         if(err){

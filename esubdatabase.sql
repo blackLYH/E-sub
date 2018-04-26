@@ -10,9 +10,11 @@
 验证码是否激活
 用户头像
 */
+DROP TABLE IF EXISTS `account`;
 CREATE TABLE `account` (
   `account` varchar(20) NOT NULL,
-  `password` varchar(100) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `pwd_strength` varchar(50) DEFAULT NULL,
   `phone` varchar(20) DEFAULT NULL,
   `mail` varchar(50) DEFAULT NULL,
   `image` varchar(50) DEFAULT NULL,
@@ -21,10 +23,12 @@ CREATE TABLE `account` (
   `birthday_month` varchar(255) DEFAULT NULL,
   `blood` varchar(255) DEFAULT NULL,
   `identitycode` varchar(8) DEFAULT NULL,
-  `identitytime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `identitytime` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `identity` int(1) DEFAULT '0',
+  `password_for_developer` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`account`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 
 
 /*
