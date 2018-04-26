@@ -372,4 +372,25 @@ router.post('/member_center_save', function(req, res, next){
 
 });
 
+var multer = require('multer');
+
+var storage = multer.diskStorage({
+    destination: function (req, file, cb){
+        cb(null, './public/images/head')
+    },
+    filename: function (req, file, cb){
+        cb(null, file.originalname)
+    }
+});
+var upload = multer({
+    storage: storage
+});
+router.post('/upload', upload.single('file'), function (req, res, next) {
+    var url = 'http://' + req.headers.host + '/images/' + req.file.originalname
+    res.json({
+        code : 200,
+        data : url
+    })
+});
+
 module.exports = router;

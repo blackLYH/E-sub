@@ -274,7 +274,8 @@
 
     <!-- Unnamed (图片) -->
     <div id="u370" class="ax_default image">
-        <img id="u370_img" class="img " src="images/main/u82.png"/>
+        <img id="u370_img" onclick="uploadfile()" class="img " src="images/main/u82.png" style="cursor:pointer;">
+        <input type="file" name="file" id="file" style="cursor:pointer;" >
         <!-- Unnamed () -->
         <div id="u371" class="text" style="display:none; visibility: hidden">
             <p><span></span></p>
@@ -925,6 +926,50 @@
 </div>
 </body>
 <script>
+    /*
+    * 图片上传
+    * */
+    var imagename;
+    function uploadfile(){
+        var file = document.getElementById("file")
+        var formData = new FormData();
+        formData.append('file',file.files[0]);
+        imagename=file.files[0].name;
+        console.log(file.files[0]);
+        $.ajax({
+            url: '/users/upload',
+            type: 'POST',
+            data: formData,
+            // async: false,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function(data){
+                if(200 === data.code) {
+                    $('#result').html("上传成功！");
+                    $('#img').attr('src',data.data);
+                } else {
+                    $('#result').html("上传失败！");
+                }
+                console.log('imgUploader upload success');
+                var road="images/head/"+file.files[0].name;
+                //$('#u370_img').attr('images/main/','u94.png');
+                document.getElementById('u370_img').src=road;
+
+
+            },
+            error: function(){
+                $("#result").html("与服务器通信发生错误");
+            }
+        });
+    }
+
+
+    ///////////////////////////
+
+
+
+
 
     var sex;
     var useraccount;
@@ -953,6 +998,7 @@
             var userbirthday_month = userInfo[0].birthday_month;
             var userbirthday_day = userInfo[0].birthday_day;
             var userblood = userInfo[0].blood;
+            var userimage = userInfo[0].userimage;
 
 
             console.log(userphone);
@@ -997,6 +1043,8 @@
             var sl=$("#u367_input");
             var ops=sl.find("option");
             ops.eq(0).val(userblood).text(userblood).prop("selected",true);
+
+            document.getElementById('u370_img').src="images/head/"+userimage;
 
 
         },
@@ -1058,7 +1106,7 @@
         var Value_month = ddl2.options[index2].value;
         var Value_blood = ddl3.options[index3].value;
 
-        var user_save ={"account":useraccount,"year":Value_year,"month":Value_month,"blood":Value_blood,"sex":sex};
+        var user_save ={"account":useraccount,"year":Value_year,"month":Value_month,"blood":Value_blood,"sex":sex,"image":imagename};
 
         console.log(user_save);
 
