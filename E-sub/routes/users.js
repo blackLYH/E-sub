@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var mysql   = require('mysql');
 var email = require("../public/javascripts/email");
+var fs = require('fs');
 
 var real_password;
 
@@ -333,8 +334,10 @@ router.post('/register_2', function(req, res, next){
 
     connection.connect();
 
-    var  sql = 'insert into account(account,password,pwd_strength) values (?,?,?)';
-    var piss=[account,password,password_strength];
+    var defalut_headpic='system_defalut.jpg';
+
+    var  sql = 'insert into account(account,password,pwd_strength,image) values (?,?,?,?)';
+    var piss=[account,password,password_strength,defalut_headpic];
    // console.log(sql);
     connection.query(sql,piss,function (err, result) {
         if(err){
@@ -409,9 +412,49 @@ router.post('/member_center_save', function(req, res, next){
     var blood=req.body["blood"];
     var sex=req.body["sex"];
     var headpic=req.body["image"];
+    var oldheadpic=req.body["old"];
 
 
-    console.log(account);
+    var oldpath='./public/images/head/'+headpic;
+
+    console.log(oldpath);
+
+
+    var date = new Date();
+    var seperator1 = "_";
+    var seperator2 = "_";
+    var month = date.getMonth() + 1;
+    var strDate = date.getDate();
+    if (month >= 1 && month <= 9) {
+        month = "0" + month;
+    }
+    if (strDate >= 0 && strDate <= 9) {
+        strDate = "0" + strDate;
+    }
+    var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
+        + "_" + date.getHours() + seperator2 + date.getMinutes()
+        + seperator2 + date.getSeconds();
+
+
+    headpic=account+'_'+currentdate+'_'+headpic;
+
+
+    var newpath='./public/images/head/'+headpic;
+    var deletepath='./public/images/head/'+oldheadpic;
+
+    console.log(newpath);
+
+    fs.rename(oldpath,newpath,(err) => {
+        if(err){
+            throw err;
+        }
+        else{
+          if(deletepath!="./public/images/head/system_default.jpg")
+            fs.unlink(deletepath);
+        }
+    });
+
+    //console.log(account);
 
     var connection = mysql.createConnection({
         host     :sqlURL,
@@ -425,7 +468,7 @@ router.post('/member_center_save', function(req, res, next){
     var sql;
     var piss;
 
-    console.log("---------------------"+headpic);
+
 
 
     if(headpic=="") {
@@ -459,6 +502,17 @@ router.post('/member_center_save', function(req, res, next){
         }
 
     });
+
+
+
+
+
+
+
+
+
+
+
     connection.end();
 
 

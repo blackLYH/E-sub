@@ -930,6 +930,7 @@
     * 图片上传
     * */
     var imagename;
+    var imageold;
     function uploadfile(){
         var file = document.getElementById("file")
         var formData = new FormData();
@@ -1019,6 +1020,7 @@
             var userbirthday_day = userInfo[0].birthday_day;
             var userblood = userInfo[0].blood;
             var userimage = userInfo[0].image;
+            imageold = userimage;
             var password_strength=userInfo[0].pwd_strength;
 
 
@@ -1129,7 +1131,7 @@
         var Value_month = ddl2.options[index2].value;
         var Value_blood = ddl3.options[index3].value;
        // console.log("1243q21e213214124234"+imagename);
-        var user_save ={"account":useraccount,"year":Value_year,"month":Value_month,"blood":Value_blood,"sex":sex,"image":imagename};
+        var user_save ={"account":useraccount,"year":Value_year,"month":Value_month,"blood":Value_blood,"sex":sex,"image":imagename,"old":imageold};
 
         console.log(user_save);
 
