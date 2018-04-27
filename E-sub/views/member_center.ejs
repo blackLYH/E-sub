@@ -932,8 +932,17 @@
     var imagename;
     var imageold;
     function uploadfile(){
-        var file = document.getElementById("file")
+        var file = document.getElementById("file");
         var formData = new FormData();
+        if(file.files[0].type != "image/jpeg" && file.files[0].type != "image/png")
+        {
+            alert("格式错误，重新选择！");
+            //file.value = "";
+            return;
+        }
+
+
+
         formData.append('file',file.files[0]);
         imagename= file.files[0].name;
 
@@ -983,6 +992,7 @@
                 $("#result").html("与服务器通信发生错误");
             }
         });
+        //file.value = "";
     }
 
 
