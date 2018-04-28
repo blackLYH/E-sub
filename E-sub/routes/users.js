@@ -27,7 +27,7 @@ router.post('/getForget_change', function(req, res, next) {
 
     var fs = require('fs');
 
-    var privatePem = fs.readFileSync('./private.pem').toString();
+    var privatePem = fs.readFileSync('./public/private.pem').toString();
 
     var privatekey=new NodeRSA(privatePem);
 
@@ -289,7 +289,7 @@ router.post('/register_2', function(req, res, next){
 
     var fs = require('fs');
 
-    var privatePem = fs.readFileSync('./private.pem').toString();
+    var privatePem = fs.readFileSync('./public/private.pem').toString();
 
     var privatekey=new NodeRSA(privatePem);
 
