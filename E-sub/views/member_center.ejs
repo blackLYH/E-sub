@@ -274,8 +274,11 @@
 
     <!-- Unnamed (图片) -->
     <div id="u370" class="ax_default image">
-        <img id="u370_img"  class="img " src="images/main/u82.png" style="cursor:pointer;">
-        <input type="file" name="file" id="file" style="cursor:pointer;" onchange="uploadfile()">
+        <label class="ui_button ui_button_primary"  for="file">上传文件</label>
+        <img id="u370_img"  class="img" onclick="clickimg()" src="images/main/u82.png" style="cursor:pointer;">
+
+        <form><input type="file" accept="image/*" name="file" id="file" onchange="uploadfile()" style="position:absolute;clip:rect(0 0 0 0); "></form>
+        <!--<input type="file" name="file" id="file" style="cursor:pointer;" onchange="uploadfile()">-->
         <!-- Unnamed () -->
         <div id="u371" class="text" style="display:none; visibility: hidden">
             <p><span></span></p>
@@ -1167,6 +1170,10 @@
         });
 
 
+    }
+
+    function clickimg() {
+        document.getElementById("file").click();
     }
 
 
