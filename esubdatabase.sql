@@ -72,3 +72,19 @@ end;
 **
 delimiter ;
 */
+
+-- ----------------------------
+-- Table structure for personal
+-- ----------------------------
+DROP TABLE IF EXISTS `personal`;
+CREATE TABLE `personal` (
+  `account` varchar(255) NOT NULL,
+  `remain_money` varchar(255) DEFAULT NULL,
+  `payment_note` varchar(5000) DEFAULT NULL,
+  `paid_subtitle` varchar(5000) DEFAULT NULL,
+  `isVIP` int(11) NOT NULL,
+  `uptodate` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`account`),
+  CONSTRAINT `account` FOREIGN KEY (`account`) REFERENCES `account` (`account`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
