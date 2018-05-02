@@ -1,0 +1,204 @@
+/*
+   * 图片上传
+   * */
+var imagename;
+var imageold;
+
+function uploadfile() {
+    var file = document.getElementById("file");
+    var formData = new FormData();
+    if (file.files[0].type != "image/jpeg" && file.files[0].type != "image/png") {
+        alert("格式错误，重新选择！");
+        return;
+    }
+    formData.append('file', file.files[0]);
+    imagename = file.files[0].name;
+    var date = new Date();
+    var seperator1 = "-";
+    var seperator2 = ":";
+    var month = date.getMonth() + 1;
+    var strDate = date.getDate();
+    if (month >= 1 && month <= 9) {
+        month = "0" + month;
+    }
+    if (strDate >= 0 && strDate <= 9) {
+        strDate = "0" + strDate;
+    }
+    var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
+        + " " + date.getHours() + seperator2 + date.getMinutes()
+        + seperator2 + date.getSeconds();
+    $.ajax({
+        url: '/users/upload',
+        type: 'POST',
+        data: formData,
+        // async: false,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (data) {
+            if (200 === data.code) {
+                $('#result').html("上传成功！");
+                $('#img').attr('src', data.data);
+            } else {
+                $('#result').html("上传失败！");
+            }
+            var road = "images/head/" + file.files[0].name;
+            document.getElementById('u370_img').src = road;
+        },
+        error: function () {
+            $("#result").html("与服务器通信发生错误");
+        }
+    });
+}
+
+var sex;
+var useraccount;
+
+//alert("接受的cookie："+getCookie("user"));
+var user = {"account": getCookie("user")};
+
+$.ajax({
+    url: "/users/member_center",
+    type: "POST",
+    dataType: "JSON",
+    data: user,
+    success: function (data, textStatus) {
+        var userInfo = data["success"];
+        useraccount = userInfo[0].account;
+        var userphone = userInfo[0].phone;
+        var usermail = userInfo[0].mail;
+        var usersex = userInfo[0].sex;
+        var userbirthday_year = userInfo[0].birthday_year;
+        var userbirthday_month = userInfo[0].birthday_month;
+        var userbirthday_day = userInfo[0].birthday_day;
+        var userblood = userInfo[0].blood;
+        var userimage = userInfo[0].image;
+        imageold = userimage;
+        var password_strength = userInfo[0].pwd_strength;
+
+        $("#u373").text(useraccount);
+        $("#u406").text(useraccount);
+        sex = usersex;
+        if (usersex == "man") {
+            document.getElementById("u357_input").checked = true;
+            document.getElementById("u359_input").checked = false;
+            document.getElementById("u368_input").checked = false;
+        }
+        else if (usersex == "woman") {
+            document.getElementById("u357_input").checked = false;
+            document.getElementById("u359_input").checked = true;
+            document.getElementById("u368_input").checked = false;
+        }
+        else if (usersex == "other") {
+            document.getElementById("u357_input").checked = false;
+            document.getElementById("u359_input").checked = false;
+            document.getElementById("u368_input").checked = true;
+        }
+        else {
+            document.getElementById("u357_input").checked = false;
+            document.getElementById("u359_input").checked = false;
+            document.getElementById("u368_input").checked = false;
+        }
+        var sl = $("#u363_input");
+        var ops = sl.find("option");
+        ops.eq(0).val(userbirthday_year).text(userbirthday_year).prop("selected", true);
+        var sl = $("#u364_input");
+        var ops = sl.find("option");
+        ops.eq(0).val(userbirthday_month).text(userbirthday_month).prop("selected", true);
+        var sl = $("#u367_input");
+        var ops = sl.find("option");
+        ops.eq(0).val(userblood).text(userblood).prop("selected", true);
+        document.getElementById('u370_img').src = "images/head/" + userimage;
+        document.getElementById('u403_img').src = "images/head/" + userimage;
+    },
+    statusCode: {
+        404: function () {
+            alert('404，页面不存在');
+        }
+    }
+});
+
+function clearcookie() {
+    window.location.href = '/login';
+}
+
+function getCookie(name) {
+    /*
+    *--------------- getCookie(name) -----------------
+    * getCookie(name)
+    * 功能:取得变量name的值
+    * 参数:name,字符串.
+    * 实例:alert(getCookie("baobao"));
+    *--------------- getCookie(name) -----------------
+    */
+    var arr = document.cookie.match(new RegExp("(^| )" + name + "=([^;]*)(;|$)"));
+    if (arr != null) return unescape(arr[2]);
+    return null;
+}
+
+function radioclick(a) {
+    if (a == 1) {
+        document.getElementById("u357_input").checked = true;
+        document.getElementById("u359_input").checked = false;
+        document.getElementById("u368_input").checked = false;
+        sex = "man";
+    }
+    else if (a == 2) {
+        document.getElementById("u357_input").checked = false;
+        document.getElementById("u359_input").checked = true;
+        document.getElementById("u368_input").checked = false;
+        sex = "woman";
+    }
+    else {
+        document.getElementById("u357_input").checked = false;
+        document.getElementById("u359_input").checked = false;
+        document.getElementById("u368_input").checked = true;
+        sex = "other";
+    }
+}
+
+function saveInfo() {
+    var ddl1 = document.getElementById("u363_input")
+    var index1 = ddl1.selectedIndex;
+    var ddl2 = document.getElementById("u364_input")
+    var index2 = ddl2.selectedIndex;
+    var ddl3 = document.getElementById("u367_input")
+    var index3 = ddl3.selectedIndex;
+
+    var Value_year = ddl1.options[index1].value;
+    var Value_month = ddl2.options[index2].value;
+    var Value_blood = ddl3.options[index3].value;
+    // console.log("1243q21e213214124234"+imagename);
+    var user_save = {
+        "account": useraccount,
+        "year": Value_year,
+        "month": Value_month,
+        "blood": Value_blood,
+        "sex": sex,
+        "image": imagename,
+        "old": imageold
+    };
+
+    $.ajax({
+        url: "/users/member_center_save",
+        type: "POST",
+        dataType: "JSON",
+        data: user_save,
+        success: function (data, textStatus) {
+            var userInfo = data["success"];
+            if (userInfo == "ok") {
+                alert("保存成功！");
+                window.location.href = '/member_center';
+            }
+        },
+        statusCode: {
+            404: function () {
+                alert('404，页面不存在');
+            }
+        }
+    });
+}
+
+function clickimg() {
+    document.getElementById("file").click();
+}
