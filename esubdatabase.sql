@@ -72,3 +72,34 @@ end;
 **
 delimiter ;
 */
+
+-- ----------------------------
+-- Table structure for personal
+-- ----------------------------
+DROP TABLE IF EXISTS `personal`;
+CREATE TABLE `personal` (
+  `account` varchar(255) NOT NULL,
+  `remain_money` varchar(255) DEFAULT NULL,
+  `payment_diary` varchar(1000) DEFAULT NULL COMMENT 'records a user''s payment history:\r\nformat:\r\nTime+salt+payment_account+salt+patment_source\r\n',
+  `paid_subtitle` varchar(1000) DEFAULT NULL COMMENT 'record subtitles'' IDs which the user already bought.\r\nformat:\r\nsubtitle01+salt+subtitle02+salt.......',
+  `premium` int(2) NOT NULL COMMENT 'Have you paid enough?',
+  `premium_uptodate` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `sell_subtitle` varchar(1000) DEFAULT NULL COMMENT 'subtitles the user selling.\r\nformat:\r\nsubtitle01+salt+subtitle02+salt.....',
+  PRIMARY KEY (`account`),
+  CONSTRAINT `account` FOREIGN KEY (`account`) REFERENCES `account` (`account`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+DROP TABLE IF EXISTS `subtitle`;
+CREATE TABLE `subtitle` (
+  `subtitle_ID` int(10) NOT NULL AUTO_INCREMENT,
+  `owner` varchar(255) NOT NULL,
+  `label` varchar(255) DEFAULT NULL,
+  `instruction` varchar(500) DEFAULT NULL,
+  `price` varchar(50) NOT NULL,
+  `isPublic` int(2) NOT NULL,
+  `purchaser_dairy` varchar(20000) DEFAULT NULL COMMENT 'format:\r\npurchaser01_ID+salt+purchaser02_ID+salt.....',
+  PRIMARY KEY (`subtitle_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
