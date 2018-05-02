@@ -108,7 +108,7 @@ router.get('/getForget', function (req, res, next) {
 });
 
 router.get('/member_center', function (req, res, next) {
-    res.render('member_center', {title: 'Express'});
+    res.render('member_center');
 });
 
 module.exports = router;
