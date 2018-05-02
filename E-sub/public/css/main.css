@@ -1,0 +1,100 @@
+a{
+	cursor: pointer;
+}
+
+
+.navbar {
+	background-color: white;
+}
+
+.navbar-right {
+	margin-right: 20px;
+}
+
+.navbar-brand {
+	font-weight: 700;
+}
+
+a {
+	font-family: "微软雅黑";
+	padding: 2px;
+	cursor: pointer;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+li{
+	min-height: 5px;
+}
+
+
+.super-link {
+	position: relative;
+	text-decoration: none;
+	color: #000;
+	font-size: 16px;
+}
+
+
+/*伪元素是两个冒号*/
+
+.super-link::after {
+	content: '';
+	width: 100%;
+	/*设置伪元素的高度，这里是下划线的粗细*/
+	height: 1px;
+	position: absolute;
+	top: 100%;
+	left: 0;
+	/*当前标签继承的文字颜色，这里让伪元素的背景色与父元素的文字颜色相同*/
+	background-color: currentColor;
+	transform: scale(0);
+	transition: all .35s;
+}
+
+.super-link:hover::after {
+	transform: scale(1);
+}
+
+.left::after {
+	transform-origin: left;
+}
+
+.right::after {
+	transform-origin: right;
+}
+
+.center::after {
+	transform-origin: center;
+}
+
+.focus-link{
+	border-bottom: 1px solid #FFCC99;
+	text-decoration: none;
+	font-size: 16px;
+}
+
+
+.btn {
+	font-family: "微软雅黑";
+	text-align: center;
+	background: #FFCC99;
+	color: #666666;
+	border: 0px solid #FFCC99;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	cursor: pointer;
+	outline: none;
+}
+
+.btn:hover {
+	background: #FF9966;
+}
+
+.btn:active {
+	background: #FF6666;
+}
