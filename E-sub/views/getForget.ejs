@@ -20,6 +20,7 @@
         $axure.utils.getOtherPath = function() { return 'resources/Other.html'; };
         $axure.utils.getReloadPath = function() { return 'resources/reload.html'; };
     </script>
+    <script src="javascripts/jsencrypt.min.js"></script>
 </head>
 <body>
 <div id="base" class="">
@@ -46,7 +47,7 @@
     <div id="u305" class="ax_default label">
         <div id="u305_div" class=""></div>
         <!-- Unnamed () -->
-        <div id="u306" class="text">
+        <div id="u306" onclick="log()" class="text" style="cursor:pointer;">
             <p><span style="text-decoration:underline;">登录</span></p>
         </div>
     </div>
@@ -55,7 +56,7 @@
     <div id="u307" class="ax_default label">
         <div id="u307_div" class=""></div>
         <!-- Unnamed () -->
-        <div id="u308" class="text">
+        <div id="u308" onclick="reg()" class="text" style="cursor:pointer;">
             <p><span style="text-decoration:underline;">注册</span></p>
         </div>
     </div>
@@ -386,7 +387,27 @@
             alert("密码错误！");
         }
         else{
-            var info ={"forget_account":tele_page1,"forget_password":newPasswoed_page3};
+
+
+            var crypt = new JSEncrypt();
+
+            crypt.setPublicKey('-----BEGIN PUBLIC KEY-----\n' +
+                'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAoV3HuEo0QkS87MvvkumL\n' +
+                'VxBnqYEea/khLUdZ15E7ShCzUnqMpA8nt8FXDoZJhLJC+zBv6sc1ugIg7n8mac2J\n' +
+                '9DgRxCDgYrP79dpoXwQOhMzQKQ39/s0br865TCDma0sO3UkT2pJ9UVueuqg/nz3D\n' +
+                'XXI390TsIWanC8l5pj28koxBKbYyeOEGs/VM4as4UrJ46FxB68o7EWgkMYWJJLJG\n' +
+                '5aQbzOQOCkRhrDe+dCpyJCIM/qeepBUYNmq2c86mrnYVlEWbTt4pIJhLxN7yHSXH\n' +
+                'i/9lFopLCVZIsJEWvVj1ficvy/VtTx09VG9mtDFgPl5v6EaS2rKU9ltp6HuQDeri\n' +
+                'IwIDAQAB\n' +
+                '-----END PUBLIC KEY-----\n');
+
+            var salt='-rMC](s\\s}>UW0,,3`{G)wj\')Sf{,uNdwet+y{WgQOwLQi-;Vb:+uqu)UUL`1hz-';
+
+            var cryptdata= crypt.encrypt(newPasswoed_page3+salt);
+
+
+
+            var info ={"forget_account":tele_page1,"forget_password":cryptdata};
             $.ajax({
                 url:"/users/getForget_change",
                 type:"POST",
@@ -553,6 +574,14 @@
                 ctx.fill();
             }
         }
+    }
+
+    function log() {
+        window.location.href='/login';
+    }
+
+    function reg() {
+        window.location.href='/register';
     }
 
 </script>

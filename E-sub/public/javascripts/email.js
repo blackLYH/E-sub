@@ -13,7 +13,7 @@ var connection = mysql.createConnection({
 
 // 创建一个SMTP客户端配置
 var config = {
-    host: 'smtp.163.com', 
+    host: 'smtp.163.com',
     port: 25,
     auth: {
         user: '13011259265@163.com', //刚才注册的邮箱账号

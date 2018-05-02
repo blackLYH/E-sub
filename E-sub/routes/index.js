@@ -4,6 +4,16 @@ var router = express.Router();
 var fs = require('fs');
 var path = require("path");
 
+
+
+
+var sqlURL='45.76.169.253';
+
+var sqlUSER='root';
+
+
+
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
@@ -18,30 +28,62 @@ router.get('/login', function(req, res, next) {
 
 router.post('/login/test', function(req, res, next) {
 
-    //function:cryption
-    console.log("--------test sha-512 cryption------");
 
-    var plaintext="jianghaha";
+    var NodeRSA = require('node-rsa');
 
-    var crypto = require("crypto");
-    var cryption= crypto.createHash('sha512');
-    cryption.update(plaintext);
-    console.log(cryption.digest('hex')) ;
-    console.log("--------test sha-512 cryption end------");
-    //function end
+     var fs = require('fs');
 
+      var privatePem = fs.readFileSync('./public/private.pem').toString();
 
+      var privatekey=new NodeRSA(privatePem);
+
+    privatekey.setOptions({encryptionScheme: 'pkcs1'});
 
 
     var account=req.body["Account"];
     var password_outside=req.body["Password"];
 
-    console.log(account);
-    console.log(password_outside);
+    var decrypted=privatekey.decrypt(password_outside,'utf8');
+
+
+    password_outside=decrypted;
+
+    password_outside=password_outside.substring(0,password_outside.length-64);
+
+
+/*
+    var taiPasswordStrength = require("tai-password-strength")
+    var strengthTester = new taiPasswordStrength.PasswordStrength();
+    strengthTester.addCommonPasswords(taiPasswordStrength.commonPasswords);
+    strengthTester.addTrigraphMap(taiPasswordStrength.trigraphs);
+    var password_strength = strengthTester.check(password_outside);
+*/
+
+
+/*
+    console.log("==================================");
+    var sha512 = require('sha512')
+    var textsha512="123";
+    var hash = sha512(textsha512);
+    console.log(hash.toString('hex'));
+    console.log("==================================");
+    */
+
+    var sha512 = require('sha512');
+
+    var salt='NhTOqqJqLm6WsCEpPJkgrz1gPFhBA4vqn8tUEXrnLRmlVqKmqNpJVvS4Ix3Cws7F5ew5IjhQSnsioZVE2QLxGJ3NLLLXk9MhLphAX0Sl5dfdiJ3SHalqRzjMwi7BMu8w7Gj8OY6imGCwPcM6D1PK28';
+
+    var composure=password_outside+salt;
+
+    var hash01=sha512(composure);
+
+   password_outside=hash01.toString('hex');
+
+   // console.log(password_outside);
 
     var connection = mysql.createConnection({
-        host     : 'localhost',
-        user     : 'root',
+        host     : sqlURL,
+        user     : sqlUSER,
         password : '123456',
         database : 'esub'
     });
@@ -98,8 +140,18 @@ router.post('/login/test', function(req, res, next) {
         }
 
 
-        console.log(User.password);
-        console.log(password_outside);
+        /*
+        var hash03=sha512(User.password+salt);
+
+        var encrypt03=hash03.toString();
+
+        var hash04=sha512(encrypt03);
+
+        User.password=hash04.toString();
+        */
+
+      //  console.log(User.password);
+      //  console.log(password_outside);
 
         if (User.password!=password_outside) {
 
@@ -167,6 +219,10 @@ router.post('/register', function(req, res, next) {
 
 router.get('/getForget', function(req, res, next) {
     res.render('getForget', { title: 'Express' });
+});
+
+router.get('/member_center', function(req, res, next) {
+    res.render('member_center', { title: 'Express' });
 });
 
 

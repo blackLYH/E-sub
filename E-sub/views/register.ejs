@@ -21,6 +21,7 @@
         $axure.utils.getOtherPath = function() { return 'resources/Other.html'; };
         $axure.utils.getReloadPath = function() { return 'resources/reload.html'; };
     </script>
+    <script src="javascripts/jsencrypt.min.js"></script>
 </head>
 <body>
 <div id="base" class="">
@@ -83,7 +84,7 @@
 
     <!-- Unnamed (文本框) -->
     <div id="u58" class="ax_default text_field">
-        <input id="u58_input" type="text" placeholder="请设置登录密码"/>
+        <input id="u58_input" type="password" placeholder="请设置登录密码"/>
     </div>
 
     <!-- Unnamed (文本框) -->
@@ -133,7 +134,7 @@
     <div id="u68" class="ax_default button">
         <div id="u68_div" class=""></div>
         <!-- Unnamed () -->
-        <div id="u69" class="text">
+        <div id="u69" onclick="buttonLog()" class="text" div style="cursor:pointer;">
             <p><span>登录</span></p>
         </div>
     </div>
@@ -190,67 +191,19 @@
         var reg_account = document.getElementById("u49_input").value;
         var reg_password = document.getElementById("u58_input").value;
         var reg_check = document.getElementById("u59_input").value;
-        var info={"teleNum":teleNum,"reg_account":reg_account,"reg_password":reg_password};
+        var info = {"teleNum": teleNum, "reg_account": reg_account, "reg_password": reg_password};
 
         var check = document.getElementById('u64_input');
         console.log(check.checked);
-        if(!check.checked){
+        if (!check.checked) {
             alert("请阅读并接受《E-sub用户协议》及《E-sub隐私保护权声明》");
             return;
         }
-        if(verifyCode())
-        {
-            window.location.href='/login';
-        }
-/*
-        if(judgeTel(teleNum).valueOf()){
-            if(reg_check.valueOf()==""||reg_check.valueOf()!=num.valueOf()){
-                alert("验证码错误！请重新获取");
-                document.getElementById("u59_input").value="";
-                num="";
-            }
-            else{
-<<<<<<< HEAD
-                verifyCode();
 
-                $.ajax({
-                    url:"/users/register_2",
-                    type:"POST",
-                    dataType:"JSON",
-                    data:info,
-                    success: function(){
-                        alert("注册成功！");
-                    },
 
-                    statusCode:{
-                        404:function(){
-                            alert('404，页面不存在');
-                        }
-                    }
-                });
-
-                //window.location.href='http://localhost:3000/login';
-            }
-
-        }
-        */
+        verifyCode();
     }
-    /*
-    function judgeTel(teleNum) {
 
-        console.log(teleNum);
-        if(teleNum.length==11&&teleNum.match("^1[3|4|5|7|8][0-9]\\d{4,8}$"))
-        {
-            getCheckCode();
-            return true;
-        }
-        else
-        {
-            alert("手机号错误");
-            //return false;
-            return true;
-        }
-    }*/
 
     function getCheckCode() {
 
@@ -258,7 +211,9 @@
         alert("验证码已发送");
         getCode();
 
+
         info={"teleNum":teleNum,"account":reg_account};
+
         $.ajax({
             url:"/users/register_1",
             type:"POST",
@@ -270,21 +225,6 @@
                 if(respond_json=="NO account"){
                     //发验证码
                     info={"teleNum":teleNum,"account":reg_account,"password":reg_password};
-                    $.ajax({
-                        url:"/users/register_2",
-                        type:"POST",
-                        dataType:"JSON",
-                        data:info,
-                        success: function(){
-                            alert("注册成功！");
-                        },
-
-                        statusCode:{
-                            404:function(){
-                                alert('404，页面不存在');
-                            }
-                        }
-                    });
 
 
                 }
@@ -308,11 +248,14 @@
 
     //哈敏的邮箱
     function getCode() {
+
+
+
         var email = document.getElementById("u50_input").value;
         var r = {
             "email":email
         }
-        console.log(email);
+
         $.ajax({
             type: "get",
             url: "/users/getcode",
@@ -331,11 +274,41 @@
         var email = document.getElementById("u50_input").value;
         var code = document.getElementById("u59_input").value;
 
+
+        var teleNum = document.getElementById("u50_input").value;
+        var reg_account = document.getElementById("u49_input").value;
+        var reg_password = document.getElementById("u58_input").value;
+        var reg_check = document.getElementById("u59_input").value;
+
         r = {
             "email":email,
             "code":code
         }
 
+
+        var crypt = new JSEncrypt();
+
+        crypt.setPublicKey('-----BEGIN PUBLIC KEY-----\n' +
+            'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAoV3HuEo0QkS87MvvkumL\n' +
+            'VxBnqYEea/khLUdZ15E7ShCzUnqMpA8nt8FXDoZJhLJC+zBv6sc1ugIg7n8mac2J\n' +
+            '9DgRxCDgYrP79dpoXwQOhMzQKQ39/s0br865TCDma0sO3UkT2pJ9UVueuqg/nz3D\n' +
+            'XXI390TsIWanC8l5pj28koxBKbYyeOEGs/VM4as4UrJ46FxB68o7EWgkMYWJJLJG\n' +
+            '5aQbzOQOCkRhrDe+dCpyJCIM/qeepBUYNmq2c86mrnYVlEWbTt4pIJhLxN7yHSXH\n' +
+            'i/9lFopLCVZIsJEWvVj1ficvy/VtTx09VG9mtDFgPl5v6EaS2rKU9ltp6HuQDeri\n' +
+            'IwIDAQAB\n' +
+            '-----END PUBLIC KEY-----\n');
+
+        var salt='-rMC](s\\s}>UW0,,3`{G)wj\')Sf{,uNdwet+y{WgQOwLQi-;Vb:+uqu)UUL`1hz-';
+
+        var cryptdata= crypt.encrypt(reg_password+salt);
+
+
+
+
+
+        info={
+            "teleNum":email,"account":reg_account,"password":cryptdata
+        }
         $.ajax({
             type: "get",
             url: "/users/verifycode",
@@ -344,15 +317,24 @@
                 if(data == true){
                     alert("验证码正确");
                     //跳转
+                    window.location.href='/login';
+
+
+                    console.log("现在开始向数据库插入数据：");
+                    console.log(info);
+
 
                     $.ajax({
-                        url:"/register",
+
+                        url:"/users/register_2",
                         type:"POST",
                         dataType:"JSON",
                         data:info,
+
+
                         success: function(data,textStatus){
                             var result = data["success"];
-                            if(result=="ok"){
+                            if(result=="register success"){
                                 alert("注册成功！");
                             }
                             else {
@@ -378,6 +360,9 @@
         });
     }
 
+    function buttonLog() {
+        window.location.href='/login';
+    }
 
 
 

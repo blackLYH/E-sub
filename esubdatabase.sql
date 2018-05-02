@@ -10,17 +10,27 @@
 验证码是否激活
 用户头像
 */
-create table user (
-id int primary key not null auto_increment,
-name varchar(20) not null,
-password varchar(20) not null,
-phone int(11),
-mail varchar(30),
-identitycode varchar(8),
-identitytime timestamp,
-identity int(1) default 0,
-image varchar(50)
-);
+DROP TABLE IF EXISTS `account`;
+CREATE TABLE `account` (
+  `account` varchar(20) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `pwd_strength` varchar(50) DEFAULT NULL,
+  `phone` varchar(20) DEFAULT NULL,
+  `mail` varchar(50) DEFAULT NULL,
+  `image` varchar(50) DEFAULT NULL,
+  `sex` varchar(255) DEFAULT NULL,
+  `birthday_year` varchar(255) DEFAULT NULL,
+  `birthday_month` varchar(255) DEFAULT NULL,
+  `blood` varchar(255) DEFAULT NULL,
+  `identitycode` varchar(8) DEFAULT NULL,
+  `identitytime` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `identity` int(1) DEFAULT '0',
+  `password_for_developer` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`account`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
 /*
 视频id
 所属用户id
@@ -29,15 +39,16 @@ image varchar(50)
 原视频id
 语言
 */
-create table video(
-vid int primary key not null auto_increment,
-userid int,
-vname varchar(50) not null,
-address varchar(200) not null,
-indentity int,
-language varchar(20)
-);
-alter table video add foreign key abc(userid) references user(id);
+CREATE TABLE `video` (
+  `vid` int(11) NOT NULL AUTO_INCREMENT,
+  `userid` int(11) DEFAULT NULL,
+  `vname` varchar(50) NOT NULL,
+  `address` varchar(200) NOT NULL,
+  `indentity` int(11) DEFAULT NULL,
+  `language` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`vid`),
+  KEY `abc` (`userid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*
 DELIMITER $$
 CREATE PROCEDURE Mypro(in idd int)
@@ -61,3 +72,34 @@ end;
 **
 delimiter ;
 */
+
+-- ----------------------------
+-- Table structure for personal
+-- ----------------------------
+DROP TABLE IF EXISTS `personal`;
+CREATE TABLE `personal` (
+  `account` varchar(255) NOT NULL,
+  `remain_money` varchar(255) DEFAULT NULL,
+  `payment_diary` varchar(1000) DEFAULT NULL COMMENT 'records a user''s payment history:\r\nformat:\r\nTime+salt+payment_account+salt+patment_source\r\n',
+  `paid_subtitle` varchar(1000) DEFAULT NULL COMMENT 'record subtitles'' IDs which the user already bought.\r\nformat:\r\nsubtitle01+salt+subtitle02+salt.......',
+  `premium` int(2) NOT NULL COMMENT 'Have you paid enough?',
+  `premium_uptodate` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `sell_subtitle` varchar(1000) DEFAULT NULL COMMENT 'subtitles the user selling.\r\nformat:\r\nsubtitle01+salt+subtitle02+salt.....',
+  PRIMARY KEY (`account`),
+  CONSTRAINT `account` FOREIGN KEY (`account`) REFERENCES `account` (`account`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+DROP TABLE IF EXISTS `subtitle`;
+CREATE TABLE `subtitle` (
+  `subtitle_ID` int(10) NOT NULL AUTO_INCREMENT,
+  `owner` varchar(255) NOT NULL,
+  `label` varchar(255) DEFAULT NULL,
+  `instruction` varchar(500) DEFAULT NULL,
+  `price` varchar(50) NOT NULL,
+  `isPublic` int(2) NOT NULL,
+  `purchaser_dairy` varchar(20000) DEFAULT NULL COMMENT 'format:\r\npurchaser01_ID+salt+purchaser02_ID+salt.....',
+  PRIMARY KEY (`subtitle_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
