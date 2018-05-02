@@ -104,13 +104,6 @@ var storage = multer.diskStorage({
     }
 });
 
-// app.use(multer({//设置文件上传到的位置
-//     dest: '/../public/uploads/video',
-//     rename: function (fieldname, filename) {
-//         uploadfile = filename;
-//         return filename;
-//     }
-// }));
 
 var upload = multer({ storage: storage });
 
@@ -160,28 +153,16 @@ router.post('/search',function (req, res, next) {
     var shellPath = path.join(__dirname,"/../public/uploads/subtitle/shell.sh ");
     shell.exec('. '+shellPath+ query_name +'',function(code, stdout, stderr) {
         console.log('Exit code:', code);
-
         console.log('Program output:', stdout);
         var decodedText = iconv.decode(stdout, 'gbk');
         var result = decodedText.split("\n");
         console.log('Program real:',result[0]);
 
         res.json({"success":result[0],"file":result[0]});
-        //console.log('Program stderr:', stderr);
     });
-
-    // var child = shell.exec('ls',{async:true});
-    // child.stdout.on(){
-    //
-    // }
-    // res.render('search',{file_name : query_name});
-
-
 });
 
-
 router.post('/download', function(req, res, next) {
-
 
     var fileName = req.body["files"];
     if(fileName == undefined) {
