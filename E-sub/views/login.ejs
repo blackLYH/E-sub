@@ -1,275 +1,160 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <title>login</title>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
-    <meta name="apple-mobile-web-app-capable" content="yes"/>
-    <link href="resources/css/jquery-ui-themes.css" type="text/css" rel="stylesheet"/>
-    <link href="resources/css/axure_rp_page.css" type="text/css" rel="stylesheet"/>
-    <link href="data/styles.css" type="text/css" rel="stylesheet"/>
-    <link href="files/login/styles.css" type="text/css" rel="stylesheet"/>
-    <script src="resources/scripts/jquery-1.7.1.min.js"></script>
-    <script src="resources/scripts/jquery-ui-1.8.10.custom.min.js"></script>
-    <script src="resources/scripts/prototypePre.js"></script>
-    <script src="javascripts/convertFile.js"></script>
-    <script src="data/document.js"></script>
-    <script src="resources/scripts/prototypePost.js"></script>
-    <script src="files/login/data.js"></script>
-    <script type="text/javascript">
-        $axure.utils.getTransparentGifPath = function() { return 'resources/images/transparent.gif'; };
-        $axure.utils.getOtherPath = function() { return 'resources/Other.html'; };
-        $axure.utils.getReloadPath = function() { return 'resources/reload.html'; };
-    </script>
+    <meta charset="UTF-8">
+    <title></title>
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/sign.css" />
+
+    <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
     <script src="javascripts/require.js"></script>
     <script src="javascripts/sha512.js"></script>
     <script src="javascripts/jsencrypt.min.js"></script>
-
-
-
 </head>
+
 <body>
-<div id="base" class="">
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="navbar-header">
+        <a class="navbar-brand" href="index.html">E-SUB</a>
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#example-navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+    </div>
 
-    <!-- SlidePanel (动态面板) -->
-    <div id="u0" class="ax_default" data-label="SlidePanel">
-        <div id="u0_state0" class="panel_state" data-label="State1" style="">
-            <div id="u0_state0_content" class="panel_state_content">
+    <div class="collapse navbar-collapse navbar-right" id="example-navbar-collapse">
+        <ul class="nav navbar-nav">
+            <li></li>
+            <a class="navbar-text" href="index.html">首页</a>
+            <li></li>
+            <a class="navbar-text">功能概述</a>
+            <li></li>
+            <a class="navbar-text">价格</a>
+            <li></li>
+            <a class="navbar-text" href="signup.html">注册</a>
+            <li></li>
+            <a class="navbar-text" href="#">登陆</a>
+        </ul>
+    </div>
+</nav>
 
-                <!-- Unnamed (图片) -->
-                <div id="u1" class="ax_default image">
-                    <img id="u1_img" class="img " src="images/login/u1.jpg"/>
-                    <!-- Unnamed () -->
-                    <div id="u2" class="text" style="display:none; visibility: hidden">
-                        <p><span></span></p>
-                    </div>
-                </div>
-            </div>
+<div id="container">
+    <div class="logo-div">
+        <img src="img/logo.jpg" class="logo-img" />
+    </div>
+    <div class="tab">
+        <div class="tab-login">
+            <a class="super-link center" onclick="tabClick(this)" id="login-tab-btn">登陆</a>
         </div>
-        <div id="u0_state1" class="panel_state" data-label="State2" style="visibility: hidden;">
-            <div id="u0_state1_content" class="panel_state_content">
-
-                <!-- Unnamed (图片) -->
-                <div id="u3" class="ax_default image">
-                    <img id="u3_img" class="img " src="images/login/u3.jpg"/>
-                    <!-- Unnamed () -->
-                    <div id="u4" class="text" style="display:none; visibility: hidden">
-                        <p><span></span></p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div id="u0_state2" class="panel_state" data-label="State3" style="visibility: hidden;">
-            <div id="u0_state2_content" class="panel_state_content">
-
-                <!-- Unnamed (图片) -->
-                <div id="u5" class="ax_default image">
-                    <img id="u5_img" class="img " src="images/login/u5.jpeg"/>
-                    <!-- Unnamed () -->
-                    <div id="u6" class="text" style="display:none; visibility: hidden">
-                        <p><span></span></p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div id="u0_state3" class="panel_state" data-label="State4" style="visibility: hidden;">
-            <div id="u0_state3_content" class="panel_state_content">
-
-                <!-- Unnamed (图片) -->
-                <div id="u7" class="ax_default image">
-                    <img id="u7_img" class="img " src="images/login/u7.jpeg"/>
-                    <!-- Unnamed () -->
-                    <div id="u8" class="text" style="display:none; visibility: hidden">
-                        <p><span></span></p>
-                    </div>
-                </div>
-            </div>
+        <div class="tab-register">
+            <a class="super-link center" onclick="tabClick(this)" id="reg-tab-btn">注册</a>
         </div>
     </div>
 
-    <!-- tag1 (椭圆形) -->
-    <div id="u9" class="ax_default ellipse" data-label="tag1" selectiongroup="Tag">
-        <img id="u9_img" class="img " src="images/login/tag1_u9.png"/>
-        <!-- Unnamed () -->
-        <div id="u10" class="text" style="display:none; visibility: hidden">
-            <p><span></span></p>
+    <div class="login" id="login">
+        <!--登陆-->
+        <div class="input-linex">
+            <div class="input-line-icon"><img src="img/email_icon.png" class="input-line-icon-image" /></div>
+            <input placeholder="邮箱" id="account_input" class="input-area" />
+        </div>
+
+        <div class="input-linex">
+            <div class="input-line-icon"><img src="img/password_icon.png" class="input-line-icon-image" /></div>
+            <input placeholder="密码" id="password_input" class="input-area" />
+        </div>
+
+        <div onclick="login()" class="loginBtn">
+            登陆
+        </div>
+
+        <div class="forget">
+            <a class="forget-text" href="#">忘记密码</a>
+        </div>
+
+        <div class="quick-line">
+            <div class="line-div"></div>
+            <div class="quick-desc">快捷登陆</div>
+            <div class="line-div"></div>
+            <div></div>
+        </div>
+
+        <div class="quick-login-icons">
+            <!--快捷登陆-->
+            <div class="qq-icon"><img src="img/qq.png" class="qq-icon-image" /></div>
         </div>
     </div>
 
-    <!-- tag2 (椭圆形) -->
-    <div id="u11" class="ax_default ellipse" data-label="tag2" selectiongroup="Tag">
-        <img id="u11_img" class="img " src="images/login/tag1_u9.png"/>
-        <!-- Unnamed () -->
-        <div id="u12" class="text" style="display:none; visibility: hidden">
-            <p><span></span></p>
+    <div class="register" id="register">
+        <div class="input-linex">
+            <div class="input-line-icon"><img src="img/user.png" class="input-line-icon-image" /></div>
+            <input placeholder="昵称" id="nickName_input" class="input-area" />
         </div>
-    </div>
-
-    <!-- tag3 (椭圆形) -->
-    <div id="u13" class="ax_default ellipse" data-label="tag3" selectiongroup="Tag">
-        <img id="u13_img" class="img " src="images/login/tag1_u9.png"/>
-        <!-- Unnamed () -->
-        <div id="u14" class="text" style="display:none; visibility: hidden">
-            <p><span></span></p>
+        <div class="input-linex">
+            <div class="input-line-icon"><img src="img/email_icon.png" class="input-line-icon-image" /></div>
+            <input placeholder="邮箱" id="email_input" class="input-area" />
         </div>
-    </div>
-
-    <!-- tag4 (椭圆形) -->
-    <div id="u15" class="ax_default ellipse" data-label="tag4" selectiongroup="Tag">
-        <img id="u15_img" class="img " src="images/login/tag1_u9.png"/>
-        <!-- Unnamed () -->
-        <div id="u16" class="text" style="display:none; visibility: hidden">
-            <p><span></span></p>
+        <div class="input-linex">
+            <div class="input-line-icon"><img src="img/password_icon.png" class="input-line-icon-image" /></div>
+            <input placeholder="密码" id="password2_input" class="input-area" />
         </div>
-    </div>
-
-    <!-- Unnamed (矩形) -->
-    <div id="u17" class="ax_default box_1">
-        <img id="u17_img" class="img " src="images/login/u17.png"/>
-        <!-- Unnamed () -->
-        <div id="u18" class="text" style="display:none; visibility: hidden">
-            <p><span></span></p>
+        <div class="input-linex">
+            <input placeholder="验证码" id="checkcode_input" class="code-input" />
+            <button onclick="getCode()" class="btn code-get-btn">获取验证码</button>
         </div>
-    </div>
-
-    <!-- Unnamed (矩形) -->
-    <div id="u19" class="ax_default label">
-        <div id="u19_div" class=""></div>
-        <!-- Unnamed () -->
-        <div id="u20" class="text">
-            <p><span>账号密码登录</span></p>
+        <div  onclick="reg()" class="loginBtn">
+            免费注册
         </div>
-    </div>
 
-    <!-- Unnamed (文本框) -->
-    <div id="u21" class="ax_default text_field">
-        <input id="u21_input" type="password" placeholder="&nbsp;密码"/>
-    </div>
-
-    <!-- Unnamed (文本框) -->
-    <div id="u22" class="ax_default text_field">
-        <input id="u22_input" type="text" placeholder="&nbsp;手机号/用户名"/>
-    </div>
-
-    <!-- Unnamed (单选按钮) -->
-    <div id="u23" class="ax_default radio_button">
-        <label for="u23_input">
-            <!-- Unnamed () -->
-            <div id="u24" class="text" >
-                <p><span>下次自动登录</span></p>
-            </div>
-        </label>
-        <input id="u23_input" type="radio" value="radio" name="u23" />
-    </div>
-
-    <!-- Unnamed (矩形) -->
-    <div id="u25" onclick="login()"  class="ax_default button">
-        <div id="u25_div" class=""></div>
-        <!-- Unnamed () -->
-        <div id="u26" class="text" div style="cursor:pointer;">
-            <p><span>登录</span></p>
-        </div>
-    </div>
-
-    <!-- Unnamed (矩形) -->
-    <div id="u27" class="ax_default label">
-        <div id="u27_div" class=""></div>
-        <!-- Unnamed () -->
-        <div id="u28" onclick="forget()" class="text" style="cursor:pointer;">
-            <p><span>忘记密码？</span></p>
-        </div>
-    </div>
-
-    <!-- Unnamed (矩形) -->
-    <div id="u29" class="ax_default box_2">
-        <div id="u29_div" class=""></div>
-        <!-- Unnamed () -->
-        <div id="u30" class="text" style="display:none; visibility: hidden">
-            <p><span></span></p>
-        </div>
-    </div>
-
-    <!-- Unnamed (矩形) -->
-    <div id="u31" class="ax_default label">
-        <div id="u31_div" class=""></div>
-        <!-- Unnamed () -->
-        <div id="u32" class="text">
-            <p><span>第三方登录</span></p>
-        </div>
-    </div>
-
-    <!-- Unnamed (图片) -->
-    <div id="u33" class="ax_default image">
-        <img id="u33_img" class="img " src="images/login/u33.png"/>
-        <!-- Unnamed () -->
-        <div id="u34" class="text" style="display:none; visibility: hidden">
-            <p><span></span></p>
-        </div>
-    </div>
-
-    <!-- Unnamed (图片) -->
-    <div id="u35" class="ax_default image">
-        <img id="u35_img" class="img " src="images/login/u35.png"/>
-        <!-- Unnamed () -->
-        <div id="u36" class="text" style="display:none; visibility: hidden">
-            <p><span></span></p>
-        </div>
-    </div>
-
-    <!-- Unnamed (图片) -->
-    <div id="u37" class="ax_default image">
-        <img id="u37_img" class="img " src="images/login/u37.jpg"/>
-        <!-- Unnamed () -->
-        <div id="u38" class="text" style="display:none; visibility: hidden">
-            <p><span></span></p>
-        </div>
-    </div>
-
-    <!-- Unnamed (矩形) -->
-    <div id="u39" onclick="transToRegister()" class ="ax_default button">
-        <div id="u39_div" class=""></div>
-        <!-- Unnamed () -->
-        <div id="u40" class="text" div style="cursor:pointer;">
-
-            <p><span>立即注册</span></p>
-        </div>
-    </div>
-
-    <!-- Unnamed (矩形) -->
-    <div id="u41" class="ax_default button">
-        <img id="u41_img" class="img " src="images/login/u41.png"/>
-        <!-- Unnamed () -->
-        <div id="u42" class="text">
-            <p><span>会员中心</span></p>
-        </div>
-    </div>
-
-    <!-- Unnamed (矩形) -->
-    <div id="u43" class="ax_default label">
-        <div id="u43_div" class=""></div>
-        <!-- Unnamed () -->
-        <div id="u44" class="text">
-            <p><span>问题反馈</span></p>
-        </div>
-    </div>
-
-    <!-- Unnamed (矩形) -->
-    <div id="u45" class="ax_default label">
-        <div id="u45_div" class=""></div>
-        <!-- Unnamed () -->
-        <div id="u46" class="text">
-            <p><span>E-sub</span></p>
+        <div class="forget introduction">
+            点击免费注册即视为您同意
+            <a class="forget-text introduction" href="#">E-sub用户协议</a>
         </div>
     </div>
 </div>
-</body>
-<script type="text/javascript">
+
+<script>
+    var c = document.getElementById("container");
+    var a = (window.innerHeight - c.offsetHeight) / 2 - 30;
+    if(a > 0) {
+        c.style.marginTop = a + "px";
+    }
+
+    $(window).resize(function() {
+        var a = (window.innerHeight - c.offsetHeight) / 2 - 30;
+        if(a > 0) {
+            c.style.marginTop = a + "px";
+        }
+
+    });
+
+    function tabClick(e) {
+
+        e.className = "super-link focus-link"
+        var lb = document.getElementById("login-tab-btn");
+        var rb = document.getElementById("reg-tab-btn");
+
+        if(e.id == "login-tab-btn") {
+            lb.className = "focus-link";
+            rb.className = "super-link";
+            document.getElementById("login").style.display = "inline";
+            document.getElementById("register").style.display = "none";
+        } else if(e.id == "reg-tab-btn") {
+            rb.className = "focus-link";
+            lb.className = "super-link";
+            document.getElementById("login").style.display = "none";
+            document.getElementById("register").style.display = "inline";
+        }
+    }
+
     function login() {
-
-
-
-        var account = document.getElementById("u22_input").value;
-        var password = document.getElementById("u21_input").value;
+        console.log("dasdsadasd");
+        var account = document.getElementById("account_input").value;
+        var password = document.getElementById("password_input").value;
 
         var crypt = new JSEncrypt();
 
@@ -290,7 +175,7 @@
         //console.log("==================================");
 
         //console.log(cryptdata);
-       // alert(cryptdata);
+        // alert(cryptdata);
 
 
 
@@ -395,5 +280,218 @@
     }
 
 
+
+
+
+
+
+
+
+
+
+
+
+    /*
+    以下是注册的js
+     */
+
+
+
+
+
+
+
+
+    var num="";
+    var info;
+    var teleNum = document.getElementById("email_input").value;
+    var reg_account = document.getElementById("nickName_input").value;
+    var reg_password = document.getElementById("password2_input").value;
+    var reg_check = document.getElementById("checkcode_input").value;
+
+    function reg() {
+
+        var teleNum = document.getElementById("email_input").value;
+        var reg_account = document.getElementById("nickName_input").value;
+        var reg_password = document.getElementById("password2_input").value;
+        var reg_check = document.getElementById("checkcode_input").value;
+        var info = {"teleNum": teleNum, "reg_account": reg_account, "reg_password": reg_password};
+
+        verifyCode();
+    }
+
+
+    function getCheckCode() {
+
+        //num = Math.ceil(Math.random()*899999 + 100000);
+        alert("验证码已发送");
+        getCode();
+
+
+        info={"teleNum":teleNum,"account":reg_account};
+
+        $.ajax({
+            url:"/users/register_1",
+            type:"POST",
+            dataType:"JSON",
+            data:info,
+            success: function(data){
+
+                var respond_json=data["success"];
+                if(respond_json=="NO account"){
+                    //发验证码
+                    info={"teleNum":teleNum,"account":reg_account,"password":reg_password};
+
+
+                }
+                else if(respond_json=="account exist"){
+                    alert("账号已存在!");
+                    //不发验证码
+
+
+                }
+            },
+
+            statusCode:{
+                404:function(){
+                    alert('404，页面不存在');
+                }
+            }
+        });
+
+    }
+
+
+    //哈敏的邮箱
+    function getCode() {
+
+        var email = document.getElementById("email_input").value;
+        var r = {
+            "email":email
+        }
+
+        $.ajax({
+            type: "get",
+            url: "/users/getcode",
+            data: r,
+            success: function(data) {
+                alert("已发送验证码，有效时间为30分钟")
+            },
+            error: function(data) {
+                alert("验证码请求失败")
+            }
+        });
+
+    }
+
+    function verifyCode() {
+        var email = document.getElementById("email_input").value;
+        var code = document.getElementById("checkcode_input").value;
+
+
+        var teleNum = document.getElementById("email_input").value;
+        var reg_account = document.getElementById("nickName_input").value;
+        var reg_password = document.getElementById("password2_input").value;
+        var reg_check = document.getElementById("checkcode_input").value;
+
+        r = {
+            "email":email,
+            "code":code
+        }
+
+
+        var crypt = new JSEncrypt();
+
+        crypt.setPublicKey('-----BEGIN PUBLIC KEY-----\n' +
+            'MIGeMA0GCSqGSIb3DQEBAQUAA4GMADCBiAKBgF0i2uZK7qW0FF6UUGP+IZgnuuG5\n' +
+            'avF3ljIrSLRRP5m2pSeSneJG2ow8G0UxNOpHXRiOjNQAYImOIZceokwzyXk+LvwK\n' +
+            'vpRM4H/CVQBvMxaGIIC4oDjicGu6FsDp3nUYAjvPbefyh9VTBYQhBkkTFcnG3RGj\n' +
+            'fJspCguML6aHkQtXAgMBAAE=\n' +
+            '-----END PUBLIC KEY-----');
+
+        var salt='-rMC](s\\s}>UW0,,3`{G)wj\')Sf{,uNdwet+y{WgQOwLQi-;Vb:+uqu)UUL`1hz-';
+
+        var cryptdata= crypt.encrypt(reg_password+salt);
+
+
+
+
+
+        info={
+            "teleNum":email,"account":reg_account,"password":cryptdata
+        }
+        $.ajax({
+            type: "get",
+            url: "/users/verifycode",
+            data: r,
+            success: function(data) {
+                if(data == true){
+                    alert("验证码正确");
+                    //跳转
+                    window.location.href='/login';
+
+
+                    console.log("现在开始向数据库插入数据：");
+                    console.log(info);
+
+
+                    $.ajax({
+
+                        url:"/users/register_2",
+                        type:"POST",
+                        dataType:"JSON",
+                        data:info,
+
+
+                        success: function(data,textStatus){
+                            var result = data["success"];
+                            if(result=="register success"){
+                                alert("注册成功！");
+                            }
+                            else {
+                                alert("注册失败！");
+                            }
+
+                        },
+                        statusCode:{
+                            404:function(){
+                                alert('404，页面不存在');
+                            }
+                        }
+                    });
+
+                }else{
+                    alert("验证码错误或已过期");
+
+                }
+            },
+            error: function(data) {
+                alert("请求失败")
+            }
+        });
+    }
+
+    function buttonLog() {
+        window.location.href='/login';
+    }
+
+
+
+
+
 </script>
+
+</body>
+
 </html>
+
+
+
+
+
+
+
+
+
+
+

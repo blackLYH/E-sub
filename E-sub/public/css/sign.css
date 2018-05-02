@@ -1,0 +1,166 @@
+body {
+	font-family: "微软雅黑";
+}
+
+input {
+	border: none;
+	outline: none;
+	font-family: "微软雅黑";
+}
+
+.tab {
+	width: 120px;
+	margin: 45px auto;
+	margin-top: 5px;
+}
+
+.tab-login {
+	float: left;
+	width: 40px;
+	text-align: center;
+}
+
+.tab-register {
+	margin-left: 80px;
+	width: 40px;
+	text-align: center;
+}
+
+.super-link {
+	color: orange;
+}
+.focus-link{
+	color: orange;
+}
+
+.login{
+}
+
+.register{
+		display: none;
+}
+
+.input-linex {
+	width: 240px;
+	margin: 5px auto;
+	border: 1px solid #FFCC99;
+	height: 45px;
+}
+
+.input-area{
+	margin-top: 10px;
+}
+
+
+
+.input-line-icon {
+	width: 20px;
+	height: 20px;
+	float: left;
+	margin: 10px 10px;
+	margin-left: 15px;
+}
+
+.input-line-icon-image {
+	width: 20px;
+	height: 20px;
+}
+
+.loginBtn {
+	font-family: "微软雅黑";
+	text-align: center;
+	background: #FFCC99;
+	color: #666666;
+	width: 240px;
+	height: 40px;
+	margin: 36px auto;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	line-height: 40px;
+	cursor: pointer;
+}
+
+.loginBtn:hover {
+	background: #FF9966;
+}
+
+.loginBtn:active {
+	background: #FF6666;
+}
+
+.forget {
+	text-align: center;
+}
+
+.forget-text {
+	font-size: 13px;
+	color: gray;
+}
+
+.quick-line {
+	margin: 10px auto;
+	width: 240px;
+	margin-top: 30px;
+}
+
+.line-div {
+	margin-top: 10px;
+	width: 72px;
+	height: 1px;
+	background: gray;
+	float: left;
+}
+
+.quick-desc {
+	float: left;
+	margin: 0 20px;
+	font-size: 14px;
+	color: gray;
+}
+
+.quick-login-icons {
+	width: 240px;
+	margin: 0 auto;
+	margin-top: 60px;
+}
+
+.qq-icon {
+	width: 36px;
+	height: 36px;
+	margin: 0 auto;
+}
+
+.qq-icon-image {
+	width: 36px;
+	height: 36px;
+}
+
+.code-input{
+	padding: 0 10px;
+	width: 80px;
+	margin:0px 20px;
+	border-bottom: 1px solid #FFCC99;
+	height: 30px;
+	margin-top: 5px;
+}
+.code-get-btn{
+	width: 90px;
+	height: 30px;
+	margin: 0 0;
+}
+
+.introduction{
+	font-size: 12px;
+}
+
+.logo-div{
+	width: 150px;
+	height: 150px;
+	margin: 0 auto;
+}
+.logo-img{
+	width: 150px;
+	height: 150px;
+}
