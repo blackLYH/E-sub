@@ -112,7 +112,7 @@
 
         <div class="forget introduction">
             点击免费注册即视为您同意
-            <a class="forget-text introduction" href="#">E-sub用户协议</a>
+            <a class="forget-text introduction" onclick="protocal()" href="#">E-sub用户协议</a>
         </div>
     </div>
 </div>
@@ -473,6 +473,10 @@
 
     function buttonLog() {
         window.location.href='/login';
+    }
+    
+    function protocal() {
+        window.open ("protocal.html")
     }
 
 
