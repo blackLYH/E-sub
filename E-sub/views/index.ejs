@@ -333,7 +333,8 @@
               var result = JSON.parse(xhr.responseText);
               console.log(typeof JSON.parse(xhr.responseText));
               text.value = result["success"];
-              file = result["file"];
+              var t = result["file"].split("/");
+              file = t[t.length-1];
               console.log(file);
           }
       }
@@ -430,6 +431,7 @@
           },
           statusCode:{
               404:function(){
+                  window.location.href='error';
                   console.log('404，页面不存在');
               }
           }
