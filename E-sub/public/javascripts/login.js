@@ -30,7 +30,7 @@ function tabClick(e) {
 }
 
 function login() {
-    console.log("dasdsadasd");
+
     var account = document.getElementById("account_input").value;
     var password = document.getElementById("password_input").value;
     var crypt = new JSEncrypt();
@@ -128,12 +128,17 @@ function reg() {
     var reg_account = document.getElementById("nickName_input").value;
     var reg_password = document.getElementById("password2_input").value;
     var reg_check = document.getElementById("checkcode_input").value;
+    if(teleNum==""||reg_account==""||reg_password==""||reg_check==""){
+        alert("不能为空！");
+        return;
+    }
     var info = {"teleNum": teleNum, "reg_account": reg_account, "reg_password": reg_password};
     verifyCode();
 }
 
 
 function getCheckCode() {
+
 
     alert("验证码已发送");
     getCode();
@@ -165,7 +170,13 @@ function getCheckCode() {
 
 //邮箱
 function getCode() {
+
+
     var email = document.getElementById("email_input").value;
+    if(email==""){
+        alert("邮箱不能为空！");
+        return;
+    }
     var r = {
         "email": email
     }

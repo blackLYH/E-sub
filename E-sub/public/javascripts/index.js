@@ -1,10 +1,22 @@
 var file;
 
-$("#u85").text(getCookie("user"));
 
+var a=getCookie("user");
+console.log(a);
+
+$("#u85").text(a);
 function member_center() {
-    setCookie("user", getCookie("user"));
-    window.location.href = '/member_center';
+
+    if(a==null){
+        alert("请登陆！");
+        window.location.href = '/login';
+    }
+    else {
+        setCookie("user", getCookie("user"));
+        window.location.href = '/member_center';
+    }
+    //console.log(getCookie("user"));
+
 }
 
 function setCookie(name, value) {
