@@ -197,7 +197,11 @@ function get_filename() {
             reader.onload = function (e) {
                 // 转换完成，创建一个a标签用于下载
                 var a = document.createElement('a');
+                var t  = file.split("/");
+                file = t[t.length - 1];
+                console.log(file);
                 a.download = file;
+                console.log(e.target.result);
                 a.href = e.target.result;
                 $("body").append(a);    // 修复firefox中无法触发click
                 a.click();

@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="css/search.css" />
     <script src="javascripts/jquery-3.3.1.min.js"></script>
     <script src="javascripts/bootstrap.min.js"></script>
-    <!--<script type="text/javascript" src="javascripts/search.js" ></script>-->
+    <script type="text/javascript" src="javascripts/search.js" ></script>
 
 </head>
 
@@ -56,36 +56,36 @@
 
 <div class="container">
     <div class="search-input">
-        <input />
-        <div class="btn">搜索</div>
+        <input id="search"/>
+        <div class="btn" onclick="onSearchClick()">搜索</div>
     </div>
-    <div class="desc">搜索结果如下：</div>
+    <div class="desc" id="search-desc">搜索结果如下：</div>
     <div class="search-result" id="search-result">
-        <div class="line"></div>
-        <div class="result-item">
-            <div class="name">
-                <label>xxxxx字幕</label>
-            </div>
-            <div class="info">
-                <label>Owner:</label>
-                <a class="b">呵呵</a>
-                <label class="a">Time:</label>
-                <label class="b">2018-9-9</label>
-                <label class="a">Price:</label>
-                <label class="b">free</label>
+        <!--<div class="line"></div>-->
+        <!--<div class="result-item">-->
+            <!--<div class="name">-->
+                <!--<label>xxxxx字幕</label>-->
+            <!--</div>-->
+            <!--<div class="info">-->
+                <!--<label>Owner:</label>-->
+                <!--<a class="b">呵呵</a>-->
+                <!--<label class="a">Time:</label>-->
+                <!--<label class="b">2018-9-9</label>-->
+                <!--<label class="a">Price:</label>-->
+                <!--<label class="b">free</label>-->
 
-                <a class="c">下载</a>
-                <a class="c" style="margin-right: 10px;" onclick="">查看详情</a>
-            </div>
-            <div class="line"></div>
-        </div>
-        <div class="item-detail" id="item-detail">
-            <p>班牙语、泰语、法语、阿拉伯语...</p>
-        </div>
+                <!--<a class="c">下载</a>-->
+                <!--<a class="c" style="margin-right: 10px;" onclick="">查看详情</a>-->
+            <!--</div>-->
+            <!--<div class="line"></div>-->
+        <!--</div>-->
+        <!--<div class="item-detail" id="item-detail">-->
+            <!--<p>班牙语、泰语、法语、阿拉伯语...</p>-->
+        <!--</div>-->
 
     </div>
 
-    </span>
+
 </div>
 
 </body>

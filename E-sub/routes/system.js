@@ -179,6 +179,7 @@ router.post('/download', function(req, res, next) {
     }
     var result = fileName.split("/");
     fileName = result[result.length-1];
+    //fileName = "shell.sh" //测试用
     var filePath = path.join(__dirname, "/../public/uploads/subtitle/"+fileName);
     var stats = fs.statSync(filePath);
     if(stats.isFile()){
