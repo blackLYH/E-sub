@@ -22,6 +22,9 @@ router.get('/choose', function (req, res, next) {
     res.render('choose', {title: 'Express'});
 });
 
+router.get('/search', function (req, res, next) {
+    res.render('search', {title: 'Express'});
+});
 router.get('/login', function (req, res, next) {
     res.render('login', {title: 'Express'});
 });

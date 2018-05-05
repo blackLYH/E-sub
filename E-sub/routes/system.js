@@ -118,6 +118,9 @@ router.post('/upload',upload.single('upload_file'), function (req, res, next) {
     }
     var sourcelanguage = languageList.get(req.body["sourcelanguage"]);
     var targetlanguage = languageList.get(req.body["detlanguage"]);
+    var bh = req.body["bh"];
+    var bm = req.body["bm"];
+    var bs = req.body["bs"];
     console.log(req.body["sourcelanguage"]);
     console.log(req.body["detlanguage"]);
     console.log(sourcelanguage);
@@ -128,6 +131,7 @@ router.post('/upload',upload.single('upload_file'), function (req, res, next) {
     var subPath = path.join(__dirname,"/../public/uploads/subtitle/");
     var videoPath = path.join(__dirname,"/../public/uploads/video/");
     var translatePath =  path.join(__dirname,"/../public/python/translate.py");
+    var timeAddPath =  path.join(__dirname,"/../public/python/timeAdd.py");
     shell.exec('ffmpeg -i '+videoPath+ uploadfile +' -acodec copy -y -vn '+videoPath+ filename + '.m4a');
     shell.exec('autosub '+videoPath+ filename + '.m4a -S '+sourcelanguage+' -D '+sourcelanguage+' -o '+subPath+filename+'.srt');
     if(sourcelanguage != targetlanguage){
@@ -135,6 +139,8 @@ router.post('/upload',upload.single('upload_file'), function (req, res, next) {
     }
     if(targetlanguage == sourcelanguage)
         targetlanguage = '';
+
+    shell.exec('python3 '+timeAddPath+' '+subPath+filename+targetlanguage+'.srt '+bs+' '+bm+' '+bh);
     shell.exec('cat '+subPath+filename+targetlanguage+'.srt',  {encoding: 'gbk'},function(code, stdout, stderr) {
         console.log('Exit code:', code);
 
