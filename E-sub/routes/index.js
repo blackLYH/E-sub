@@ -18,6 +18,10 @@ router.get('/index', function (req, res, next) {
     res.render('index', {title: 'Express'});
 });
 
+router.get('/choose', function (req, res, next) {
+    res.render('choose', {title: 'Express'});
+});
+
 router.get('/login', function (req, res, next) {
     res.render('login', {title: 'Express'});
 });

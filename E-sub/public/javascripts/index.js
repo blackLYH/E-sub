@@ -29,21 +29,80 @@ function getCookie(name) {
     return null;
 }
 
+
+
 function quit() {
     window.location.href = '/login';
 }
 
 
+var uploading = function(position) {
+    var uf2 = document.getElementById("uf2");
+    var uploadBack = document.getElementById("upload-back");
+    console.log(position)
+    var a = 150 * position / 100;
+    uploadBack.style.height = a + "px";
+    uf2.innerText = position + "%";
+}
+var endUpload = function() {
+    var uploading = document.getElementById("uploading");
+    var generating = document.getElementById("generating");
+    uploading.style.display = "none"
+    generating.style.display = "block"
+}
+
+var endGenerating = function(url) {
+    var generated = document.getElementById("generated");
+    var generating = document.getElementById("generating");
+    var d = document.getElementById("download-url");
+    generating.style.display = "none";
+    generated.style.display = "block";
+    d.href = url;
+
+}
+/**
+ * 点击上传按钮后的操作
+ * @param {Object} endUpload 结束上传时调用，进入生成等待界面
+ * @param {Object} uploading 更新上传状态函数 uploading(int_position)
+ * @param {Object} endGenerating 结束生成，给予下载地址
+ */
+var uploadDoing = function(uploading, endUpload, endGenerating) {
+    //获取开始时分秒，结束时分秒。-1表示没有选择，0-59表示对应时间
+    var bh = $('#begin-hour option:selected').val()
+    var bm = $('#begin-minute option:selected').val()
+    var bs = $('#begin-second option:selected').val()
+
+    var eh = $('#end-hour option:selected').val()
+    var em = $('#end-minute option:selected').val()
+    var es = $('#end-second option:selected').val()
+
+    //获取语言，ml: 视屏语言， rl:字幕语言。1:中文，2:英文，3:日语，4:韩语，5:法语，6:俄语
+    var ml = $('#movie-language option:selected').val()
+    var rl = $('#result-language option:selected').val()
+
+    uploading(1);
+    uploading(2);
+    uploading(100);
+    endUpload();
+    endGenerating("#");
+}
+
 function upload_file() {
     var file1 = $("#filename")[0].files;
     var button = document.getElementById("upload");
-    var progress = document.querySelector('#progress');
-    var progressbar = document.getElementById("progressbar");
+    //var progress = document.querySelector('#progress');
+    var opCenter = document.getElementById("op-center");
+    var opBottom = document.getElementById("op-bottom");
+    var uploadView = document.getElementById("doing-view");
+    opCenter.style.display = "none";
+    opBottom.style.display = "none";
+    uploadView.style.display = "block";
+    //var progressbar = document.getElementById("progressbar");
     button.onprogress = setProgress;
     console.log(file1[0].type);
-    var sourcelangue = document.getElementById("u101_input");
-    var detlangue = document.getElementById("u97_input");
-    var text = document.getElementById("u130_input");
+    var sourcelangue = document.getElementById("movie-language");
+    var detlangue = document.getElementById("result-language");
+    //var text = document.getElementById("u130_input");
     var data = new FormData();
     //为FormData对象添加数据
     $.each(file1, function (i, file) {
@@ -60,21 +119,24 @@ function upload_file() {
     function uploadSuccess(event) {
         if (xhr.readyState == 4) {
             var result = JSON.parse(xhr.responseText);
-            text.value = result["success"];
+            //text.value = result["success"];
             var t = result["file"].split("/");
             file = t[t.length - 1];
+            console.log(file);
+            endGenerating("#");
         }
     }
 
     function setProgress(event) {
         if (event.lengthComputable) {
             var complete = Number.parseInt(event.loaded / event.total * 100);
-
-            progressbar.max = event.total;
-            progressbar.value = event.loaded;
-            progress.innerHTML = complete + '%';
-            if (complete >= 100) {
-                progress.innerHTML = "字幕生成中"
+            uploading(complete);
+            //progressbar.max = event.total;
+            // //progressbar.value = event.loaded;
+            // progress.innerHTML = complete + '%';
+             if (complete >= 100) {
+            //     progress.innerHTML = "字幕生成中"
+                 endUpload();
             }
         }
     }
@@ -99,7 +161,7 @@ function get_filename() {
             // 返回200
             var blob = this.response;
             var reader = new FileReader();
-            reader.readAsDataURL(blob);    // 转换为base64，可以直接放入a表情href
+            reader.readAsDataURL(blob);    // 转换为base64，可以直接放入a标签href
             reader.onload = function (e) {
                 // 转换完成，创建一个a标签用于下载
                 var a = document.createElement('a');

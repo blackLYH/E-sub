@@ -118,6 +118,8 @@ router.post('/upload',upload.single('upload_file'), function (req, res, next) {
     }
     var sourcelanguage = languageList.get(req.body["sourcelanguage"]);
     var targetlanguage = languageList.get(req.body["detlanguage"]);
+    console.log(req.body["sourcelanguage"]);
+    console.log(req.body["detlanguage"]);
     console.log(sourcelanguage);
     console.log(targetlanguage);
     var filename = uploadfile;
