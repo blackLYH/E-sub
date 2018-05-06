@@ -1,10 +1,48 @@
 var file;
 
 
-var a=getCookie("user");
-console.log(a);
+function transtomember(){
+    if(getCookie("user")!=null){
+        window.location.href = '/member_center';
+    }
+    else {
+        alert("请登陆");
+        window.location.href = '/login';
+    }
+}
 
-$("#u85").text(a);
+var user = {"account": getCookie("user")};
+$.ajax({
+    url: "/users/member_center",
+    type: "POST",
+    dataType: "JSON",
+    data: user,
+    success: function (data, textStatus) {
+        var userInfo = data["success"];
+        useraccount = userInfo[0].account;
+        var userphone = userInfo[0].phone;
+        var usermail = userInfo[0].mail;
+        var usersex = userInfo[0].sex;
+        var userbirthday_year = userInfo[0].birthday_year;
+        var userbirthday_month = userInfo[0].birthday_month;
+        var userbirthday_day = userInfo[0].birthday_day;
+        var userblood = userInfo[0].blood;
+        var userimage = userInfo[0].image;
+
+        $("#username").text(getCookie("user"));
+
+        document.getElementById('userimg').src = "images/head/" + userimage;
+
+    },
+    statusCode: {
+        404: function () {
+            alert('404，页面不存在');
+        }
+    }
+});
+
+
+
 function member_center() {
 
     if(a==null){

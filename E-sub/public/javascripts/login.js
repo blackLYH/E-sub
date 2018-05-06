@@ -66,17 +66,17 @@ function login() {
             }
             else if (respond_json.error == 'NO account') {
                 alert("Account don't exist");
-                window.location.href = "/register";
+                window.location.href = "/login";
             }
         },
         success: function (data) {
             setCookie("user", account);
             alert("Welcome");
-            window.location.href = "/index";
+            window.location.href = "/choose";
         },
         statusCode: {
             200: function () {
-                window.location.href = '/index';
+                window.location.href = '/choose';
             },
             404: function () {
                 window.location.href = '/error';
@@ -103,6 +103,7 @@ function setCookie(name, value) {
     exp.setTime(exp.getTime() + Days * 24 * 60 * 60 * 1000);
     document.cookie = name + "=" + escape(value) + ";expires=" + exp.toGMTString();
     location.href = "/index"; //接收页面.
+
 }
 
 function forget() {
