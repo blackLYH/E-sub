@@ -228,7 +228,7 @@ function verifyCode() {
             if (data == true) {
                 alert("验证码正确");
                 //跳转
-                window.location.href = '/login';
+                //window.location.href = '/login';
                 $.ajax({
                     url: "/users/register_2",
                     type: "POST",

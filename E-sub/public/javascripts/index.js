@@ -1,8 +1,9 @@
 var file;
 
 
+
 function transtomember(){
-    if(getCookie("user")!=null){
+    if(getCookie("user")!="null"){
         window.location.href = '/member_center';
     }
     else {
@@ -11,37 +12,46 @@ function transtomember(){
     }
 }
 
+function quitout() {
+    setCookie("user",null);
+    window.location.href = '/login';
+}
+
+console.log(getCookie("user"));
 var user = {"account": getCookie("user")};
-$.ajax({
-    url: "/users/member_center",
-    type: "POST",
-    dataType: "JSON",
-    data: user,
-    success: function (data, textStatus) {
-        var userInfo = data["success"];
-        useraccount = userInfo[0].account;
-        var userphone = userInfo[0].phone;
-        var usermail = userInfo[0].mail;
-        var usersex = userInfo[0].sex;
-        var userbirthday_year = userInfo[0].birthday_year;
-        var userbirthday_month = userInfo[0].birthday_month;
-        var userbirthday_day = userInfo[0].birthday_day;
-        var userblood = userInfo[0].blood;
-        var userimage = userInfo[0].image;
+if(getCookie("user")!="null"){
 
-        $("#username").text(getCookie("user"));
+    console.log("123123123");
+    $.ajax({
+        url: "/users/member_center",
+        type: "POST",
+        dataType: "JSON",
+        data: user,
+        success: function (data, textStatus) {
+            var userInfo = data["success"];
+            useraccount = userInfo[0].account;
+            var userphone = userInfo[0].phone;
+            var usermail = userInfo[0].mail;
+            var usersex = userInfo[0].sex;
+            var userbirthday_year = userInfo[0].birthday_year;
+            var userbirthday_month = userInfo[0].birthday_month;
+            var userbirthday_day = userInfo[0].birthday_day;
+            var userblood = userInfo[0].blood;
+            var userimage = userInfo[0].image;
 
-        document.getElementById('userimg').src = "images/head/" + userimage;
+            $("#username").text(getCookie("user"));
 
-    },
-    statusCode: {
-        404: function () {
-            alert('404，页面不存在');
+            document.getElementById('userimg').src = "images/head/" + userimage;
+
+        },
+        statusCode: {
+            404: function () {
+                alert('404，页面不存在');
+            }
         }
-    }
-});
+    });
 
-
+}
 
 function member_center() {
 
@@ -71,6 +81,7 @@ function setCookie(name, value) {
     exp.setTime(exp.getTime() + Days * 24 * 60 * 60 * 1000);
     document.cookie = name + "=" + escape(value) + ";expires=" + exp.toGMTString();
     location.href = "/member_center"; //接收页面.
+    location.href = "/index";
 }
 
 function getCookie(name) {
