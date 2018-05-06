@@ -197,16 +197,18 @@ router.post('/register_1', function (req, res, next) {
 });
 
 router.post('/register_2', function (req, res, next) {
+
     var account = req.body["account"];
     var password = req.body["password"];
 
     var privatePem = fs.readFileSync('./public/private.pem').toString();
     var privatekey = new NodeRSA(privatePem);
+    console.log("1231231231231312++++++");
     privatekey.setOptions({encryptionScheme: 'pkcs1'});
     var decrypted = privatekey.decrypt(password, 'utf8');
     password = decrypted;
     password = password.substring(0, password.length - 64);
-
+    console.log("1231231231231312");
     var strengthTester = new taiPasswordStrength.PasswordStrength();
     strengthTester.addCommonPasswords(taiPasswordStrength.commonPasswords);
     strengthTester.addTrigraphMap(taiPasswordStrength.trigraphs);
@@ -222,11 +224,12 @@ router.post('/register_2', function (req, res, next) {
         password: '123456',
         database: 'esub'
     });
+    console.log("456789");
     connection.connect();
     var defalut_headpic = 'system_defalut.jpg';
     var sql = 'insert into account(account,password,pwd_strength,image) values (?,?,?,?)';
     var piss = [account, password, password_strength, defalut_headpic];
-    // console.log(sql);
+
     connection.query(sql, piss, function (err, result) {
         if (err) { //注册失败
             console.log('[INSERT ERROR] - ', err.message);
@@ -234,6 +237,7 @@ router.post('/register_2', function (req, res, next) {
         }
         else { //注册成功
             res.json({success: 'register success'});
+            console.log("写入数据库");
             return;
         }
     });
