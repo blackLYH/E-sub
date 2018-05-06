@@ -18,6 +18,13 @@ router.get('/index', function (req, res, next) {
     res.render('index', {title: 'Express'});
 });
 
+router.get('/choose', function (req, res, next) {
+    res.render('choose', {title: 'Express'});
+});
+
+router.get('/search', function (req, res, next) {
+    res.render('search', {title: 'Express'});
+});
 router.get('/login', function (req, res, next) {
     res.render('login', {title: 'Express'});
 });
@@ -108,7 +115,7 @@ router.get('/getForget', function (req, res, next) {
 });
 
 router.get('/member_center', function (req, res, next) {
-    res.render('member_center', {title: 'Express'});
+    res.render('member_center');
 });
 
 module.exports = router;

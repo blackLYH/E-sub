@@ -1,0 +1,99 @@
+.account-item {}
+
+.account-item.pic {
+	width: 30px;
+	height: 30px;
+	margin-top: 10px;
+}
+
+.account-item.name {
+	margin-left: 0;
+}
+
+.account-item.exit {}
+
+.account-item.vip {
+	background-color: red;
+	color: white;
+	padding: 0 8px;
+	height: 30px;
+	line-height: 30px;
+	margin-top: 10px;
+	border-radius: 5px;
+	margin-right: 30px;
+}
+
+.container {
+	width: calc(100% - 300px);
+	max-width: 600px;
+	min-width: 300px;
+	margin: 0 auto;
+}
+
+.search-input {
+	margin-top: 100px;
+}
+
+.search-input input {
+	width: calc(100% - 125px);
+	border-radius: 5px;
+	background: white;
+	border: 1px solid grey;
+	height: 30px;
+	padding: 0 10px;
+	line-height: 30px;
+}
+
+.search-input .btn {
+	margin-left: 20px;
+	width: 100px;
+}
+
+.desc {
+	margin: 20px 0;
+	display: none;
+}
+
+.search-result {}
+
+.search-result .result-item {
+	padding: 15px 0px;
+	margin: 10px 0;
+	border-radius: 3px;
+	/*box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19)*/
+}
+
+.line{
+	height: 1px;
+	background: gainsboro;
+	margin: 15px 0;
+}
+
+.search-result .result-item .name {
+	font-size: 16px;
+}
+
+.search-result .result-item .info {
+	margin-top: 10px;
+	font-size: 12px;
+}
+
+.search-result .result-item .info .a {
+	margin-left: 5px;
+}
+
+.search-result .result-item .info .b {}
+
+.search-result .result-item .info .c {
+	float: right;
+}
+
+.item-detail {
+	display: none;
+	max-height: 500px;
+	/*	border: 1px solid red;*/
+	border-radius: 3px;
+	padding: 20px 20px;
+	overflow-y: auto;
+	/*box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19)*/
+}

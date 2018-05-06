@@ -164,3 +164,9 @@ input {
 	width: 150px;
 	height: 150px;
 }
+
+footer {
+	margin: 80px auto;
+	text-align: center;
+	margin-top: 120px;
+}
