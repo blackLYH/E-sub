@@ -139,6 +139,20 @@ var uploadDoing = function(uploading, endUpload, endGenerating) {
 
 function upload_file() {
     var file1 = $("#filename")[0].files;
+    //获取开始时分秒，结束时分秒。-1表示没有选择，0-59表示对应时间
+    var bh = $('#begin-hour option:selected').val()
+    var bm = $('#begin-minute option:selected').val()
+    var bs = $('#begin-second option:selected').val()
+
+    var eh = $('#end-hour option:selected').val()
+    var em = $('#end-minute option:selected').val()
+    var es = $('#end-second option:selected').val()
+    if(bh == -1) bh=0;
+    if(bm == -1) bm=0;
+    if(bs == -1) bs=0;
+    if(eh == -1) eh=0;
+    if(em == -1) em=0;
+    if(es == -1) es=0;
     var button = document.getElementById("upload");
     //var progress = document.querySelector('#progress');
     var opCenter = document.getElementById("op-center");
@@ -160,6 +174,12 @@ function upload_file() {
     });
     data.append('sourcelanguage', sourcelangue.value);
     data.append('detlanguage', detlangue.value);
+    data.append('bh', bh);
+    data.append('bm', bm);
+    data.append('bs', bs);
+    data.append('eh', eh);
+    data.append('em', em);
+    data.append('es', es);
     var xhr = new XMLHttpRequest();
     xhr.onload = uploadSuccess;
     xhr.upload.addEventListener("progress", setProgress, false);
@@ -215,7 +235,11 @@ function get_filename() {
             reader.onload = function (e) {
                 // 转换完成，创建一个a标签用于下载
                 var a = document.createElement('a');
+                var t  = file.split("/");
+                file = t[t.length - 1];
+                console.log(file);
                 a.download = file;
+                console.log(e.target.result);
                 a.href = e.target.result;
                 $("body").append(a);    // 修复firefox中无法触发click
                 a.click();
