@@ -278,7 +278,14 @@ router.post('/member_center_save', function (req, res, next) {
     var sex = req.body["sex"];
     var headpic = req.body["image"];
     var oldheadpic = req.body["old"];
+
     var oldpath = './public/images/head/' + headpic;
+
+    var gate;
+
+    if(headpic==oldheadpic)
+        gate=0;
+
 
     var date = new Date();
     var seperator1 = "_";
@@ -294,20 +301,30 @@ router.post('/member_center_save', function (req, res, next) {
     var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
         + "_" + date.getHours() + seperator2 + date.getMinutes()
         + seperator2 + date.getSeconds();
+
     headpic = account + '_' + currentdate + '_' + headpic;
 
     var newpath = './public/images/head/' + headpic;
     var deletepath = './public/images/head/' + oldheadpic;
 
-    fs.rename(oldpath, newpath, function (err) {
-        if (err) {
-            throw err;
-        }
-        else {
-            if (deletepath != "./public/images/head/system_default.jpg")
-                fs.unlink(deletepath);
-        }
-    });
+    console.log(newpath);
+    console.log(deletepath);
+    console.log(oldpath);
+
+
+    if(oldpath!="./public/images/head/system_default.jpg") {
+        fs.rename(oldpath, newpath, function (err) {
+            if (err) {
+                throw err;
+            }
+            else {
+                if (deletepath != "./public/images/head/system_default.jpg" && headpic != oldheadpic) {
+                    fs.unlink(deletepath);
+                }
+            }
+        });
+    }
+
     var connection = mysql.createConnection({
         host: sqlURL,
         user: sqlUSER,
@@ -318,7 +335,10 @@ router.post('/member_center_save', function (req, res, next) {
     var sql;
     var piss;
 
-    if (headpic == "") {
+   // console.log(headpic);
+   // console.log(oldheadpic);
+
+    if (gate==0) {
         sql = 'update account set birthday_year=?,birthday_month=?,blood=?,sex=? where account=?';
         piss = [year, month, blood, sex, account];
     }
