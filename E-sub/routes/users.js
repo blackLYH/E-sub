@@ -144,6 +144,8 @@ router.get('/getcode', function (req, res, next) {
 router.post('/register_1', function (req, res, next) {
 
     var account_outside = req.body["account"];
+
+
     var password = "haha";
     var connection = mysql.createConnection({
         host: sqlURL,

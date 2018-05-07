@@ -141,19 +141,22 @@ function reg() {
 function getCheckCode() {
 
 
-    alert("验证码已发送");
-    getCode();
-    info = {"teleNum": teleNum, "account": reg_account};
+   // alert("验证码已发送");
+    reg_account = document.getElementById("nickName_input").value;
+
+    var nickname = { "account": reg_account};
+
     $.ajax({
         url: "/users/register_1",
         type: "POST",
         dataType: "JSON",
-        data: info,
+        data: nickname,
         success: function (data) {
             var respond_json = data["success"];
             if (respond_json == "NO account") {
                 //发验证码
-                info = {"teleNum": teleNum, "account": reg_account, "password": reg_password};
+                getCode();
+
             }
             else if (respond_json == "account exist") {
                 alert("账号已存在!");
