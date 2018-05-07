@@ -103,12 +103,12 @@
 
         <!-- Unnamed (下拉列表框) -->
         <div id="u363" class="ax_default droplist">
-            <select id="u363_input">
+            <select id="year">
                 <option value="年">年</option>
                 <%
                 for (var i=2018;i>=1900;i--){
                 %>
-                <option value="<%=i%>"><%=i%></option>
+                <option value="<%=i%>" id="<%=i%>"><%=i%></option>
                 <%
                 }
                  %>;
@@ -117,20 +117,20 @@
 
         <!-- Unnamed (下拉列表框) -->
         <div id="u364" class="ax_default droplist">
-            <select id="u364_input">
+            <select id="month">
                 <option value="月">月</option>
                 <option value="12">12</option>
                 <option value="11">11</option>
                 <option value="10">10</option>
-                <option value="9">9</option>
-                <option value="8">8</option>
-                <option value="7">7</option>
-                <option value="6">6</option>
-                <option value="5">5</option>
-                <option value="4">4</option>
-                <option value="3">3</option>
-                <option value="2">2</option>
-                <option value="1">1</option>
+                <option value="09">09</option>
+                <option value="08">08</option>
+                <option value="07">07</option>
+                <option value="06">06</option>
+                <option value="05">05</option>
+                <option value="04">04</option>
+                <option value="03">03</option>
+                <option value="02">02</option>
+                <option value="01">01</option>
             </select>
         </div>
 
@@ -145,7 +145,7 @@
 
         <!-- Unnamed (下拉列表框) -->
         <div id="u367" class="ax_default droplist">
-            <select id="u367_input">
+            <select id="blood">
                 <option value="未知">未知</option>
                 <option value="A">A</option>
                 <option value="B">B</option>

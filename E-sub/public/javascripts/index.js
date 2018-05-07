@@ -1,7 +1,5 @@
 var file;
 
-
-
 function transtomember(){
     if(getCookie("user")!="null"){
         window.location.href = '/member_center';
@@ -19,17 +17,19 @@ function quitout() {
 
 console.log(getCookie("user"));
 var user = {"account": getCookie("user")};
-if(getCookie("user")!="null"){
 
-    console.log("123123123");
+if(getCookie("user")!="null"){
     $.ajax({
         url: "/users/member_center",
         type: "POST",
         dataType: "JSON",
         data: user,
         success: function (data, textStatus) {
+            if (data["success"]=="")
+                return;
+
             var userInfo = data["success"];
-            useraccount = userInfo[0].account;
+            var useraccount = userInfo[0].account;
             var userphone = userInfo[0].phone;
             var usermail = userInfo[0].mail;
             var usersex = userInfo[0].sex;
@@ -40,7 +40,8 @@ if(getCookie("user")!="null"){
             var userimage = userInfo[0].image;
 
             $("#username").text(getCookie("user"));
-
+            if(userimage=="system_defalut.jpg")
+                return;
             document.getElementById('userimg').src = "images/head/" + userimage;
 
         },

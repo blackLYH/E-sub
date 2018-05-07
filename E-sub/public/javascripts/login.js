@@ -139,8 +139,6 @@ function reg() {
 
 
 function getCheckCode() {
-
-
     alert("验证码已发送");
     getCode();
     info = {"teleNum": teleNum, "account": reg_account};

@@ -74,6 +74,13 @@ $.ajax({
         var userblood = userInfo[0].blood;
         var userimage = userInfo[0].image;
         imageold = userimage;
+
+        if(userimage=="system_default.jpg"){
+
+            imagename="system_default.jpg";
+            imageold="system_default.jpg";
+
+        }
         var password_strength = userInfo[0].pwd_strength;
 
         $("#u373").text(useraccount);
@@ -99,15 +106,27 @@ $.ajax({
             document.getElementById("u359_input").checked = false;
             document.getElementById("u368_input").checked = false;
         }
-        var sl = $("#u363_input");
-        var ops = sl.find("option");
-        ops.eq(0).val(userbirthday_year).text(userbirthday_year).prop("selected", true);
-        var sl = $("#u364_input");
-        var ops = sl.find("option");
-        ops.eq(0).val(userbirthday_month).text(userbirthday_month).prop("selected", true);
-        var sl = $("#u367_input");
-        var ops = sl.find("option");
-        ops.eq(0).val(userblood).text(userblood).prop("selected", true);
+
+        if(userbirthday_year==null)
+            userbirthday_year="年";
+        if(userbirthday_month==null)
+            userbirthday_month="月";
+        if(userblood==null)
+            userblood="未知";
+
+        document.getElementById("year").value=userbirthday_year;
+        document.getElementById("month").value=userbirthday_month;
+        document.getElementById("blood").value=userblood;
+        console.log(userimage);
+        // var sl = $("#u363_input");
+        // var ops = document.getElementById(userbirthday_year);
+        // ops.eq(0).val(userbirthday_year).text(userbirthday_year).prop("selected", true);
+        // var sl = $("#u364_input");
+        // var ops = sl.find("option");
+        // ops.eq(0).val(userbirthday_month).text(userbirthday_month).prop("selected", true);
+        // var sl = $("#u367_input");
+        // var ops = sl.find("option");
+        // ops.eq(0).val(userblood).text(userblood).prop("selected", true);
         document.getElementById('u370_img').src = "images/head/" + userimage;
         document.getElementById('u403_img').src = "images/head/" + userimage;
     },
@@ -176,16 +195,17 @@ function radioclick(a) {
 }
 
 function saveInfo() {
-    var ddl1 = document.getElementById("u363_input")
+    var ddl1 = document.getElementById("year")
     var index1 = ddl1.selectedIndex;
-    var ddl2 = document.getElementById("u364_input")
+    var ddl2 = document.getElementById("month")
     var index2 = ddl2.selectedIndex;
-    var ddl3 = document.getElementById("u367_input")
+    var ddl3 = document.getElementById("blood")
     var index3 = ddl3.selectedIndex;
 
     var Value_year = ddl1.options[index1].value;
     var Value_month = ddl2.options[index2].value;
     var Value_blood = ddl3.options[index3].value;
+
     // console.log("1243q21e213214124234"+imagename);
     var user_save = {
         "account": useraccount,
@@ -196,7 +216,7 @@ function saveInfo() {
         "image": imagename,
         "old": imageold
     };
-
+    console.log(user_save);
     $.ajax({
         url: "/users/member_center_save",
         type: "POST",
