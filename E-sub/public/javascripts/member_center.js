@@ -74,9 +74,9 @@ $.ajax({
         var userblood = userInfo[0].blood;
         var userimage = userInfo[0].image;
         imageold = userimage;
-
+        console.log("2"+userimage);
         if(userimage=="system_default.jpg"){
-
+            console.log("1"+userimage);
             imagename="system_default.jpg";
             imageold="system_default.jpg";
 
