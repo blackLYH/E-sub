@@ -91,7 +91,7 @@
 .item-detail {
 	display: none;
 	max-height: 500px;
-	/*	border: 1px solid red;*/
+/*	border: 1px solid red;*/
 	border-radius: 3px;
 	padding: 20px 20px;
 	overflow-y: auto;
