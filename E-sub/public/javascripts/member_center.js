@@ -74,9 +74,9 @@ $.ajax({
         var userblood = userInfo[0].blood;
         var userimage = userInfo[0].image;
         imageold = userimage;
-        console.log("2"+userimage);
+
         if(userimage=="system_default.jpg"){
-            console.log("1"+userimage);
+
             imagename="system_default.jpg";
             imageold="system_default.jpg";
 
@@ -117,7 +117,7 @@ $.ajax({
         document.getElementById("year").value=userbirthday_year;
         document.getElementById("month").value=userbirthday_month;
         document.getElementById("blood").value=userblood;
-        console.log(userimage);
+
         // var sl = $("#u363_input");
         // var ops = document.getElementById(userbirthday_year);
         // ops.eq(0).val(userbirthday_year).text(userbirthday_year).prop("selected", true);
@@ -206,7 +206,7 @@ function saveInfo() {
     var Value_month = ddl2.options[index2].value;
     var Value_blood = ddl3.options[index3].value;
 
-    // console.log("1243q21e213214124234"+imagename);
+
     var user_save = {
         "account": useraccount,
         "year": Value_year,
@@ -216,7 +216,7 @@ function saveInfo() {
         "image": imagename,
         "old": imageold
     };
-    console.log(user_save);
+
     $.ajax({
         url: "/users/member_center_save",
         type: "POST",

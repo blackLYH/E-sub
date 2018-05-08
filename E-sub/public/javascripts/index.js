@@ -15,7 +15,6 @@ function quitout() {
     window.location.href = '/login';
 }
 
-console.log(getCookie("user"));
 var user = {"account": getCookie("user")};
 
 if(getCookie("user")!="null"){
@@ -64,7 +63,7 @@ function member_center() {
         setCookie("user", getCookie("user"));
         window.location.href = '/member_center';
     }
-    //console.log(getCookie("user"));
+
 
 }
 
@@ -101,7 +100,7 @@ function quit() {
 var uploading = function(position) {
     var uf2 = document.getElementById("uf2");
     var uploadBack = document.getElementById("upload-back");
-    console.log(position)
+
     var a = 150 * position / 100;
     uploadBack.style.height = a + "px";
     uf2.innerText = position + "%";
@@ -109,8 +108,8 @@ var uploading = function(position) {
 var endUpload = function() {
     var uploading = document.getElementById("uploading");
     var generating = document.getElementById("generating");
-    uploading.style.display = "none"
-    generating.style.display = "block"
+    uploading.style.display = "none";
+    generating.style.display = "block";
 }
 
 var endGenerating = function(url) {
