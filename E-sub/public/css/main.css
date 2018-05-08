@@ -98,3 +98,9 @@ li{
 .btn:active {
 	background: #FF6666;
 }
+
+footer {
+	margin: 80px auto;
+	text-align: center;
+	margin-top: 180px;
+}
