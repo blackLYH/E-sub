@@ -73,6 +73,11 @@ $.ajax({
         var userbirthday_day = userInfo[0].birthday_day;
         var userblood = userInfo[0].blood;
         var userimage = userInfo[0].image;
+
+
+        var login_info=data["login_info"];    
+
+
         imageold = userimage;
 
         if(userimage=="system_default.jpg"){

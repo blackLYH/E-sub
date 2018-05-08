@@ -248,6 +248,14 @@ router.post('/register_2', function (req, res, next) {
 
 router.post('/member_center', function (req, res, next) {
     var account = req.body["account"];
+
+
+    var Filename="./public/log/"+account+".txt";
+
+    var login_info = fs.readFileSync(Filename, 'utf-8');
+
+
+
     var connection = mysql.createConnection({
         host: sqlURL,
         user: sqlUSER,
@@ -263,7 +271,7 @@ router.post('/member_center', function (req, res, next) {
             return;
         }
         else {  //成功
-            res.json({success: result});
+            res.json({success: result,login_info:login_info});
             return;
         }
     });
