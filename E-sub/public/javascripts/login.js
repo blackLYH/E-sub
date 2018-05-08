@@ -47,7 +47,58 @@ function login() {
 
     var salt = '-rMC](s\\s}>UW0,,3`{G)wj\')Sf{,uNdwet+y{WgQOwLQi-;Vb:+uqu)UUL`1hz-';
     var cryptdata = crypt.encrypt(password + salt);
-    var transToBack = {"Account": account, "Password": cryptdata};
+
+
+
+
+
+    console.log("==================");
+
+    var userAgent = window.navigator.userAgent;
+
+    var browser="unknown";
+    var loginIP="unknown";
+    var loginPlace="unknown";
+
+    if (userAgent.indexOf('Firefox') != -1) {
+        browser="Firefox";
+    }
+
+    if (userAgent.indexOf('Edge') != -1) {
+        browser="Edge";
+    }
+    if (userAgent.indexOf('opr') != -1) {
+        browser="Opera";
+    }
+
+    if(userAgent.indexOf("safari") > 0 && userAgent.indexOf("chrome") < 0){
+        browser="safari";
+    }
+
+    if (userAgent.indexOf('Chrome') != -1) {
+        browser="Chrome";
+    }
+
+    if (userAgent.indexOf('NET') != -1 && userAgent.indexOf("rv") != -1) {
+        browser="IE";
+    }
+
+   // alert(returnCitySN.cip);
+  //  alert(returnCitySN.cname);
+
+    loginIP=returnCitySN.cip;
+    loginPlace=returnCitySN.cname;
+
+    console.log(browser);
+
+    var salt02="$$$";
+
+    var login_info=loginIP+salt02+loginPlace+salt02+browser;
+
+    console.log("=======================");
+
+    var transToBack = {"Account": account, "Password": cryptdata,"login_info":login_info};
+
 
     $.ajax({
         url: "/login/test",
