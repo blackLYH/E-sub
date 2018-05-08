@@ -1,7 +1,8 @@
 var onSearchClick = function() {
-    //获取超找的值
+    //获取查找的值
     var search = document.getElementById("search").value;
     var desc =document.getElementById("search-desc");
+
     var result = function(r) {
         var sr = document.getElementById("search-result")
         sr.innerHTML="";
@@ -17,7 +18,34 @@ var onSearchClick = function() {
 }
 
 var doingSearch = function(search, result) {
-    console.log("查找的内容是："+search)
+    console.log("查找的内容是："+search);
+    var json = {"search": search};
+    $.ajax({
+        url: "/system/search",
+        type: "POST",
+        dataType: "json",
+        data: json,
+
+        success: function (data, textStatus) {
+            var result = data["success"];
+            result[0].name;
+            file = data["file"];
+
+            text.value = result;
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+        },
+        complete: function (XMLHttpRequest, textStatus) {
+
+        },
+        statusCode: {
+            404: function () {
+                window.location.href = '/error';
+                console.log('404，页面不存在');
+            }
+        }
+    });
+
     var r = [{
         name:"字幕测试1",
         owner:"hxm",
@@ -40,4 +68,11 @@ var doingSearch = function(search, result) {
             durl:"#"
         }]
     result(r);
+}
+
+function search() {
+    var searchContent = document.getElementById("searchText").value;
+    var json = {"search": searchContent}
+    var text = document.getElementById("u130_input");
+
 }

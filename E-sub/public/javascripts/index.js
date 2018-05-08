@@ -261,32 +261,3 @@ function get_filename() {
     xhr.send("files=" + file);
 }
 
-function search() {
-    var searchContent = document.getElementById("searchText").value;
-    var json = {"search": searchContent}
-    var text = document.getElementById("u130_input");
-    $.ajax({
-        url: "/system/search",
-        type: "POST",
-        dataType: "json",
-        data: json,
-
-        success: function (data, textStatus) {
-            var result = data["success"];
-            file = data["file"];
-
-            text.value = result;
-        },
-        error: function (XMLHttpRequest, textStatus, errorThrown) {
-        },
-        complete: function (XMLHttpRequest, textStatus) {
-
-        },
-        statusCode: {
-            404: function () {
-                window.location.href = '/error';
-                console.log('404，页面不存在');
-            }
-        }
-    });
-}
