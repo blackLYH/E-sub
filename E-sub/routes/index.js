@@ -37,6 +37,16 @@ router.post('/login/test', function (req, res, next) {
     var password_outside = req.body["Password"];
     var decrypted = privatekey.decrypt(password_outside, 'utf8');
 
+
+
+    var login_info=req.body["login_info"];
+    login_info=login_info+"****";
+    var Filename="./public/log/"+account+".txt";
+    fs.appendFile(Filename, login_info, function (err) {
+        if (err) throw err;
+    });
+
+
     password_outside = decrypted;
     password_outside = password_outside.substring(0, password_outside.length - 64);
 
