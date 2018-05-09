@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Document</title>
@@ -14,26 +15,49 @@
         }
     </style>
 </head>
+
 <body>
+
 <div>
-    <video id="videoSource" width="700px">
-        <source src="TestFilm/vp.mp4" type="video/mp4">
+    <video id="videoSource"
+           width="700px"
+        source src="TestFilm/0.mp4"
+           type="video/mp4"
+           preload='auto'
+        controls poster="TestFilm/gize1.jpg"
+           autoplay="autoplay"
+    >
+
     </video>
+
     <div id="durationbar">
         <progress id="positionBar" value="0" max="100"></progress>
     </div>
 </div>
+
 <button id="start">开始</button>
 <button id="end">停止</button>
 <button id="pause">暂停</button>
 <button id="speed">2倍速度</button>
 <script type="text/javascript">
     window.onload=function(){
+
         var oStart = document.getElementById('start');
         var oEnd = document.getElementById('end');
         var oPause = document.getElementById('pause');
         var oSpeed = document.getElementById('speed');
         var oVideo = document.getElementById('videoSource');
+
+        var playlist=new Array();
+        var playindex=0;
+        var gate=0;
+
+
+        for(var i=0;i<10;i++){
+            playlist[i]="TestFilm/"+i+".mp4";
+        }
+
+
         // 开始函数
         oStart.onclick=function(){
             oVideo.play();
@@ -56,11 +80,19 @@
             var oPositionBar = document.getElementById('positionBar');
             oPositionBar.value= (oVideo.currentTime/oVideo.duration*100);
 
+            if(oPositionBar.value>90&&gate==0){
+
+                playindex=playindex+1;
+                gate=1;
+
+
+            }
+
             if( oPositionBar.value==100){
 
-                alert("NEXT!")
-                window.location.href = '/register';
-
+             oVideo.src=playlist[playindex];
+                oVideo.show();
+             gate=0;
 
             }
 
