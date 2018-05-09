@@ -1,181 +1,72 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>register</title>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
-    <meta name="apple-mobile-web-app-capable" content="yes"/>
-    <link href="resources/css/jquery-ui-themes.css" type="text/css" rel="stylesheet"/>
-    <link href="resources/css/axure_rp_page.css" type="text/css" rel="stylesheet"/>
-    <link href="data/styles.css" type="text/css" rel="stylesheet"/>
-    <link href="files/register/styles.css" type="text/css" rel="stylesheet"/>
-    <script src="resources/scripts/jquery-1.7.1.min.js"></script>
-    <script src="resources/scripts/jquery-ui-1.8.10.custom.min.js"></script>
-    <script src="resources/scripts/prototypePre.js"></script>
-    <script src="data/document.js"></script>
-    <script src="resources/scripts/prototypePost.js"></script>
-    <script src="files/register/data.js"></script>
-    <script type="text/javascript">
-        $axure.utils.getTransparentGifPath = function() { return 'resources/images/transparent.gif'; };
-        $axure.utils.getOtherPath = function() { return 'resources/Other.html'; };
-        $axure.utils.getReloadPath = function() { return 'resources/reload.html'; };
-    </script>
-    <script src="javascripts/jsencrypt.min.js"></script>
-    <script src="javascripts/register.js"></script>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        #durationbar{
+            width: 500px;
+            height: 20px;
+        }
+        #durationbar progress{
+            width: 100%;
+            height: 100%;
+        }
+    </style>
 </head>
 <body>
-<div id="base" class="">
-
-    <!-- Unnamed (矩形) -->
-    <div id="u47" class="ax_default label">
-        <div id="u47_div" class=""></div>
-        <!-- Unnamed () -->
-        <div id="u48" class="text">
-            <p><span>注册账号</span></p>
-        </div>
-    </div>
-
-    <!-- Unnamed (文本框) -->
-    <div id="u49" class="ax_default text_field">
-        <input id="u49_input" type="text" placeholder="请设置用户名"/>
-    </div>
-
-    <!-- Unnamed (文本框) -->
-    <div id="u50" class="ax_default text_field">
-        <input id="u50_input" type="text" placeholder="可用于登录和找回密码"/>
-    </div>
-
-    <!-- Unnamed (矩形) -->
-    <div id="u51" class="ax_default label">
-        <div id="u51_div" class=""></div>
-        <!-- Unnamed () -->
-        <div id="u52" class="text">
-            <p><span>手机号</span></p>
-        </div>
-    </div>
-
-    <!-- Unnamed (下拉列表框) -->
-    <div id="u53" class="ax_default droplist">
-        <select id="u53_input">
-            <option selected value="+86  中国大陆">+86&nbsp; 中国大陆</option>
-            <option value="+852 中国香港">+852 中国香港</option>
-            <option value="+853 中国澳门">+853 中国澳门</option>
-            <option value="+886 中国台湾">+886 中国台湾</option>
-        </select>
-    </div>
-
-    <!-- Unnamed (矩形) -->
-    <div id="u54" class="ax_default label">
-        <div id="u54_div" class=""></div>
-        <!-- Unnamed () -->
-        <div id="u55" class="text">
-            <p><span>用户名</span></p>
-        </div>
-    </div>
-
-    <!-- Unnamed (矩形) -->
-    <div id="u56" class="ax_default label">
-        <div id="u56_div" class=""></div>
-        <!-- Unnamed () -->
-        <div id="u57" class="text">
-            <p><span>密码</span></p>
-        </div>
-    </div>
-
-    <!-- Unnamed (文本框) -->
-    <div id="u58" class="ax_default text_field">
-        <input id="u58_input" type="password" placeholder="请设置登录密码"/>
-    </div>
-
-    <!-- Unnamed (文本框) -->
-    <div id="u59" class="ax_default text_field">
-        <input id="u59_input" type="text" placeholder="请输入验证码"/>
-    </div>
-
-    <!-- Unnamed (矩形) -->
-    <div id="u60" onclick="getCheckCode()" class="ax_default button">
-        <div id="u60_div" class=""></div>
-        <!-- Unnamed () -->
-        <div id="u61" class="text">
-            <p><span>获取短信验证码</span></p>
-        </div>
-    </div>
-
-    <!-- Unnamed (矩形) -->
-    <div id="u62" class="ax_default label">
-        <div id="u62_div" class=""></div>
-        <!-- Unnamed () -->
-        <div id="u63" class="text">
-            <p><span>验证码</span></p>
-        </div>
-    </div>
-
-    <!-- Unnamed (复选框) -->
-    <div id="u64" class="ax_default checkbox">
-        <label for="u64_input">
-            <!-- Unnamed () -->
-            <div id="u65" class="text">
-                <p><span style="color:#434343;">阅读并接受</span><span style="color:#0000FF;">《E-sub用户协议》</span><span style="color:#434343;">及</span><span style="color:#0000FF;">《E-sub隐私保护权声明》</span></p>
-            </div>
-        </label>
-        <input id="u64_input" type="checkbox" value="checkbox"/>
-    </div>
-
-    <!-- Unnamed (矩形) -->
-    <div id="u66" class="ax_default _三级标题">
-        <div id="u66_div" class=""></div>
-        <!-- Unnamed () -->
-        <div id="u67" class="text">
-            <p><span>我已注册，现在就</span></p>
-        </div>
-    </div>
-
-    <!-- Unnamed (矩形) -->
-    <div id="u68" class="ax_default button">
-        <div id="u68_div" class=""></div>
-        <!-- Unnamed () -->
-        <div id="u69" onclick="buttonLog()" class="text" div style="cursor:pointer;">
-            <p><span>登录</span></p>
-        </div>
-    </div>
-
-    <!-- Unnamed (矩形) -->
-    <div id="u70" class="ax_default label">
-        <div id="u70_div" class=""></div>
-        <!-- Unnamed () -->
-        <div id="u71" class="text">
-            <p><span>E-sub</span></p>
-        </div>
-    </div>
-
-    <!-- Unnamed (图片) -->
-    <div id="u72" class="ax_default image">
-        <img id="u72_img" class="img " src="images/register/u72.png"/>
-        <!-- Unnamed () -->
-        <div id="u73" class="text" style="display:none; visibility: hidden">
-            <p><span></span></p>
-        </div>
-    </div>
-
-    <!-- Unnamed (垂直线) -->
-    <div id="u74" class="ax_default line">
-        <img id="u74_img" class="img " src="images/register/u74.png"/>
-        <!-- Unnamed () -->
-        <div id="u75" class="text" style="display:none; visibility: hidden">
-            <p><span></span></p>
-        </div>
-    </div>
-
-    <!-- Unnamed (矩形) -->
-    <div id="u76" onclick="reg()" class="ax_default primary_button">
-        <div id="u76_div" class=""></div>
-        <!-- Unnamed () -->
-        <div id="u77" class="text">
-            <p><span>注册</span></p>
-        </div>
+<div>
+    <video id="videoSource" width="700px">
+        <source src="TestFilm/vp.mp4" type="video/mp4">
+    </video>
+    <div id="durationbar">
+        <progress id="positionBar" value="0" max="100"></progress>
     </div>
 </div>
-</body>
+<button id="start">开始</button>
+<button id="end">停止</button>
+<button id="pause">暂停</button>
+<button id="speed">2倍速度</button>
+<script type="text/javascript">
+    window.onload=function(){
+        var oStart = document.getElementById('start');
+        var oEnd = document.getElementById('end');
+        var oPause = document.getElementById('pause');
+        var oSpeed = document.getElementById('speed');
+        var oVideo = document.getElementById('videoSource');
+        // 开始函数
+        oStart.onclick=function(){
+            oVideo.play();
+        }
+        // 暂停函数
+        oPause.onclick=function(){
+            oVideo.pause();
+        }
+        // 停止函数
+        oEnd.onclick=function(){
+            oVideo.pause();
+            oVideo.currentTime=0;
+        }
+        // 加速函数
+        oSpeed.onclick=function(){
+            oVideo.play();oVideo.playbackRate = 4;//注意这里速度大于4的时候，就没有声音了，声音得不到同步
+        }
+        // 这个事件是在视频播放中一直执行的事件
+        oVideo.ontimeupdate=function(){
+            var oPositionBar = document.getElementById('positionBar');
+            oPositionBar.value= (oVideo.currentTime/oVideo.duration*100);
 
+            if( oPositionBar.value==100){
+
+                alert("NEXT!")
+                window.location.href = '/register';
+
+
+            }
+
+
+        }
+    }
+</script>
+</body>
 </html>
