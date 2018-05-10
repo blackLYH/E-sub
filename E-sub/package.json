@@ -28,6 +28,7 @@
     "sha512": "0.0.1",
     "shelljs": "^0.8.1",
     "tai-password-strength": "^1.1.1",
+    "twitch-get-stream": "^0.4.1",
     "videojs-contrib-hls": "^5.14.1"
   }
 }

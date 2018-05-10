@@ -26,18 +26,38 @@ router.get('/', function(req, res, next) {
 
   //  https://3gaanhctoghzdrpbsfahdr.ourdvsss.com/live-play.acgvideo.com/live/782/live_15641218_2165382.flv?wsSecret=379e075446d323e7e80de07fd490e5fc&wsTime=5ac8c785&wshc_tag=0&wsts_tag=5af04676&wsid_tag=daf93230&wsiphost=ipdbm
 
+    /*
     var file = fs.createWriteStream("./public/online_video/233.mp4");
 
     var request = https.get("https://3gaanhctoghzdrpbsfahdr.ourdvsss.com/live-play.acgvideo.com/live/782/live_15641218_2165382.flv?wsSecret=379e075446d323e7e80de07fd490e5fc&wsTime=5ac8c785&wshc_tag=0&wsts_tag=5af04676&wsid_tag=daf93230&wsiphost=ipdbm", function(response) {
         response.pipe(file);
     });
 
+*/
+
+    //TEST FOR TWITCH
+
+   // console.log('happy');
+    var twitchStreams = require('twitch-get-stream')('espmj51jitxdumv39nyhdmdusrsrah');
+
+
+    twitchStreams.get('Monstercat')
+        .then(function(streams) {
+            console.log('Got stream data.');
+
+            for (var stream of streams)
+                console.log(stream.url);
+        })
+        .catch(function(error) {
+            if (error)
+                return console.log('Error caught:', error);
+        });
 
 
 
 
 
-    //NOW END VIDEO TEST
+
 
     return;
 
