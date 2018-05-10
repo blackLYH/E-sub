@@ -1,7 +1,5 @@
-E-sub\node_modules\
-node_modules\
+/node_modules
 *.m4a
 *.srt
 *.DS_Store
 *.project
-E-sub/public/uploads/video/IMG_20180309_165139.png
