@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: segment-inspector.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: segment-inspector.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @file segment-inspector.js
+ */
+
+import {TransportPacketStream, TransportParseStream, ElementaryStream, TimestampRolloverStream} from 'mux.js/lib/m2ts';
+import StreamTypes from 'mux.js/lib/m2ts/stream-types.js';
+
+const PES_TIMESCALE = 90000;
+
+/**
+ * An object that inspects ts segment data to extract timing information for
+ * more precise calculations
+ *
+ * @class SegmentInspector
+ */
+export default class SegmentInspector {
+  constructor() {
+    this.transportPacketStream = new TransportPacketStream();
+    this.transportParseStream = new TransportParseStream();
+    this.elementaryStream = new ElementaryStream();
+    this.audioTimestampRolloverStream = new TimestampRolloverStream('audio');
+    this.videoTimestampRolloverStream = new TimestampRolloverStream('video');
+  }
+
+  /**
+   * Inspects the given segment byte array and returns an object with timing
+   * information for the first and last packet.
+   */
+  inspect(segment) {
+    var tsPackets = [];
+    var segmentInfo;
+
+    this.transportPacketStream
+      .pipe(this.transportParseStream);
+
+    this.transportParseStream.on('data', function(event) {
+      tsPackets.push(event);
+    });
+
+    this.transportParseStream.on('done', () => {
+      segmentInfo = this.parsePackets_(tsPackets);
+    });
+
+    this.transportPacketStream.push(segment);
+    this.transportPacketStream.flush();
+
+    this.adjustTimestamp_(segmentInfo);
+
+    this.dispose();
+    return segmentInfo;
+  }
+
+  /**
+   * Parse the given pes packets to gain information from the first and last complete packet
+   */
+  parsePackets_(packets) {
+    var segmentInfo = {
+      video: [],
+      audio: []
+    };
+
+    var processData = true;
+    var first = true;
+
+    this.elementaryStream.on('data', function(data) {
+      if (processData) {
+        if (data.type === 'audio') {
+          if ((first &amp;&amp; segmentInfo.audio.length === 0) ||
+              (!first &amp;&amp; segmentInfo.audio.length === 1)) {
+            segmentInfo.audio.push(data);
+          }
+        }
+        if (data.type === 'video') {
+          if ((first &amp;&amp; segmentInfo.video.length === 0) ||
+              (!first &amp;&amp; segmentInfo.video.length === 1)) {
+            segmentInfo.video.push(data);
+          }
+        }
+        if (first &amp;&amp;
+            segmentInfo.audio.length === 1 &amp;&amp;
+            segmentInfo.video.length === 1) {
+          processData = false;
+        } else if (!first &amp;&amp;
+                    segmentInfo.audio.length === 2 &amp;&amp;
+                    segmentInfo.video.length === 2) {
+          processData = false;
+        }
+      }
+    });
+
+    let i = 0;
+    let packet;
+
+    while(processData &amp;&amp; i &lt; packets.length) {
+      packet = packets[i];
+      this.elementaryStream.push(packet);
+      i++;
+    }
+
+    this.elementaryStream.flush();
+
+    processData = true;
+    first = false;
+
+    i = packets.length - 1;
+
+    let lastPes = {
+      audio: {
+        done: false,
+        data: []
+      },
+      video: {
+        done: false,
+        data: []
+      }
+    };
+
+    // Walk back from the end to find the last video and audio pes packets
+    while(i > -1) {
+      packet = packets[i];
+      let streamType;
+
+      switch (packet.streamType) {
+        case StreamTypes.H264_STREAM_TYPE:
+          streamType = 'video';
+          break;
+        case StreamTypes.ADTS_STREAM_TYPE:
+          streamType = 'audio';
+          break;
+        default:
+          i--;
+          continue;
+      }
+      if (!lastPes[streamType].done) {
+        lastPes[streamType].data.unshift(packet);
+
+        if (packet.payloadUnitStartIndicator) {
+          lastPes[streamType].done = true;
+        }
+      }
+
+      if (lastPes.audio.done &amp;&amp; lastPes.video.done) {
+        break;
+      }
+
+      i--;
+    }
+
+    lastPes.audio.data.forEach((packet) => {
+      this.elementaryStream.push(packet);
+    });
+    lastPes.video.data.forEach((packet) => {
+      this.elementaryStream.push(packet);
+    });
+    this.elementaryStream.flush();
+
+    return segmentInfo;
+  }
+
+  /**
+   * Adjusts the timestamp information for the segment to account for
+   * rollover and convert to seconds based on pes packet timescale (90khz clock)
+   */
+  adjustTimestamp_(segmentInfo) {
+    var i = 0;
+
+    this.audioTimestampRolloverStream.on('data', function(data) {
+      segmentInfo.audio[i].pts = data.pts / PES_TIMESCALE;
+      segmentInfo.audio[i].dts = data.dts / PES_TIMESCALE;
+    });
+
+    this.videoTimestampRolloverStream.on('data', function(data) {
+      segmentInfo.video[i].pts = data.pts / PES_TIMESCALE;
+      segmentInfo.video[i].dts = data.dts / PES_TIMESCALE;
+    });
+
+    this.audioTimestampRolloverStream.push(segmentInfo.audio[i]);
+    this.videoTimestampRolloverStream.push(segmentInfo.video[i]);
+
+    i = 1;
+
+    this.audioTimestampRolloverStream.push(segmentInfo.audio[i]);
+    this.videoTimestampRolloverStream.push(segmentInfo.video[i]);
+
+    this.audioTimestampRolloverStream.flush();
+    this.videoTimestampRolloverStream.flush();
+  }
+
+  dispose() {
+    this.transportPacketStream.dispose();
+    this.transportParseStream.dispose();
+    this.elementaryStream.dispose();
+    this.audioTimestampRolloverStream.dispose();
+    this.videoTimestampRolloverStream.dispose();
+  }
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="GapSkipper.html">GapSkipper</a></li><li><a href="HlsAudioTrack.html">HlsAudioTrack</a></li><li><a href="HlsHandler.html">HlsHandler</a></li><li><a href="MasterPlaylistController.html">MasterPlaylistController</a></li><li><a href="PlaylistLoader.html">PlaylistLoader</a></li><li><a href="Representation.html">Representation</a></li><li><a href="SegmentInspector.html">SegmentInspector</a></li><li><a href="SegmentLoader.html">SegmentLoader</a></li><li><a href="SourceUpdater.html">SourceUpdater</a></li><li><a href="Stream.html">Stream</a></li></ul><h3>Global</h3><ul><li><a href="global.html#backwardDuration">backwardDuration</a></li><li><a href="global.html#bufferIntersection">bufferIntersection</a></li><li><a href="global.html#byterangeStr">byterangeStr</a></li><li><a href="global.html#calculateBufferedPercent">calculateBufferedPercent</a></li><li><a href="global.html#clamp">clamp</a></li><li><a href="global.html#detectEndOfStream">detectEndOfStream</a></li><li><a href="global.html#duration">duration</a></li><li><a href="global.html#enableFunction">enableFunction</a></li><li><a href="global.html#findGaps">findGaps</a></li><li><a href="global.html#findNextRange">findNextRange</a></li><li><a href="global.html#findRange">findRange</a></li><li><a href="global.html#findSoleUncommonTimeRangesEnd">findSoleUncommonTimeRangesEnd</a></li><li><a href="global.html#formatHexString">formatHexString</a></li><li><a href="global.html#forwardDuration">forwardDuration</a></li><li><a href="global.html#getMediaIndexForTime_">getMediaIndexForTime_</a></li><li><a href="global.html#getSegmentBufferedPercent">getSegmentBufferedPercent</a></li><li><a href="global.html#HlsSourceHandler">HlsSourceHandler</a></li><li><a href="global.html#intervalDuration">intervalDuration</a></li><li><a href="global.html#objectChanged">objectChanged</a></li><li><a href="global.html#renditionSelectionMixin">renditionSelectionMixin</a></li><li><a href="global.html#resolveUrl">resolveUrl</a></li><li><a href="global.html#safeGetComputedStyle">safeGetComputedStyle</a></li><li><a href="global.html#seekable">seekable</a></li><li><a href="global.html#segmentXhrHeaders">segmentXhrHeaders</a></li><li><a href="global.html#textRange">textRange</a></li><li><a href="global.html#updateMaster">updateMaster</a></li><li><a href="global.html#updateSegmentMetadata">updateSegmentMetadata</a></li><li><a href="global.html#updateSegments">updateSegments</a></li><li><a href="global.html#utils">utils</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Fri Aug 19 2016 13:15:08 GMT-0400 (EDT)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

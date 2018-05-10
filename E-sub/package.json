@@ -27,6 +27,7 @@
     "require": "^2.4.20",
     "sha512": "0.0.1",
     "shelljs": "^0.8.1",
-    "tai-password-strength": "^1.1.1"
+    "tai-password-strength": "^1.1.1",
+    "videojs-contrib-hls": "^5.14.1"
   }
 }

@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: videojs-contrib-hls.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: videojs-contrib-hls.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @file videojs-contrib-hls.js
+ *
+ * The main file for the HLS project.
+ * License: https://github.com/videojs/videojs-contrib-hls/blob/master/LICENSE
+ */
+import document from 'global/document';
+import PlaylistLoader from './playlist-loader';
+import Playlist from './playlist';
+import xhrFactory from './xhr';
+import {Decrypter, AsyncStream, decrypt} from 'aes-decrypter';
+import utils from './bin-utils';
+import {MediaSource, URL} from 'videojs-contrib-media-sources';
+import m3u8 from 'm3u8-parser';
+import videojs from 'video.js';
+import { MasterPlaylistController } from './master-playlist-controller';
+import Config from './config';
+import renditionSelectionMixin from './rendition-mixin';
+import window from 'global/window';
+import PlaybackWatcher from './playback-watcher';
+import reloadSourceOnError from './reload-source-on-error';
+import {
+  lastBandwidthSelector,
+  lowestBitrateCompatibleVariantSelector,
+  comparePlaylistBandwidth,
+  comparePlaylistResolution
+} from './playlist-selectors.js';
+
+const Hls = {
+  PlaylistLoader,
+  Playlist,
+  Decrypter,
+  AsyncStream,
+  decrypt,
+  utils,
+
+  STANDARD_PLAYLIST_SELECTOR: lastBandwidthSelector,
+  INITIAL_PLAYLIST_SELECTOR: lowestBitrateCompatibleVariantSelector,
+  comparePlaylistBandwidth,
+  comparePlaylistResolution,
+
+  xhr: xhrFactory()
+};
+
+// 0.5 MB/s
+const INITIAL_BANDWIDTH = 4194304;
+
+// Define getter/setters for config properites
+[
+  'GOAL_BUFFER_LENGTH',
+  'MAX_GOAL_BUFFER_LENGTH',
+  'GOAL_BUFFER_LENGTH_RATE',
+  'BUFFER_LOW_WATER_LINE',
+  'MAX_BUFFER_LOW_WATER_LINE',
+  'BUFFER_LOW_WATER_LINE_RATE',
+  'BANDWIDTH_VARIANCE'
+].forEach((prop) => {
+  Object.defineProperty(Hls, prop, {
+    get() {
+      videojs.log.warn(`using Hls.${prop} is UNSAFE be sure you know what you are doing`);
+      return Config[prop];
+    },
+    set(value) {
+      videojs.log.warn(`using Hls.${prop} is UNSAFE be sure you know what you are doing`);
+
+      if (typeof value !== 'number' || value &lt; 0) {
+        videojs.log.warn(`value of Hls.${prop} must be greater than or equal to 0`);
+        return;
+      }
+
+      Config[prop] = value;
+    }
+  });
+});
+
+export const simpleTypeFromSourceType = (type) => {
+  const mpegurlRE = /^(audio|video|application)\/(x-|vnd\.apple\.)?mpegurl/i;
+
+  if (mpegurlRE.test(type)) {
+    return 'hls';
+  }
+
+  const dashRE = /^application\/dash\+xml/i;
+
+  if (dashRE.test(type)) {
+    return 'dash';
+  }
+
+  return null;
+};
+
+/**
+ * Updates the selectedIndex of the QualityLevelList when a mediachange happens in hls.
+ *
+ * @param {QualityLevelList} qualityLevels The QualityLevelList to update.
+ * @param {PlaylistLoader} playlistLoader PlaylistLoader containing the new media info.
+ * @function handleHlsMediaChange
+ */
+const handleHlsMediaChange = function(qualityLevels, playlistLoader) {
+  let newPlaylist = playlistLoader.media();
+  let selectedIndex = -1;
+
+  for (let i = 0; i &lt; qualityLevels.length; i++) {
+    if (qualityLevels[i].id === newPlaylist.uri) {
+      selectedIndex = i;
+      break;
+    }
+  }
+
+  qualityLevels.selectedIndex_ = selectedIndex;
+  qualityLevels.trigger({
+    selectedIndex,
+    type: 'change'
+  });
+};
+
+/**
+ * Adds quality levels to list once playlist metadata is available
+ *
+ * @param {QualityLevelList} qualityLevels The QualityLevelList to attach events to.
+ * @param {Object} hls Hls object to listen to for media events.
+ * @function handleHlsLoadedMetadata
+ */
+const handleHlsLoadedMetadata = function(qualityLevels, hls) {
+  hls.representations().forEach((rep) => {
+    qualityLevels.addQualityLevel(rep);
+  });
+  handleHlsMediaChange(qualityLevels, hls.playlists);
+};
+
+// HLS is a source handler, not a tech. Make sure attempts to use it
+// as one do not cause exceptions.
+Hls.canPlaySource = function() {
+  return videojs.log.warn('HLS is no longer a tech. Please remove it from ' +
+                          'your player\'s techOrder.');
+};
+
+const emeOptions = (options, videoPlaylist, audioPlaylist) => {
+  if (!options.keySystems) {
+    return options;
+  }
+
+  // upsert the content types based on the selected playlist
+  const keySystemContentTypes = {};
+
+  for (let keySystem in options.keySystems) {
+    keySystemContentTypes[keySystem] = {
+      audioContentType: `audio/mp4; codecs="${audioPlaylist.attributes.CODECS}"`,
+      videoContentType: `video/mp4; codecs="${videoPlaylist.attributes.CODECS}"`
+    };
+  }
+
+  return videojs.mergeOptions(options, {
+    keySystems: keySystemContentTypes
+  });
+};
+
+/**
+ * Whether the browser has built-in HLS support.
+ */
+Hls.supportsNativeHls = (function() {
+  let video = document.createElement('video');
+
+  // native HLS is definitely not supported if HTML5 video isn't
+  if (!videojs.getTech('Html5').isSupported()) {
+    return false;
+  }
+
+  // HLS manifests can go by many mime-types
+  let canPlay = [
+    // Apple santioned
+    'application/vnd.apple.mpegurl',
+    // Apple sanctioned for backwards compatibility
+    'audio/mpegurl',
+    // Very common
+    'audio/x-mpegurl',
+    // Very common
+    'application/x-mpegurl',
+    // Included for completeness
+    'video/x-mpegurl',
+    'video/mpegurl',
+    'application/mpegurl'
+  ];
+
+  return canPlay.some(function(canItPlay) {
+    return (/maybe|probably/i).test(video.canPlayType(canItPlay));
+  });
+}());
+
+/**
+ * HLS is a source handler, not a tech. Make sure attempts to use it
+ * as one do not cause exceptions.
+ */
+Hls.isSupported = function() {
+  return videojs.log.warn('HLS is no longer a tech. Please remove it from ' +
+                          'your player\'s techOrder.');
+};
+
+const Component = videojs.getComponent('Component');
+
+/**
+ * The Hls Handler object, where we orchestrate all of the parts
+ * of HLS to interact with video.js
+ *
+ * @class HlsHandler
+ * @extends videojs.Component
+ * @param {Object} source the soruce object
+ * @param {Tech} tech the parent tech object
+ * @param {Object} options optional and required options
+ */
+class HlsHandler extends Component {
+  constructor(source, tech, options) {
+    super(tech, options.hls);
+
+    // tech.player() is deprecated but setup a reference to HLS for
+    // backwards-compatibility
+    if (tech.options_ &amp;&amp; tech.options_.playerId) {
+      let _player = videojs(tech.options_.playerId);
+
+      if (!_player.hasOwnProperty('hls')) {
+        Object.defineProperty(_player, 'hls', {
+          get: () => {
+            videojs.log.warn('player.hls is deprecated. Use player.tech_.hls instead.');
+            tech.trigger({type: 'usage', name: 'hls-player-access'});
+            return this;
+          }
+        });
+      }
+    }
+
+    this.tech_ = tech;
+    this.source_ = source;
+    this.stats = {};
+    this.ignoreNextSeekingEvent_ = false;
+    this.setOptions_();
+
+    // overriding native HLS only works if audio tracks have been emulated
+    // error early if we're misconfigured:
+    if (this.options_.overrideNative &amp;&amp;
+        (tech.featuresNativeVideoTracks || tech.featuresNativeAudioTracks)) {
+      throw new Error('Overriding native HLS requires emulated tracks. ' +
+                      'See https://git.io/vMpjB');
+    }
+
+    // listen for fullscreenchange events for this player so that we
+    // can adjust our quality selection quickly
+    this.on(document, [
+      'fullscreenchange', 'webkitfullscreenchange',
+      'mozfullscreenchange', 'MSFullscreenChange'
+    ], (event) => {
+      let fullscreenElement = document.fullscreenElement ||
+          document.webkitFullscreenElement ||
+          document.mozFullScreenElement ||
+          document.msFullscreenElement;
+
+      if (fullscreenElement &amp;&amp; fullscreenElement.contains(this.tech_.el())) {
+        this.masterPlaylistController_.fastQualityChange_();
+      }
+    });
+
+    this.on(this.tech_, 'seeking', function() {
+      if (this.ignoreNextSeekingEvent_) {
+        this.ignoreNextSeekingEvent_ = false;
+        return;
+      }
+
+      this.setCurrentTime(this.tech_.currentTime());
+    });
+    this.on(this.tech_, 'error', function() {
+      if (this.masterPlaylistController_) {
+        this.masterPlaylistController_.pauseLoading();
+      }
+    });
+
+    this.on(this.tech_, 'play', this.play);
+  }
+
+  setOptions_() {
+    // defaults
+    this.options_.withCredentials = this.options_.withCredentials || false;
+
+    if (typeof this.options_.blacklistDuration !== 'number') {
+      this.options_.blacklistDuration = 5 * 60;
+    }
+
+    // start playlist selection at a reasonable bandwidth for
+    // broadband internet (0.5 MB/s) or mobile (0.0625 MB/s)
+    if (typeof this.options_.bandwidth !== 'number') {
+      this.options_.bandwidth = INITIAL_BANDWIDTH;
+    }
+
+    // If the bandwidth number is unchanged from the initial setting
+    // then this takes precedence over the enableLowInitialPlaylist option
+    this.options_.enableLowInitialPlaylist =
+       this.options_.enableLowInitialPlaylist &amp;&amp;
+       this.options_.bandwidth === INITIAL_BANDWIDTH;
+
+    // grab options passed to player.src
+    ['withCredentials', 'bandwidth'].forEach((option) => {
+      if (typeof this.source_[option] !== 'undefined') {
+        this.options_[option] = this.source_[option];
+      }
+    });
+
+    this.bandwidth = this.options_.bandwidth;
+  }
+  /**
+   * called when player.src gets called, handle a new source
+   *
+   * @param {Object} src the source object to handle
+   */
+  src(src, type) {
+    // do nothing if the src is falsey
+    if (!src) {
+      return;
+    }
+    this.setOptions_();
+    // add master playlist controller options
+    this.options_.url = this.source_.src;
+    this.options_.tech = this.tech_;
+    this.options_.externHls = Hls;
+    this.options_.sourceType = simpleTypeFromSourceType(type);
+
+    this.masterPlaylistController_ = new MasterPlaylistController(this.options_);
+    this.playbackWatcher_ = new PlaybackWatcher(
+      videojs.mergeOptions(this.options_, {
+        seekable: () => this.seekable()
+      }));
+
+    this.masterPlaylistController_.on('error', () => {
+      let player = videojs.players[this.tech_.options_.playerId];
+
+      player.error(this.masterPlaylistController_.error);
+    });
+
+    // `this` in selectPlaylist should be the HlsHandler for backwards
+    // compatibility with &lt; v2
+    this.masterPlaylistController_.selectPlaylist =
+      this.selectPlaylist ?
+        this.selectPlaylist.bind(this) : Hls.STANDARD_PLAYLIST_SELECTOR.bind(this);
+
+    this.masterPlaylistController_.selectInitialPlaylist =
+      Hls.INITIAL_PLAYLIST_SELECTOR.bind(this);
+
+    // re-expose some internal objects for backwards compatibility with &lt; v2
+    this.playlists = this.masterPlaylistController_.masterPlaylistLoader_;
+    this.mediaSource = this.masterPlaylistController_.mediaSource;
+
+    // Proxy assignment of some properties to the master playlist
+    // controller. Using a custom property for backwards compatibility
+    // with &lt; v2
+    Object.defineProperties(this, {
+      selectPlaylist: {
+        get() {
+          return this.masterPlaylistController_.selectPlaylist;
+        },
+        set(selectPlaylist) {
+          this.masterPlaylistController_.selectPlaylist = selectPlaylist.bind(this);
+        }
+      },
+      throughput: {
+        get() {
+          return this.masterPlaylistController_.mainSegmentLoader_.throughput.rate;
+        },
+        set(throughput) {
+          this.masterPlaylistController_.mainSegmentLoader_.throughput.rate = throughput;
+          // By setting `count` to 1 the throughput value becomes the starting value
+          // for the cumulative average
+          this.masterPlaylistController_.mainSegmentLoader_.throughput.count = 1;
+        }
+      },
+      bandwidth: {
+        get() {
+          return this.masterPlaylistController_.mainSegmentLoader_.bandwidth;
+        },
+        set(bandwidth) {
+          this.masterPlaylistController_.mainSegmentLoader_.bandwidth = bandwidth;
+          // setting the bandwidth manually resets the throughput counter
+          // `count` is set to zero that current value of `rate` isn't included
+          // in the cumulative average
+          this.masterPlaylistController_.mainSegmentLoader_.throughput = {
+            rate: 0,
+            count: 0
+          };
+        }
+      },
+      /**
+       * `systemBandwidth` is a combination of two serial processes bit-rates. The first
+       * is the network bitrate provided by `bandwidth` and the second is the bitrate of
+       * the entire process after that - decryption, transmuxing, and appending - provided
+       * by `throughput`.
+       *
+       * Since the two process are serial, the overall system bandwidth is given by:
+       *   sysBandwidth = 1 / (1 / bandwidth + 1 / throughput)
+       */
+      systemBandwidth: {
+        get() {
+          let invBandwidth = 1 / (this.bandwidth || 1);
+          let invThroughput;
+
+          if (this.throughput > 0) {
+            invThroughput = 1 / this.throughput;
+          } else {
+            invThroughput = 0;
+          }
+
+          let systemBitrate = Math.floor(1 / (invBandwidth + invThroughput));
+
+          return systemBitrate;
+        },
+        set() {
+          videojs.log.error('The "systemBandwidth" property is read-only');
+        }
+      }
+    });
+
+    Object.defineProperties(this.stats, {
+      bandwidth: {
+        get: () => this.bandwidth || 0,
+        enumerable: true
+      },
+      mediaRequests: {
+        get: () => this.masterPlaylistController_.mediaRequests_() || 0,
+        enumerable: true
+      },
+      mediaRequestsAborted: {
+        get: () => this.masterPlaylistController_.mediaRequestsAborted_() || 0,
+        enumerable: true
+      },
+      mediaRequestsTimedout: {
+        get: () => this.masterPlaylistController_.mediaRequestsTimedout_() || 0,
+        enumerable: true
+      },
+      mediaRequestsErrored: {
+        get: () => this.masterPlaylistController_.mediaRequestsErrored_() || 0,
+        enumerable: true
+      },
+      mediaTransferDuration: {
+        get: () => this.masterPlaylistController_.mediaTransferDuration_() || 0,
+        enumerable: true
+      },
+      mediaBytesTransferred: {
+        get: () => this.masterPlaylistController_.mediaBytesTransferred_() || 0,
+        enumerable: true
+      },
+      mediaSecondsLoaded: {
+        get: () => this.masterPlaylistController_.mediaSecondsLoaded_() || 0,
+        enumerable: true
+      }
+    });
+
+    this.tech_.one('canplay',
+      this.masterPlaylistController_.setupFirstPlay.bind(this.masterPlaylistController_));
+
+    this.masterPlaylistController_.on('selectedinitialmedia', () => {
+      // Add the manual rendition mix-in to HlsHandler
+      renditionSelectionMixin(this);
+
+      if (this.options_.sourceType === 'dash') {
+        const player = videojs.players[this.tech_.options_.playerId];
+
+        if (player.eme) {
+          player.eme(emeOptions(
+            this.source_.eme,
+            this.playlists.media(),
+            this.masterPlaylistController_.mediaTypes_.AUDIO.activePlaylistLoader.media()
+          ));
+        }
+      }
+    });
+
+    // the bandwidth of the primary segment loader is our best
+    // estimate of overall bandwidth
+    this.on(this.masterPlaylistController_, 'progress', function() {
+      this.tech_.trigger('progress');
+    });
+
+    // In the live case, we need to ignore the very first `seeking` event since
+    // that will be the result of the seek-to-live behavior
+    this.on(this.masterPlaylistController_, 'firstplay', function() {
+      this.ignoreNextSeekingEvent_ = true;
+    });
+
+    this.tech_.ready(() => this.setupQualityLevels_());
+
+    // do nothing if the tech has been disposed already
+    // this can occur if someone sets the src in player.ready(), for instance
+    if (!this.tech_.el()) {
+      return;
+    }
+
+    this.tech_.src(videojs.URL.createObjectURL(
+      this.masterPlaylistController_.mediaSource));
+  }
+
+  /**
+   * Initializes the quality levels and sets listeners to update them.
+   *
+   * @method setupQualityLevels_
+   * @private
+   */
+  setupQualityLevels_() {
+    let player = videojs.players[this.tech_.options_.playerId];
+
+    if (player &amp;&amp; player.qualityLevels) {
+      this.qualityLevels_ = player.qualityLevels();
+
+      this.masterPlaylistController_.on('selectedinitialmedia', () => {
+        handleHlsLoadedMetadata(this.qualityLevels_, this);
+      });
+
+      this.playlists.on('mediachange', () => {
+        handleHlsMediaChange(this.qualityLevels_, this.playlists);
+      });
+    }
+  }
+
+  /**
+   * Begin playing the video.
+   */
+  play() {
+    this.masterPlaylistController_.play();
+  }
+
+  /**
+   * a wrapper around the function in MasterPlaylistController
+   */
+  setCurrentTime(currentTime) {
+    this.masterPlaylistController_.setCurrentTime(currentTime);
+  }
+
+  /**
+   * a wrapper around the function in MasterPlaylistController
+   */
+  duration() {
+    return this.masterPlaylistController_.duration();
+  }
+
+  /**
+   * a wrapper around the function in MasterPlaylistController
+   */
+  seekable() {
+    return this.masterPlaylistController_.seekable();
+  }
+
+  /**
+  * Abort all outstanding work and cleanup.
+  */
+  dispose() {
+    if (this.playbackWatcher_) {
+      this.playbackWatcher_.dispose();
+    }
+    if (this.masterPlaylistController_) {
+      this.masterPlaylistController_.dispose();
+    }
+    if (this.qualityLevels_) {
+      this.qualityLevels_.dispose();
+    }
+    super.dispose();
+  }
+}
+
+/**
+ * The Source Handler object, which informs video.js what additional
+ * MIME types are supported and sets up playback. It is registered
+ * automatically to the appropriate tech based on the capabilities of
+ * the browser it is running in. It is not necessary to use or modify
+ * this object in normal usage.
+ */
+const HlsSourceHandler = function(mode) {
+  return {
+    canHandleSource(srcObj, options = {}) {
+      let localOptions = videojs.mergeOptions(videojs.options, options);
+
+      // this forces video.js to skip this tech/mode if its not the one we have been
+      // overriden to use, by returing that we cannot handle the source.
+      if (localOptions.hls &amp;&amp;
+          localOptions.hls.mode &amp;&amp;
+          localOptions.hls.mode !== mode) {
+        return false;
+      }
+      return HlsSourceHandler.canPlayType(srcObj.type, localOptions);
+    },
+    handleSource(source, tech, options = {}) {
+      let localOptions = videojs.mergeOptions(videojs.options, options, {hls: {mode}});
+
+      if (mode === 'flash') {
+        // We need to trigger this asynchronously to give others the chance
+        // to bind to the event when a source is set at player creation
+        tech.setTimeout(function() {
+          tech.trigger('loadstart');
+        }, 1);
+      }
+
+      tech.hls = new HlsHandler(source, tech, localOptions);
+      tech.hls.xhr = xhrFactory();
+
+      tech.hls.src(source.src, source.type);
+      return tech.hls;
+    },
+    canPlayType(type, options = {}) {
+      let localOptions = videojs.mergeOptions(videojs.options, options);
+
+      if (HlsSourceHandler.canPlayType(type, localOptions)) {
+        return 'maybe';
+      }
+      return '';
+    }
+  };
+};
+
+HlsSourceHandler.canPlayType = function(type, options) {
+  // No support for IE 10 or below
+  if (videojs.browser.IE_VERSION &amp;&amp; videojs.browser.IE_VERSION &lt;= 10) {
+    return false;
+  }
+
+  const sourceType = simpleTypeFromSourceType(type);
+
+  if (sourceType === 'dash') {
+    return true;
+  }
+
+  // favor native HLS support if it's available
+  if (!options.hls.overrideNative &amp;&amp; Hls.supportsNativeHls) {
+    return false;
+  }
+
+  return sourceType === 'hls';
+};
+
+if (typeof videojs.MediaSource === 'undefined' ||
+    typeof videojs.URL === 'undefined') {
+  videojs.MediaSource = MediaSource;
+  videojs.URL = URL;
+}
+
+const flashTech = videojs.getTech('Flash');
+
+// register source handlers with the appropriate techs
+if (MediaSource.supportsNativeMediaSources()) {
+  videojs.getTech('Html5').registerSourceHandler(HlsSourceHandler('html5'), 0);
+}
+if (window.Uint8Array &amp;&amp; flashTech) {
+  flashTech.registerSourceHandler(HlsSourceHandler('flash'));
+}
+
+videojs.HlsHandler = HlsHandler;
+videojs.HlsSourceHandler = HlsSourceHandler;
+videojs.Hls = Hls;
+if (!videojs.use) {
+  videojs.registerComponent('Hls', Hls);
+}
+videojs.m3u8 = m3u8;
+videojs.options.hls = videojs.options.hls || {};
+
+if (videojs.registerPlugin) {
+  videojs.registerPlugin('reloadSourceOnError', reloadSourceOnError);
+} else {
+  videojs.plugin('reloadSourceOnError', reloadSourceOnError);
+}
+
+module.exports = {
+  Hls,
+  HlsHandler,
+  HlsSourceHandler,
+  emeOptions,
+  simpleTypeFromSourceType
+};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="HlsHandler.html">HlsHandler</a></li><li><a href="MasterPlaylistController.html">MasterPlaylistController</a></li><li><a href="module.exports.html">exports</a></li><li><a href="module.exports_module.exports.html">exports</a></li><li><a href="PlaybackWatcher.html">PlaybackWatcher</a></li><li><a href="Representation.html">Representation</a></li><li><a href="SegmentLoader.html">SegmentLoader</a></li><li><a href="SourceUpdater.html">SourceUpdater</a></li><li><a href="VTTSegmentLoader.html">VTTSegmentLoader</a></li></ul><h3>Global</h3><ul><li><a href="global.html#abort">abort</a></li><li><a href="global.html#abortAll">abortAll</a></li><li><a href="global.html#activeGroup">activeGroup</a></li><li><a href="global.html#appendBuffer">appendBuffer</a></li><li><a href="global.html#backwardDuration">backwardDuration</a></li><li><a href="global.html#buffered">buffered</a></li><li><a href="global.html#buffered_">buffered_</a></li><li><a href="global.html#bufferIntersection">bufferIntersection</a></li><li><a href="global.html#byterangeStr">byterangeStr</a></li><li><a href="global.html#calculateBufferedPercent">calculateBufferedPercent</a></li><li><a href="global.html#checkBuffer_">checkBuffer_</a></li><li><a href="global.html#clamp">clamp</a></li><li><a href="global.html#comparePlaylistBandwidth">comparePlaylistBandwidth</a></li><li><a href="global.html#comparePlaylistResolution">comparePlaylistResolution</a></li><li><a href="global.html#createMediaTypes">createMediaTypes</a></li><li><a href="global.html#createTransferableMessage">createTransferableMessage</a></li><li><a href="global.html#DecrypterWorker">DecrypterWorker</a></li><li><a href="global.html#decryptSegment">decryptSegment</a></li><li><a href="global.html#detectEndOfStream">detectEndOfStream</a></li><li><a href="global.html#dispose">dispose</a></li><li><a href="global.html#duration">duration</a></li><li><a href="global.html#enableFunction">enableFunction</a></li><li><a href="global.html#error">error</a></li><li><a href="global.html#estimateSegmentRequestTime">estimateSegmentRequestTime</a></li><li><a href="global.html#findAdCue">findAdCue</a></li><li><a href="global.html#findGaps">findGaps</a></li><li><a href="global.html#findNextRange">findNextRange</a></li><li><a href="global.html#findRange">findRange</a></li><li><a href="global.html#findSoleUncommonTimeRangesEnd">findSoleUncommonTimeRangesEnd</a></li><li><a href="global.html#formatHexString">formatHexString</a></li><li><a href="global.html#forwardDuration">forwardDuration</a></li><li><a href="global.html#getCodecs">getCodecs</a></li><li><a href="global.html#getContainerType">getContainerType</a></li><li><a href="global.html#getExpiredTime">getExpiredTime</a></li><li><a href="global.html#getMediaInfoForTime">getMediaInfoForTime</a></li><li><a href="global.html#getMostImportantError">getMostImportantError</a></li><li><a href="global.html#getProgressStats">getProgressStats</a></li><li><a href="global.html#getRequestStats">getRequestStats</a></li><li><a href="global.html#getSegmentBufferedPercent">getSegmentBufferedPercent</a></li><li><a href="global.html#getSyncPoint">getSyncPoint</a></li><li><a href="global.html#getSyncSegmentCandidate_">getSyncSegmentCandidate_</a></li><li><a href="global.html#handleErrors">handleErrors</a></li><li><a href="global.html#handleHlsLoadedMetadata">handleHlsLoadedMetadata</a></li><li><a href="global.html#handleHlsMediaChange">handleHlsMediaChange</a></li><li><a href="global.html#handleInitSegmentResponse">handleInitSegmentResponse</a></li><li><a href="global.html#handleKeyResponse">handleKeyResponse</a></li><li><a href="global.html#handleProgress">handleProgress</a></li><li><a href="global.html#handleSegmentResponse">handleSegmentResponse</a></li><li><a href="global.html#hasAttribute">hasAttribute</a></li><li><a href="global.html#HlsSourceHandler">HlsSourceHandler</a></li><li><a href="global.html#initSegment">initSegment</a></li><li><a href="global.html#initSegmentId">initSegmentId</a></li><li><a href="global.html#intervalDuration">intervalDuration</a></li><li><a href="global.html#isAes">isAes</a></li><li><a href="global.html#isBlacklisted">isBlacklisted</a></li><li><a href="global.html#isDisabled">isDisabled</a></li><li><a href="global.html#isEnabled">isEnabled</a></li><li><a href="global.html#isFmp4">isFmp4</a></li><li><a href="global.html#isIncompatible">isIncompatible</a></li><li><a href="global.html#lastBandwidthSelector">lastBandwidthSelector</a></li><li><a href="global.html#load">load</a></li><li><a href="global.html#lowestBitrateCompatibleVariantSelector">lowestBitrateCompatibleVariantSelector</a></li><li><a href="global.html#makeMimeTypeString">makeMimeTypeString</a></li><li><a href="global.html#media">media</a></li><li><a href="global.html#mediaSegmentRequest">mediaSegmentRequest</a></li><li><a href="global.html#mimeType">mimeType</a></li><li><a href="global.html#minRebufferMaxBandwidthSelector">minRebufferMaxBandwidthSelector</a></li><li><a href="global.html#movingAverageBandwidthSelector">movingAverageBandwidthSelector</a></li><li><a href="global.html#onGroupChanged">onGroupChanged</a></li><li><a href="global.html#onTrackChanged">onTrackChanged</a></li><li><a href="global.html#parseCodecs">parseCodecs</a></li><li><a href="global.html#pause">pause</a></li><li><a href="global.html#paused">paused</a></li><li><a href="global.html#playlist">playlist</a></li><li><a href="global.html#playlistEnd">playlistEnd</a></li><li><a href="global.html#printableRange">printableRange</a></li><li><a href="global.html#probeSegmentInfo">probeSegmentInfo</a></li><li><a href="global.html#queueCallback_">queueCallback_</a></li><li><a href="global.html#refreshDelay">refreshDelay</a></li><li><a href="global.html#reloadSourceOnError">reloadSourceOnError</a></li><li><a href="global.html#remove">remove</a></li><li><a href="global.html#renditionSelectionMixin">renditionSelectionMixin</a></li><li><a href="global.html#reset">reset</a></li><li><a href="global.html#resetEverything">resetEverything</a></li><li><a href="global.html#resetLoader">resetLoader</a></li><li><a href="global.html#resyncLoader">resyncLoader</a></li><li><a href="global.html#runCallback_">runCallback_</a></li><li><a href="global.html#safeBackBufferTrimTime">safeBackBufferTrimTime</a></li><li><a href="global.html#safeGetComputedStyle">safeGetComputedStyle</a></li><li><a href="global.html#safeLiveIndex">safeLiveIndex</a></li><li><a href="global.html#saveExpiredSegmentInfo">saveExpiredSegmentInfo</a></li><li><a href="global.html#seekable">seekable</a></li><li><a href="global.html#segmentXhrHeaders">segmentXhrHeaders</a></li><li><a href="global.html#setDateTimeMapping">setDateTimeMapping</a></li><li><a href="global.html#setupMediaGroups">setupMediaGroups</a></li><li><a href="global.html#simpleSelector">simpleSelector</a></li><li><a href="global.html#skipEmptySegments_">skipEmptySegments_</a></li><li><a href="global.html#stableSort">stableSort</a></li><li><a href="global.html#start">start</a></li><li><a href="global.html#startLoaders">startLoaders</a></li><li><a href="global.html#stopLoaders">stopLoaders</a></li><li><a href="global.html#sumDurations">sumDurations</a></li><li><a href="global.html#systemBandwidth">systemBandwidth</a></li><li><a href="global.html#textRange">textRange</a></li><li><a href="global.html#timestampOffset">timestampOffset</a></li><li><a href="global.html#timeUntilRebuffer">timeUntilRebuffer</a></li><li><a href="global.html#track">track</a></li><li><a href="global.html#updateMaster">updateMaster</a></li><li><a href="global.html#updateSegments">updateSegments</a></li><li><a href="global.html#updating">updating</a></li><li><a href="global.html#utils">utils</a></li><li><a href="global.html#waitForCompletion">waitForCompletion</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.4</a> on Mon Nov 06 2017 16:03:35 GMT-0500 (EST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

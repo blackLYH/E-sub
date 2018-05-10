@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: bin-utils.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: bin-utils.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @file bin-utils.js
+ */
+
+/**
+ * convert a TimeRange to text
+ *
+ * @param {TimeRange} range the timerange to use for conversion
+ * @param {Number} i the iterator on the range to convert
+ */
+const textRange = function(range, i) {
+  return range.start(i) + '-' + range.end(i);
+};
+
+/**
+ * format a number as hex string
+ *
+ * @param {Number} e The number
+ * @param {Number} i the iterator
+ */
+const formatHexString = function(e, i) {
+  let value = e.toString(16);
+
+  return '00'.substring(0, 2 - value.length) + value + (i % 2 ? ' ' : '');
+};
+const formatAsciiString = function(e) {
+  if (e >= 0x20 &amp;&amp; e &lt; 0x7e) {
+    return String.fromCharCode(e);
+  }
+  return '.';
+};
+
+/**
+ * Creates an object for sending to a web worker modifying properties that are TypedArrays
+ * into a new object with seperated properties for the buffer, byteOffset, and byteLength.
+ *
+ * @param {Object} message
+ *        Object of properties and values to send to the web worker
+ * @return {Object}
+ *         Modified message with TypedArray values expanded
+ * @function createTransferableMessage
+ */
+const createTransferableMessage = function(message) {
+  const transferable = {};
+
+  Object.keys(message).forEach((key) => {
+    const value = message[key];
+
+    if (ArrayBuffer.isView(value)) {
+      transferable[key] = {
+        bytes: value.buffer,
+        byteOffset: value.byteOffset,
+        byteLength: value.byteLength
+      };
+    } else {
+      transferable[key] = value;
+    }
+  });
+
+  return transferable;
+};
+
+/**
+ * Returns a unique string identifier for a media initialization
+ * segment.
+ */
+const initSegmentId = function(initSegment) {
+  let byterange = initSegment.byterange || {
+    length: Infinity,
+    offset: 0
+  };
+
+  return [
+    byterange.length, byterange.offset, initSegment.resolvedUri
+  ].join(',');
+};
+
+/**
+ * utils to help dump binary data to the console
+ */
+const utils = {
+  hexDump(data) {
+    let bytes = Array.prototype.slice.call(data);
+    let step = 16;
+    let result = '';
+    let hex;
+    let ascii;
+
+    for (let j = 0; j &lt; bytes.length / step; j++) {
+      hex = bytes.slice(j * step, j * step + step).map(formatHexString).join('');
+      ascii = bytes.slice(j * step, j * step + step).map(formatAsciiString).join('');
+      result += hex + ' ' + ascii + '\n';
+    }
+    return result;
+  },
+  tagDump(tag) {
+    return utils.hexDump(tag.bytes);
+  },
+  textRanges(ranges) {
+    let result = '';
+    let i;
+
+    for (i = 0; i &lt; ranges.length; i++) {
+      result += textRange(ranges, i) + ' ';
+    }
+    return result;
+  },
+  createTransferableMessage,
+  initSegmentId
+};
+
+export default utils;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="HlsHandler.html">HlsHandler</a></li><li><a href="MasterPlaylistController.html">MasterPlaylistController</a></li><li><a href="module.exports.html">exports</a></li><li><a href="module.exports_module.exports.html">exports</a></li><li><a href="PlaybackWatcher.html">PlaybackWatcher</a></li><li><a href="Representation.html">Representation</a></li><li><a href="SegmentLoader.html">SegmentLoader</a></li><li><a href="SourceUpdater.html">SourceUpdater</a></li><li><a href="VTTSegmentLoader.html">VTTSegmentLoader</a></li></ul><h3>Global</h3><ul><li><a href="global.html#abort">abort</a></li><li><a href="global.html#abortAll">abortAll</a></li><li><a href="global.html#activeGroup">activeGroup</a></li><li><a href="global.html#appendBuffer">appendBuffer</a></li><li><a href="global.html#backwardDuration">backwardDuration</a></li><li><a href="global.html#buffered">buffered</a></li><li><a href="global.html#buffered_">buffered_</a></li><li><a href="global.html#bufferIntersection">bufferIntersection</a></li><li><a href="global.html#byterangeStr">byterangeStr</a></li><li><a href="global.html#calculateBufferedPercent">calculateBufferedPercent</a></li><li><a href="global.html#checkBuffer_">checkBuffer_</a></li><li><a href="global.html#clamp">clamp</a></li><li><a href="global.html#comparePlaylistBandwidth">comparePlaylistBandwidth</a></li><li><a href="global.html#comparePlaylistResolution">comparePlaylistResolution</a></li><li><a href="global.html#createMediaTypes">createMediaTypes</a></li><li><a href="global.html#createTransferableMessage">createTransferableMessage</a></li><li><a href="global.html#DecrypterWorker">DecrypterWorker</a></li><li><a href="global.html#decryptSegment">decryptSegment</a></li><li><a href="global.html#detectEndOfStream">detectEndOfStream</a></li><li><a href="global.html#dispose">dispose</a></li><li><a href="global.html#duration">duration</a></li><li><a href="global.html#enableFunction">enableFunction</a></li><li><a href="global.html#error">error</a></li><li><a href="global.html#estimateSegmentRequestTime">estimateSegmentRequestTime</a></li><li><a href="global.html#findAdCue">findAdCue</a></li><li><a href="global.html#findGaps">findGaps</a></li><li><a href="global.html#findNextRange">findNextRange</a></li><li><a href="global.html#findRange">findRange</a></li><li><a href="global.html#findSoleUncommonTimeRangesEnd">findSoleUncommonTimeRangesEnd</a></li><li><a href="global.html#formatHexString">formatHexString</a></li><li><a href="global.html#forwardDuration">forwardDuration</a></li><li><a href="global.html#getCodecs">getCodecs</a></li><li><a href="global.html#getContainerType">getContainerType</a></li><li><a href="global.html#getExpiredTime">getExpiredTime</a></li><li><a href="global.html#getMediaInfoForTime">getMediaInfoForTime</a></li><li><a href="global.html#getMostImportantError">getMostImportantError</a></li><li><a href="global.html#getProgressStats">getProgressStats</a></li><li><a href="global.html#getRequestStats">getRequestStats</a></li><li><a href="global.html#getSegmentBufferedPercent">getSegmentBufferedPercent</a></li><li><a href="global.html#getSyncPoint">getSyncPoint</a></li><li><a href="global.html#getSyncSegmentCandidate_">getSyncSegmentCandidate_</a></li><li><a href="global.html#handleErrors">handleErrors</a></li><li><a href="global.html#handleHlsLoadedMetadata">handleHlsLoadedMetadata</a></li><li><a href="global.html#handleHlsMediaChange">handleHlsMediaChange</a></li><li><a href="global.html#handleInitSegmentResponse">handleInitSegmentResponse</a></li><li><a href="global.html#handleKeyResponse">handleKeyResponse</a></li><li><a href="global.html#handleProgress">handleProgress</a></li><li><a href="global.html#handleSegmentResponse">handleSegmentResponse</a></li><li><a href="global.html#hasAttribute">hasAttribute</a></li><li><a href="global.html#HlsSourceHandler">HlsSourceHandler</a></li><li><a href="global.html#initSegment">initSegment</a></li><li><a href="global.html#initSegmentId">initSegmentId</a></li><li><a href="global.html#intervalDuration">intervalDuration</a></li><li><a href="global.html#isAes">isAes</a></li><li><a href="global.html#isBlacklisted">isBlacklisted</a></li><li><a href="global.html#isDisabled">isDisabled</a></li><li><a href="global.html#isEnabled">isEnabled</a></li><li><a href="global.html#isFmp4">isFmp4</a></li><li><a href="global.html#isIncompatible">isIncompatible</a></li><li><a href="global.html#lastBandwidthSelector">lastBandwidthSelector</a></li><li><a href="global.html#load">load</a></li><li><a href="global.html#lowestBitrateCompatibleVariantSelector">lowestBitrateCompatibleVariantSelector</a></li><li><a href="global.html#makeMimeTypeString">makeMimeTypeString</a></li><li><a href="global.html#media">media</a></li><li><a href="global.html#mediaSegmentRequest">mediaSegmentRequest</a></li><li><a href="global.html#mimeType">mimeType</a></li><li><a href="global.html#minRebufferMaxBandwidthSelector">minRebufferMaxBandwidthSelector</a></li><li><a href="global.html#movingAverageBandwidthSelector">movingAverageBandwidthSelector</a></li><li><a href="global.html#onGroupChanged">onGroupChanged</a></li><li><a href="global.html#onTrackChanged">onTrackChanged</a></li><li><a href="global.html#parseCodecs">parseCodecs</a></li><li><a href="global.html#pause">pause</a></li><li><a href="global.html#paused">paused</a></li><li><a href="global.html#playlist">playlist</a></li><li><a href="global.html#playlistEnd">playlistEnd</a></li><li><a href="global.html#printableRange">printableRange</a></li><li><a href="global.html#probeSegmentInfo">probeSegmentInfo</a></li><li><a href="global.html#queueCallback_">queueCallback_</a></li><li><a href="global.html#refreshDelay">refreshDelay</a></li><li><a href="global.html#reloadSourceOnError">reloadSourceOnError</a></li><li><a href="global.html#remove">remove</a></li><li><a href="global.html#renditionSelectionMixin">renditionSelectionMixin</a></li><li><a href="global.html#reset">reset</a></li><li><a href="global.html#resetEverything">resetEverything</a></li><li><a href="global.html#resetLoader">resetLoader</a></li><li><a href="global.html#resyncLoader">resyncLoader</a></li><li><a href="global.html#runCallback_">runCallback_</a></li><li><a href="global.html#safeBackBufferTrimTime">safeBackBufferTrimTime</a></li><li><a href="global.html#safeGetComputedStyle">safeGetComputedStyle</a></li><li><a href="global.html#safeLiveIndex">safeLiveIndex</a></li><li><a href="global.html#saveExpiredSegmentInfo">saveExpiredSegmentInfo</a></li><li><a href="global.html#seekable">seekable</a></li><li><a href="global.html#segmentXhrHeaders">segmentXhrHeaders</a></li><li><a href="global.html#setDateTimeMapping">setDateTimeMapping</a></li><li><a href="global.html#setupMediaGroups">setupMediaGroups</a></li><li><a href="global.html#simpleSelector">simpleSelector</a></li><li><a href="global.html#skipEmptySegments_">skipEmptySegments_</a></li><li><a href="global.html#stableSort">stableSort</a></li><li><a href="global.html#start">start</a></li><li><a href="global.html#startLoaders">startLoaders</a></li><li><a href="global.html#stopLoaders">stopLoaders</a></li><li><a href="global.html#sumDurations">sumDurations</a></li><li><a href="global.html#systemBandwidth">systemBandwidth</a></li><li><a href="global.html#textRange">textRange</a></li><li><a href="global.html#timestampOffset">timestampOffset</a></li><li><a href="global.html#timeUntilRebuffer">timeUntilRebuffer</a></li><li><a href="global.html#track">track</a></li><li><a href="global.html#updateMaster">updateMaster</a></li><li><a href="global.html#updateSegments">updateSegments</a></li><li><a href="global.html#updating">updating</a></li><li><a href="global.html#utils">utils</a></li><li><a href="global.html#waitForCompletion">waitForCompletion</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.4</a> on Mon Nov 06 2017 16:03:35 GMT-0500 (EST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

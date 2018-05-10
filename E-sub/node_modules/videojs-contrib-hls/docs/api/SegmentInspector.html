@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Class: SegmentInspector</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Class: SegmentInspector</h1>
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+        <h2>SegmentInspector</h2>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+
+    
+
+    <h4 class="name" id="SegmentInspector"><span class="type-signature"></span>new SegmentInspector<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    An object that inspects ts segment data to extract timing information for
+more precise calculations
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="segment-inspector.js.html">segment-inspector.js</a>, <a href="segment-inspector.js.html#line10">line 10</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    </div>
+
+    
+
+    
+
+    
+
+     
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    <h4 class="name" id="adjustTimestamp_"><span class="type-signature"></span>adjustTimestamp_<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Adjusts the timestamp information for the segment to account for
+rollover and convert to seconds based on pes packet timescale (90khz clock)
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="segment-inspector.js.html">segment-inspector.js</a>, <a href="segment-inspector.js.html#line164">line 164</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="inspect"><span class="type-signature"></span>inspect<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Inspects the given segment byte array and returns an object with timing
+information for the first and last packet.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="segment-inspector.js.html">segment-inspector.js</a>, <a href="segment-inspector.js.html#line29">line 29</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="parsePackets_"><span class="type-signature"></span>parsePackets_<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Parse the given pes packets to gain information from the first and last complete packet
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="segment-inspector.js.html">segment-inspector.js</a>, <a href="segment-inspector.js.html#line56">line 56</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="GapSkipper.html">GapSkipper</a></li><li><a href="HlsAudioTrack.html">HlsAudioTrack</a></li><li><a href="HlsHandler.html">HlsHandler</a></li><li><a href="MasterPlaylistController.html">MasterPlaylistController</a></li><li><a href="PlaylistLoader.html">PlaylistLoader</a></li><li><a href="Representation.html">Representation</a></li><li><a href="SegmentInspector.html">SegmentInspector</a></li><li><a href="SegmentLoader.html">SegmentLoader</a></li><li><a href="SourceUpdater.html">SourceUpdater</a></li><li><a href="Stream.html">Stream</a></li></ul><h3>Global</h3><ul><li><a href="global.html#backwardDuration">backwardDuration</a></li><li><a href="global.html#bufferIntersection">bufferIntersection</a></li><li><a href="global.html#byterangeStr">byterangeStr</a></li><li><a href="global.html#calculateBufferedPercent">calculateBufferedPercent</a></li><li><a href="global.html#clamp">clamp</a></li><li><a href="global.html#detectEndOfStream">detectEndOfStream</a></li><li><a href="global.html#duration">duration</a></li><li><a href="global.html#enableFunction">enableFunction</a></li><li><a href="global.html#findGaps">findGaps</a></li><li><a href="global.html#findNextRange">findNextRange</a></li><li><a href="global.html#findRange">findRange</a></li><li><a href="global.html#findSoleUncommonTimeRangesEnd">findSoleUncommonTimeRangesEnd</a></li><li><a href="global.html#formatHexString">formatHexString</a></li><li><a href="global.html#forwardDuration">forwardDuration</a></li><li><a href="global.html#getMediaIndexForTime_">getMediaIndexForTime_</a></li><li><a href="global.html#getSegmentBufferedPercent">getSegmentBufferedPercent</a></li><li><a href="global.html#HlsSourceHandler">HlsSourceHandler</a></li><li><a href="global.html#intervalDuration">intervalDuration</a></li><li><a href="global.html#objectChanged">objectChanged</a></li><li><a href="global.html#renditionSelectionMixin">renditionSelectionMixin</a></li><li><a href="global.html#resolveUrl">resolveUrl</a></li><li><a href="global.html#safeGetComputedStyle">safeGetComputedStyle</a></li><li><a href="global.html#seekable">seekable</a></li><li><a href="global.html#segmentXhrHeaders">segmentXhrHeaders</a></li><li><a href="global.html#textRange">textRange</a></li><li><a href="global.html#updateMaster">updateMaster</a></li><li><a href="global.html#updateSegmentMetadata">updateSegmentMetadata</a></li><li><a href="global.html#updateSegments">updateSegments</a></li><li><a href="global.html#utils">utils</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Fri Aug 19 2016 13:15:08 GMT-0400 (EDT)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
