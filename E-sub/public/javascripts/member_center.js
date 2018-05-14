@@ -43,7 +43,7 @@ function uploadfile() {
                 $('#result').html("上传失败！");
             }
             var road = "images/head/" + file.files[0].name;
-            document.getElementById('u370_img').src = road;
+            document.getElementById('userimg1').src = road;
         },
         error: function () {
             $("#result").html("与服务器通信发生错误");
@@ -56,6 +56,8 @@ var useraccount;
 
 //alert("接受的cookie："+getCookie("user"));
 var user = {"account": getCookie("user")};
+
+
 
 $.ajax({
     url: "/users/member_center",
@@ -76,6 +78,11 @@ $.ajax({
 
 
         var login_info=data["login_info"];    
+        console.log(login_info);
+
+        var login_info_one;
+        login_info_one=login_info.split("****");
+        
 
 
         imageold = userimage;
@@ -88,28 +95,30 @@ $.ajax({
         }
         var password_strength = userInfo[0].pwd_strength;
 
-        $("#u373").text(useraccount);
-        $("#u406").text(useraccount);
+        $("#username1").text(useraccount);
+        $("#username2").text(useraccount);
+        document.getElementById('userimg1').src = "images/head/" + userimage;
+        document.getElementById('userimg2').src = "images/head/" + userimage;
         sex = usersex;
         if (usersex == "man") {
-            document.getElementById("u357_input").checked = true;
-            document.getElementById("u359_input").checked = false;
-            document.getElementById("u368_input").checked = false;
+            document.getElementById("man").checked = true;
+            document.getElementById("women").checked = false;
+            document.getElementById("other").checked = false;
         }
         else if (usersex == "woman") {
-            document.getElementById("u357_input").checked = false;
-            document.getElementById("u359_input").checked = true;
-            document.getElementById("u368_input").checked = false;
+            document.getElementById("man").checked = false;
+            document.getElementById("women").checked = true;
+            document.getElementById("other").checked = false;
         }
         else if (usersex == "other") {
-            document.getElementById("u357_input").checked = false;
-            document.getElementById("u359_input").checked = false;
-            document.getElementById("u368_input").checked = true;
+            document.getElementById("man").checked = false;
+            document.getElementById("women").checked = false;
+            document.getElementById("other").checked = true;
         }
         else {
-            document.getElementById("u357_input").checked = false;
-            document.getElementById("u359_input").checked = false;
-            document.getElementById("u368_input").checked = false;
+            document.getElementById("men").checked = false;
+            document.getElementById("women").checked = false;
+            document.getElementById("other").checked = false;
         }
 
         if(userbirthday_year==null)
@@ -119,6 +128,7 @@ $.ajax({
         if(userblood==null)
             userblood="未知";
 
+        console.log(userbirthday_year+userbirthday_month+userblood);
         document.getElementById("year").value=userbirthday_year;
         document.getElementById("month").value=userbirthday_month;
         document.getElementById("blood").value=userblood;
@@ -132,8 +142,7 @@ $.ajax({
         // var sl = $("#u367_input");
         // var ops = sl.find("option");
         // ops.eq(0).val(userblood).text(userblood).prop("selected", true);
-        document.getElementById('u370_img').src = "images/head/" + userimage;
-        document.getElementById('u403_img').src = "images/head/" + userimage;
+
     },
     statusCode: {
         404: function () {
@@ -180,21 +189,21 @@ function getCookie(name) {
 
 function radioclick(a) {
     if (a == 1) {
-        document.getElementById("u357_input").checked = true;
-        document.getElementById("u359_input").checked = false;
-        document.getElementById("u368_input").checked = false;
+        document.getElementById("man").checked = true;
+        document.getElementById("women").checked = false;
+        document.getElementById("other").checked = false;
         sex = "man";
     }
     else if (a == 2) {
-        document.getElementById("u357_input").checked = false;
-        document.getElementById("u359_input").checked = true;
-        document.getElementById("u368_input").checked = false;
+        document.getElementById("man").checked = false;
+        document.getElementById("women").checked = true;
+        document.getElementById("other").checked = false;
         sex = "woman";
     }
     else {
-        document.getElementById("u357_input").checked = false;
-        document.getElementById("u359_input").checked = false;
-        document.getElementById("u368_input").checked = true;
+        document.getElementById("man").checked = false;
+        document.getElementById("women").checked = false;
+        document.getElementById("other").checked = true;
         sex = "other";
     }
 }
@@ -211,7 +220,7 @@ function saveInfo() {
     var Value_month = ddl2.options[index2].value;
     var Value_blood = ddl3.options[index3].value;
 
-
+    console.log(Value_year+Value_month);
     var user_save = {
         "account": useraccount,
         "year": Value_year,

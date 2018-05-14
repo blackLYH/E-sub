@@ -287,6 +287,8 @@ router.post('/member_center_save', function (req, res, next) {
     var headpic = req.body["image"];
     var oldheadpic = req.body["old"];
 
+    console.log("月"+month);
+
     var oldpath = './public/images/head/' + headpic;
 
     var gate;
@@ -298,15 +300,15 @@ router.post('/member_center_save', function (req, res, next) {
     var date = new Date();
     var seperator1 = "_";
     var seperator2 = "_";
-    var month = date.getMonth() + 1;
+    var month1 = date.getMonth() + 1;
     var strDate = date.getDate();
-    if (month >= 1 && month <= 9) {
-        month = "0" + month;
+    if (month1 >= 1 && month1 <= 9) {
+        month1 = "0" + month1;
     }
     if (strDate >= 0 && strDate <= 9) {
         strDate = "0" + strDate;
     }
-    var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
+    var currentdate = date.getFullYear() + seperator1 + month1 + seperator1 + strDate
         + "_" + date.getHours() + seperator2 + date.getMinutes()
         + seperator2 + date.getSeconds();
 
