@@ -4,6 +4,7 @@ var shell = require('shelljs');
 var path = require("path");
 var moment = require("moment");
 var iconv = require('iconv-lite');
+var mysql = require('mysql');
 var bodyParser = require('body-parser');
 
 var Dictionary = require('dictionaryjs')
@@ -124,7 +125,7 @@ router.post('/upload',upload.single('upload_file'), function (req, res, next) {
     var bm = req.body["bm"];
     var bs = req.body["bs"];
     var user = req.body['user'];
-    console.log(req.body["sourcelanguage"]);
+    console.log(req.body['user']);
     console.log(req.body["detlanguage"]);
     console.log(sourcelanguage);
     console.log(targetlanguage);
@@ -151,8 +152,8 @@ router.post('/upload',upload.single('upload_file'), function (req, res, next) {
         database: 'esub'
     });
     connection.connect();
-    var sql = 'insert into subtitle(subtitle_ID,title,publisher,price) values (?,?,?,?)';
-    var piss = [null, filename, user, 20];
+    var sql = 'insert into subtitle(title,publisher,price) values(?,?,?)';
+    var piss = [filename, user, 20];
 
     connection.query(sql, piss, function (err, result) {
         if (err) { //注册失败
