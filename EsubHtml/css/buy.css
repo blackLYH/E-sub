@@ -1,0 +1,47 @@
+.account-item {}
+
+.account-item.pic {
+	width: 30px;
+	height: 30px;
+	margin-top: 10px;
+}
+
+.account-item.name {
+	margin-left: 0;
+}
+
+.account-item.exit {}
+
+.account-item.vip {
+	background-color: red;
+	color: white;
+	padding: 0 8px;
+	height: 30px;
+	line-height: 30px;
+	margin-top: 10px;
+	border-radius: 5px;
+	margin-right: 30px;
+}
+.container{
+    margin-top: 100px;
+}
+
+.container div{
+    margin-bottom: 20px;
+}
+
+.container .desc{
+    font-size: 14px;
+}
+
+.container .name{
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.buy-types img{
+    width: 50px;
+    height: 50px;
+    border-radius: 5px;
+    margin-right: 20px;
+}

@@ -1,0 +1,80 @@
+.account-item {}
+
+.account-item.pic {
+	width: 30px;
+	height: 30px;
+	margin-top: 10px;
+}
+
+.account-item.name {
+	margin-left: 0;
+}
+
+.account-item.exit {}
+
+.account-item.vip {
+	background-color: red;
+	color: white;
+	padding: 0 8px;
+	height: 30px;
+	line-height: 30px;
+	margin-top: 10px;
+	border-radius: 5px;
+	margin-right: 30px;
+}
+
+.title {
+	margin-top: 100px;
+	text-align: center;
+	margin-bottom: 40px;
+	font-size: 25px;
+}
+
+.container {
+	width: 450px;
+	border: 1px solid #ccc;
+	padding: 40px 0px;
+	padding-left: 65px;
+}
+
+.container label {
+	width: 100px;
+}
+
+.container select {
+	border: 1px solid #ccc;
+	border-radius: 3px;
+	width: 80px;
+	height: 30px;
+	line-height: 30px;
+}
+
+.container input {
+	width: 210px;
+	height: 30px;
+	line-height: 30px;
+	border-radius: 5px;
+	padding: 0 2px;
+	border: 1px solid #ccc;
+}
+
+.container .code input {
+	width: 80px;
+}
+
+.container .item {
+	margin-bottom: 30px;
+}
+
+.container .submitBtn {
+	width: 160px;
+	margin-left: 100px;
+	margin-top: 10px;
+}
+
+.error-img{
+	height: 20px;
+	width: 20px;
+	margin-left: 10px;
+	display: none;
+}

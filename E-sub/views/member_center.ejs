@@ -1,829 +1,195 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <title>member_center</title>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
-    <meta name="apple-mobile-web-app-capable" content="yes"/>
-    <link href="resources/css/jquery-ui-themes.css" type="text/css" rel="stylesheet"/>
-    <link href="resources/css/axure_rp_page.css" type="text/css" rel="stylesheet"/>
-    <link href="data/styles.css" type="text/css" rel="stylesheet"/>
-    <link href="files/member_center/styles.css" type="text/css" rel="stylesheet"/>
-    <script src="resources/scripts/jquery-1.7.1.min.js"></script>
-    <script src="resources/scripts/jquery-ui-1.8.10.custom.min.js"></script>
+    <meta charset="UTF-8">
+    <title>Esub-个人中心</title>
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/person_center.css" />
+    <script type="text/javascript" src="js/jquery-3.3.1.min.js" ></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
     <script src="javascripts/member_center.js"></script>
-    <script src="resources/scripts/prototypePre.js"></script>
-    <script src="data/document.js"></script>
-    <script src="resources/scripts/prototypePost.js"></script>
-    <script src="files/member_center/data.js"></script>
-    <script type="text/javascript">
-        $axure.utils.getTransparentGifPath = function () {
-            return 'resources/images/transparent.gif';
-        };
-        $axure.utils.getOtherPath = function () {
-            return 'resources/Other.html';
-        };
-        $axure.utils.getReloadPath = function () {
-            return 'resources/reload.html';
-        };
-    </script>
 </head>
+
 <body>
-<div id="base" class="">
-
-    <!-- Unnamed (矩形) -->
-    <div id="u348" class="ax_default box_1">
-        <div id="u348_div" class=""></div>
-        <!-- Unnamed () -->
-        <div id="u349" class="text" style="display:none; visibility: hidden">
-            <p><span></span></p>
-        </div>
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="navbar-header">
+        <a class="navbar-brand" href="#">E-SUB</a>
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#example-navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
     </div>
 
-    <!-- Unnamed (矩形) -->
-    <div id="u350" class="ax_default label">
-        <div id="u350_div" class=""></div>
-        <!-- Unnamed () -->
-        <div id="u351" class="text">
-            <p><span>个人资料</span></p>
-        </div>
+    <div class="collapse navbar-collapse" id="example-navbar-collapse">
+        <ul class="nav navbar-nav">
+            <a class="navbar-text" href="generate.html">生成字幕</a>
+            <li></li>
+            <a class="navbar-text">历史记录</a>
+            <li></li>
+            <a class="navbar-text" href="#">搜索字幕</a>
+            <li></li>
+            <a class="navbar-text">购买字幕</a>
+            <li></li>
+            <a class="navbar-text">出售字幕</a>
+            <li></li>
+            <a class="navbar-text">我的分享</a>
+        </ul>
+
+        <ul class="nav navbar-nav navbar-right">
+            <li></li>
+            <img id="userimg2" class="navbar-text account-item pic" src="img/user.png" />
+            <li></li>
+            <a class="navbar-text account-item name" id="username1">呵呵</a>
+            <li></li>
+            <a class="navbar-text account-item exit" onclick="clearcookie()" href="#">退出</a>
+            <li></li>
+            <a class="navbar-text" href="index.html">返回首页</a>
+            <li></li>
+            <a class="navbar-text account-item vip">会员中心</a>
+        </ul>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="tab">
+        <div class="choice-item">个人资料</div>
+        <div class="choice-item">会员中心</div>
+        <div class="choice-item">消费记录</div>
+        <div class="choice-item">帮助中心</div>
     </div>
 
-    <!-- Unnamed (组合) -->
-    <div id="u352" class="ax_default" data-left="474" data-top="278" data-width="292" data-height="160">
+    <div class="tab-item" id="tab-person">
+        <!--个人中心-->
 
-        <!-- Unnamed (矩形) -->
-        <div id="u353" class="ax_default button">
-            <div id="u353_div" class=""></div>
-            <!-- Unnamed () -->
-            <div id="u354" onclick="saveInfo()" class="text" style="cursor:pointer;">
-                <p><span>保存</span></p>
+        <div class="info-1">
+            <div class="title">个人资料</div>
+            <div class="pic">
+                <img id="userimg1" onclick="clickimg()" src="img/user.png" /><label id="username2">呵呵</label>
+                <form><input type="file" accept="image/*" name="file" id="file" onchange="uploadfile()"
+                             style="position:absolute;clip:rect(0 0 0 0); "></form>
             </div>
-        </div>
+            <div class="other">
+                <div>性别：<input id="man" onclick="radioclick(1)" type="radio" name="radio" value="1" />男
+                          <input id="women" onclick="radioclick(2)" type="radio" name="radio" value="2" />女
+                          <input id="other" onclick="radioclick(3)" type="radio" name="radio" value="3" />其他</div>
+                <div>生日：
+                    <select id="year">
+                        <option value="-1">年</option>
+                    </select>
+                    <select id="month">
+                        <option value="-1">月</option>
+                    </select>
+                    <script>
+                        var sy = document.getElementById("year");
+                        var sm = document.getElementById("month");
+                        for(var i = 1900; i <= 2018; i++) {
+                            var o = document.createElement("option");
+                            o.value = i;
+                            o.innerText = i + "";
+                            sy.appendChild(o);
+                        }
 
-        <!-- Unnamed (矩形) -->
-        <div id="u355" class="ax_default label">
-            <div id="u355_div" class=""></div>
-            <!-- Unnamed () -->
-            <div id="u356" class="text">
-                <p><span>性别：</span></p>
-            </div>
-        </div>
+                        for(var i = 1; i <= 12; i++) {
+                            var o = document.createElement("option");
+                            if(i<10){
+                                o.value = "0"+i;
+                                o.innerText ="0"+ i ;
+                            }
+                            else{
+                                o.value = i;
+                                o.innerText = i ;
+                            }
 
-        <!-- Unnamed (单选按钮) -->
-        <div id="u357" class="ax_default radio_button">
-            <label for="u357_input">
-                <!-- Unnamed () -->
-                <div id="u358" class="text">
-                    <p><span>&nbsp;男</span></p>
+                            sm.appendChild(o);
+                        }
+                    </script>
                 </div>
-            </label>
-            <input id="u357_input" onclick="radioclick(1)" type="radio" value="radio" name="u357"/>
-        </div>
-
-        <!-- Unnamed (单选按钮) -->
-        <div id="u359" class="ax_default radio_button">
-            <label for="u359_input">
-                <!-- Unnamed () -->
-                <div id="u360" class="text">
-                    <p><span>&nbsp;女</span></p>
+                <div>血型：
+                    <select id="blood">
+                        <option>A</option>
+                        <option>B</option>
+                        <option>O</option>
+                        <option>其他</option>
+                    </select>
                 </div>
-            </label>
-            <input id="u359_input" onclick="radioclick(2)" type="radio" value="radio" name="u359"/>
-        </div>
-
-        <!-- Unnamed (矩形) -->
-        <div id="u361" class="ax_default label">
-            <div id="u361_div" class=""></div>
-            <!-- Unnamed () -->
-            <div id="u362" class="text">
-                <p><span>生日：</span></p>
+                <div class="btn" onclick="saveInfo()">保存</div>
             </div>
         </div>
 
-        <!-- Unnamed (下拉列表框) -->
-        <div id="u363" class="ax_default droplist">
-            <select id="year">
-                <option value="年">年</option>
-                <%
-                for (var i=2018;i>=1900;i--){
-                %>
-                <option value="<%=i%>" id="<%=i%>"><%=i%></option>
-                <%
-                }
-                 %>;
-            </select>
-        </div>
-
-        <!-- Unnamed (下拉列表框) -->
-        <div id="u364" class="ax_default droplist">
-            <select id="month">
-                <option value="月">月</option>
-                <option value="12">12</option>
-                <option value="11">11</option>
-                <option value="10">10</option>
-                <option value="09">09</option>
-                <option value="08">08</option>
-                <option value="07">07</option>
-                <option value="06">06</option>
-                <option value="05">05</option>
-                <option value="04">04</option>
-                <option value="03">03</option>
-                <option value="02">02</option>
-                <option value="01">01</option>
-            </select>
-        </div>
-
-        <!-- Unnamed (矩形) -->
-        <div id="u365" class="ax_default label">
-            <div id="u365_div" class=""></div>
-            <!-- Unnamed () -->
-            <div id="u366" class="text">
-                <p><span>血型：</span></p>
+        <div class="info-2">
+            <div class="material">
+                <div class="item item-title" style="font-weight: bold;;">账号资料</div>
+                <div class="line"></div>
+                <div class="item"><a href="#">修改密码</a></div>
+                <div class="item"><a>手机：未绑定</a></div>
+                <div class="item"><a>账号申诉</a></div>
+                <div class="item"><a>在线客服</a></div>
+                <div class="item"><a>身份认证</a></div>
             </div>
-        </div>
-
-        <!-- Unnamed (下拉列表框) -->
-        <div id="u367" class="ax_default droplist">
-            <select id="blood">
-                <option value="未知">未知</option>
-                <option value="A">A</option>
-                <option value="B">B</option>
-                <option value="O">O</option>
-                <option value="AB">AB</option>
-                <option value="其他">其他</option>
-            </select>
-        </div>
-
-        <!-- Unnamed (单选按钮) -->
-        <div id="u368" class="ax_default radio_button">
-            <label for="u368_input">
-                <!-- Unnamed () -->
-                <div id="u369" class="text">
-                    <p><span>&nbsp;其他</span></p>
+            <div class="security">
+                <div class="title-label">安全评分</div>
+                <div class="mark-view"><progress max="100" value="70"></progress> <label>70分!</label></div>
+                <div class="need-op">
+                    <div>您的账号存在安全风险，建议优化以下几项：</div>
+                    <div><img src="img/warming.png" /><label>绑定手机号</label>
+                        <div class="btn">立即绑定</div>
+                    </div>
+                    <div><img src="img/warming.png" /><label>绑定密保邮箱</label>
+                        <div class="btn">立即绑定</div>
+                    </div>
+                    <div><img src="img/warming.png" /><label>设置密保问题</label>
+                        <div class="btn">立即设置</div>
+                    </div>
                 </div>
-            </label>
-            <input id="u368_input" onclick="radioclick(3)" type="radio" value="radio" name="u368"/>
-        </div>
-    </div>
+                <div class="history-container">
+                    <!--登录历史-->
+                    <div><label>登录历史</label></div>
+                    <div>以下为您最近2次登录记录，若存在异常情况，请在核实后尽快
+                        <a>修改密码</a>
+                    </div>
 
-    <!-- Unnamed (图片) -->
-    <div id="u370" class="ax_default image">
-        <label class="ui_button ui_button_primary" for="file">上传文件</label>
-        <img id="u370_img" class="img" onclick="clickimg()" src="images/main/u82.png" style="cursor:pointer;">
+                    <table>
+                        <tr>
+                            <th>时间</th>
+                            <th>IP</th>
+                            <th>设备</th>
+                            <th>地点</th>
+                        </tr>
+                        <tr>
+                            <td id="t11"></td>
+                            <td id="t12"></td>
+                            <td id="t13"></td>
+                            <td id="t14"></td>
+                        </tr>
+                        <tr>
+                            <td id="t21"></td>
+                            <td id="t22"></td>
+                            <td id="t23"></td>
+                            <td id="t24"></td>
+                        </tr>
+                    </table>
 
-        <form><input type="file" accept="image/*" name="file" id="file" onchange="uploadfile()"
-                     style="position:absolute;clip:rect(0 0 0 0); "></form>
-        <!--<input type="file" name="file" id="file" style="cursor:pointer;" onchange="uploadfile()">-->
-        <!-- Unnamed () -->
-        <div id="u371" class="text" style="display:none; visibility: hidden">
-            <p><span></span></p>
-        </div>
-    </div>
-
-    <!-- Unnamed (矩形) -->
-    <div id="u372" class="ax_default label">
-        <div id="u372_div" class=""></div>
-        <!-- Unnamed () -->
-        <div id="u373" class="text">
-            <p><span>柚子柚子</span></p>
-        </div>
-    </div>
-
-    <!-- Unnamed (组合) -->
-    <div id="u374" class="ax_default" data-left="217" data-top="555" data-width="250" data-height="246">
-
-        <!-- Unnamed (组合) -->
-        <div id="u375" class="ax_default" data-left="217" data-top="555" data-width="250" data-height="50">
-
-            <!-- Unnamed (矩形) -->
-            <div id="u376" class="ax_default button">
-                <div id="u376_div" class=""></div>
-                <!-- Unnamed () -->
-                <div id="u377" class="text">
-                    <p><span>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; 修改密码</span></p>
-                </div>
-            </div>
-
-            <!-- Unnamed (形状) -->
-            <div id="u378" class="ax_default icon">
-                <img id="u378_img" class="img " src="images/member_center/u378.png"/>
-                <!-- Unnamed () -->
-                <div id="u379" class="text" style="display:none; visibility: hidden">
-                    <p><span></span></p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Unnamed (组合) -->
-        <div id="u380" class="ax_default" data-left="217" data-top="604" data-width="250" data-height="50">
-
-            <!-- Unnamed (矩形) -->
-            <div id="u381" class="ax_default button">
-                <div id="u381_div" class=""></div>
-                <!-- Unnamed () -->
-                <div id="u382" class="text">
-                    <p><span>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; 手机：未绑定</span></p>
-                </div>
-            </div>
-
-            <!-- Unnamed (形状) -->
-            <div id="u383" class="ax_default icon">
-                <img id="u383_img" class="img " src="images/member_center/u383.png"/>
-                <!-- Unnamed () -->
-                <div id="u384" class="text" style="display:none; visibility: hidden">
-                    <p><span></span></p>
-                </div>
-            </div>
-
-            <!-- Unnamed (矩形) -->
-            <div id="u385" class="ax_default label">
-                <div id="u385_div" class=""></div>
-                <!-- Unnamed () -->
-                <div id="u386" class="text">
-                    <p><span>修改</span></p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Unnamed (组合) -->
-        <div id="u387" class="ax_default" data-left="217" data-top="653" data-width="250" data-height="50">
-
-            <!-- Unnamed (矩形) -->
-            <div id="u388" class="ax_default button">
-                <div id="u388_div" class=""></div>
-                <!-- Unnamed () -->
-                <div id="u389" class="text">
-                    <p><span>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; 账号申诉</span></p>
-                </div>
-            </div>
-
-            <!-- Unnamed (形状) -->
-            <div id="u390" class="ax_default icon">
-                <img id="u390_img" class="img " src="images/member_center/u390.png"/>
-                <!-- Unnamed () -->
-                <div id="u391" class="text" style="display:none; visibility: hidden">
-                    <p><span></span></p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Unnamed (组合) -->
-        <div id="u392" class="ax_default" data-left="217" data-top="702" data-width="250" data-height="50">
-
-            <!-- Unnamed (矩形) -->
-            <div id="u393" class="ax_default button">
-                <div id="u393_div" class=""></div>
-                <!-- Unnamed () -->
-                <div id="u394" class="text">
-                    <p><span>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; 在线客服</span></p>
-                </div>
-            </div>
-
-            <!-- Unnamed (形状) -->
-            <div id="u395" class="ax_default icon">
-                <img id="u395_img" class="img " src="images/member_center/u395.png"/>
-                <!-- Unnamed () -->
-                <div id="u396" class="text" style="display:none; visibility: hidden">
-                    <p><span></span></p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Unnamed (组合) -->
-        <div id="u397" class="ax_default" data-left="217" data-top="751" data-width="250" data-height="50">
-
-            <!-- Unnamed (矩形) -->
-            <div id="u398" class="ax_default button">
-                <div id="u398_div" class=""></div>
-                <!-- Unnamed () -->
-                <div id="u399" class="text">
-                    <p><span>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; 身份认证</span></p>
-                </div>
-            </div>
-
-            <!-- Unnamed (形状) -->
-            <div id="u400" class="ax_default icon">
-                <img id="u400_img" class="img " src="images/member_center/u400.png"/>
-                <!-- Unnamed () -->
-                <div id="u401" class="text" style="display:none; visibility: hidden">
-                    <p><span></span></p>
                 </div>
             </div>
         </div>
     </div>
-
-    <!-- Unnamed (组合) -->
-    <div id="u402" class="ax_default" data-left="650" data-top="23" data-width="125" data-height="30">
-
-        <!-- Unnamed (图片) -->
-        <div id="u403" class="ax_default image">
-            <img id="u403_img" class="img " src="images/main/u82.png"/>
-            <!-- Unnamed () -->
-            <div id="u404" class="text" style="display:none; visibility: hidden">
-                <p><span></span></p>
-            </div>
-        </div>
-
-        <!-- Unnamed (矩形) -->
-        <div id="u405" class="ax_default label">
-            <div id="u405_div" class=""></div>
-            <!-- Unnamed () -->
-            <div id="u406" class="text">
-                <p><span>柚子柚子</span></p>
-            </div>
-        </div>
+    <div class="tab-item" id="tab-member">
+        <!--会员中心-->
+    </div>
+    <div class="tab-item" id="tab-history">
+        <!--消费记录-->
+    </div>
+    <div class="tab-item" id="tab-help">
+        <!--帮助中心-->
     </div>
 
-    <!-- Unnamed (矩形) -->
-    <div id="u407" class="ax_default button">
-        <img id="u407_img" class="img " src="images/member_center/u407.png"/>
-        <!-- Unnamed () -->
-        <div id="u408" class="text">
-            <p><span>开通超级会员</span></p>
-        </div>
-    </div>
-
-    <!-- Unnamed (矩形) -->
-    <div id="u409" class="ax_default label">
-        <div id="u409_div" class=""></div>
-        <!-- Unnamed () -->
-        <div id="u410" class="text">
-            <p><span>会员中心</span></p>
-        </div>
-    </div>
-
-    <!-- Unnamed (矩形) -->
-    <div id="u411" class="ax_default label">
-        <div id="u411_div" class=""></div>
-        <!-- Unnamed () -->
-        <div id="u412" class="text">
-            <p><span>E-sub</span></p>
-        </div>
-    </div>
-
-    <!-- Unnamed (垂直线) -->
-    <div id="u413" class="ax_default line">
-        <img id="u413_img" class="img " src="images/register/u74.png"/>
-        <!-- Unnamed () -->
-        <div id="u414" class="text" style="display:none; visibility: hidden">
-            <p><span></span></p>
-        </div>
-    </div>
-
-    <!-- Unnamed (图片) -->
-    <div id="u415" class="ax_default image">
-        <img id="u415_img" class="img " src="images/register/u72.png"/>
-        <!-- Unnamed () -->
-        <div id="u416" class="text" style="display:none; visibility: hidden">
-            <p><span></span></p>
-        </div>
-    </div>
-
-    <!-- Unnamed (矩形) -->
-    <div id="u417" class="ax_default button">
-        <div id="u417_div" class=""></div>
-        <!-- Unnamed () -->
-        <div id="u418" class="text">
-            <p><span>会员主页</span></p>
-        </div>
-    </div>
-
-    <!-- Unnamed (矩形) -->
-    <div id="u419" class="ax_default button">
-        <div id="u419_div" class=""></div>
-        <!-- Unnamed () -->
-        <div id="u420" class="text">
-            <p><span>超级会员</span></p>
-        </div>
-    </div>
-
-    <!-- Unnamed (矩形) -->
-    <div id="u421" class="ax_default button">
-        <div id="u421_div" class=""></div>
-        <!-- Unnamed () -->
-        <div id="u422" class="text">
-            <p><span>消费记录</span></p>
-        </div>
-    </div>
-
-    <!-- Unnamed (矩形) -->
-    <div id="u423" class="ax_default button">
-        <div id="u423_div" class=""></div>
-        <!-- Unnamed () -->
-        <div id="u424" class="text">
-            <p><span>帮助中心</span></p>
-        </div>
-    </div>
-
-    <!-- Unnamed (矩形) -->
-    <div id="u425" class="ax_default box_1">
-        <div id="u425_div" class=""></div>
-        <!-- Unnamed () -->
-        <div id="u426" class="text">
-            <p><span>&nbsp;&nbsp; &nbsp;&nbsp; 账号资料</span></p>
-        </div>
-    </div>
-
-    <!-- Unnamed (矩形) -->
-    <div id="u427" class="ax_default label">
-        <div id="u427_div" class=""></div>
-        <!-- Unnamed () -->
-        <div id="u428" onclick="clearcookie()" class="text" style="cursor:pointer;">
-            <p><span style="text-decoration:underline;">退出</span></p>
-        </div>
-    </div>
-
-    <!-- Unnamed (组合) -->
-    <div id="u429" class="ax_default" data-left="512" data-top="829" data-width="508" data-height="217">
-
-        <!-- Unnamed (矩形) -->
-        <div id="u430" class="ax_default label">
-            <div id="u430_div" class=""></div>
-            <!-- Unnamed () -->
-            <div id="u431" class="text">
-                <p><span>登录历史</span></p>
-            </div>
-        </div>
-
-        <!-- Unnamed (表格) -->
-        <div id="u432" class="ax_default">
-
-            <!-- Unnamed (单元格) -->
-            <div id="u433" class="ax_default table_cell">
-                <img id="u433_img" class="img " src="images/mine_history/u164.png"/>
-                <!-- Unnamed () -->
-                <div id="u434" class="text">
-                    <p><span>时间</span></p>
-                </div>
-            </div>
-
-            <!-- Unnamed (单元格) -->
-            <div id="u435" class="ax_default table_cell">
-                <img id="u435_img" class="img " src="images/mine_history/u166.png"/>
-                <!-- Unnamed () -->
-                <div id="u436" class="text">
-                    <p><span>IP</span></p>
-                </div>
-            </div>
-
-            <!-- Unnamed (单元格) -->
-            <div id="u437" class="ax_default table_cell">
-                <img id="u437_img" class="img " src="images/mine_history/u168.png"/>
-                <!-- Unnamed () -->
-                <div id="u438" class="text">
-                    <p><span>浏览器</span></p>
-                </div>
-            </div>
-
-            <!-- Unnamed (单元格) -->
-            <div id="u439" class="ax_default table_cell">
-                <img id="u439_img" class="img " src="images/mine_history/u164.png"/>
-                <!-- Unnamed () -->
-                <div id="u440" class="text">
-                    <p><span>登录方式</span></p>
-                </div>
-            </div>
-
-            <!-- Unnamed (单元格) -->
-            <div id="u441" class="ax_default table_cell">
-                <img id="u441_img" class="img " src="images/mine_history/u172.png"/>
-                <!-- Unnamed () -->
-                <div id="u442" class="text" style="display:none; visibility: hidden">
-                    <p><span></span></p>
-                </div>
-            </div>
-
-            <!-- Unnamed (单元格) -->
-            <div id="u443" class="ax_default table_cell">
-                <img id="u443_img" class="img " src="images/mine_history/u174.png"/>
-                <!-- Unnamed () -->
-                <div id="u444" class="text" style="display:none; visibility: hidden">
-                    <p><span></span></p>
-                </div>
-            </div>
-
-            <!-- Unnamed (单元格) -->
-            <div id="u445" class="ax_default table_cell">
-                <img id="u445_img" class="img " src="images/mine_history/u176.png"/>
-                <!-- Unnamed () -->
-                <div id="u446" class="text" style="display:none; visibility: hidden">
-                    <p><span></span></p>
-                </div>
-            </div>
-
-            <!-- Unnamed (单元格) -->
-            <div id="u447" class="ax_default table_cell">
-                <img id="u447_img" class="img " src="images/mine_history/u178.png"/>
-                <!-- Unnamed () -->
-                <div id="u448" class="text" style="display:none; visibility: hidden">
-                    <p><span></span></p>
-                </div>
-            </div>
-
-            <!-- Unnamed (单元格) -->
-            <div id="u449" class="ax_default table_cell">
-                <img id="u449_img" class="img " src="images/member_center/u449.png"/>
-                <!-- Unnamed () -->
-                <div id="u450" class="text" style="display:none; visibility: hidden">
-                    <p><span></span></p>
-                </div>
-            </div>
-
-            <!-- Unnamed (单元格) -->
-            <div id="u451" class="ax_default table_cell">
-                <img id="u451_img" class="img " src="images/member_center/u451.png"/>
-                <!-- Unnamed () -->
-                <div id="u452" class="text" style="display:none; visibility: hidden">
-                    <p><span></span></p>
-                </div>
-            </div>
-
-            <!-- Unnamed (单元格) -->
-            <div id="u453" class="ax_default table_cell">
-                <img id="u453_img" class="img " src="images/member_center/u453.png"/>
-                <!-- Unnamed () -->
-                <div id="u454" class="text" style="display:none; visibility: hidden">
-                    <p><span></span></p>
-                </div>
-            </div>
-
-            <!-- Unnamed (单元格) -->
-            <div id="u455" class="ax_default table_cell">
-                <img id="u455_img" class="img " src="images/member_center/u455.png"/>
-                <!-- Unnamed () -->
-                <div id="u456" class="text" style="display:none; visibility: hidden">
-                    <p><span></span></p>
-                </div>
-            </div>
-
-            <!-- Unnamed (单元格) -->
-            <div id="u457" class="ax_default table_cell">
-                <img id="u457_img" class="img " src="images/mine_history/u164.png"/>
-                <!-- Unnamed () -->
-                <div id="u458" class="text" style="display:none; visibility: hidden">
-                    <p><span></span></p>
-                </div>
-            </div>
-
-            <!-- Unnamed (单元格) -->
-            <div id="u459" class="ax_default table_cell">
-                <img id="u459_img" class="img " src="images/mine_history/u166.png"/>
-                <!-- Unnamed () -->
-                <div id="u460" class="text" style="display:none; visibility: hidden">
-                    <p><span></span></p>
-                </div>
-            </div>
-
-            <!-- Unnamed (单元格) -->
-            <div id="u461" class="ax_default table_cell">
-                <img id="u461_img" class="img " src="images/mine_history/u168.png"/>
-                <!-- Unnamed () -->
-                <div id="u462" class="text" style="display:none; visibility: hidden">
-                    <p><span></span></p>
-                </div>
-            </div>
-
-            <!-- Unnamed (单元格) -->
-            <div id="u463" class="ax_default table_cell">
-                <img id="u463_img" class="img " src="images/mine_history/u164.png"/>
-                <!-- Unnamed () -->
-                <div id="u464" class="text" style="display:none; visibility: hidden">
-                    <p><span></span></p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Unnamed (矩形) -->
-        <div id="u465" class="ax_default label">
-            <div id="u465_div" class=""></div>
-            <!-- Unnamed () -->
-            <div id="u466" class="text">
-                <p><span>以下为您最近2次登录记录，若存在异常情况，请在核实后尽快</span></p>
-            </div>
-        </div>
-
-        <!-- Unnamed (水平线) -->
-        <div id="u467" class="ax_default line">
-            <img id="u467_img" class="img " src="images/member_center/u467.png"/>
-            <!-- Unnamed () -->
-            <div id="u468" class="text" style="display:none; visibility: hidden">
-                <p><span></span></p>
-            </div>
-        </div>
-
-        <!-- Unnamed (水平线) -->
-        <div id="u469" class="ax_default line">
-            <img id="u469_img" class="img " src="images/member_center/u467.png"/>
-            <!-- Unnamed () -->
-            <div id="u470" class="text" style="display:none; visibility: hidden">
-                <p><span></span></p>
-            </div>
-        </div>
-
-        <!-- Unnamed (水平线) -->
-        <div id="u471" class="ax_default line">
-            <img id="u471_img" class="img " src="images/member_center/u467.png"/>
-            <!-- Unnamed () -->
-            <div id="u472" class="text" style="display:none; visibility: hidden">
-                <p><span></span></p>
-            </div>
-        </div>
-
-        <!-- Unnamed (水平线) -->
-        <div id="u473" class="ax_default line">
-            <img id="u473_img" class="img " src="images/member_center/u467.png"/>
-            <!-- Unnamed () -->
-            <div id="u474" class="text" style="display:none; visibility: hidden">
-                <p><span></span></p>
-            </div>
-        </div>
-
-        <!-- Unnamed (矩形) -->
-        <div id="u475" class="ax_default label">
-            <div id="u475_div" class=""></div>
-            <!-- Unnamed () -->
-            <div id="u476" class="text">
-                <p><span>修改密码</span></p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Unnamed (矩形) -->
-    <div id="u477" class="ax_default box_1">
-        <div id="u477_div" class=""></div>
-        <!-- Unnamed () -->
-        <div id="u478" class="text" style="display:none; visibility: hidden">
-            <p><span></span></p>
-        </div>
-    </div>
-
-    <!-- Unnamed (水平线) -->
-    <div id="u479" class="ax_default line">
-        <img id="u479_img" class="img " src="images/member_center/u479.png"/>
-        <!-- Unnamed () -->
-        <div id="u480" class="text" style="display:none; visibility: hidden">
-            <p><span></span></p>
-        </div>
-    </div>
-
-    <!-- Unnamed (矩形) -->
-    <div id="u481" class="ax_default box_1">
-        <div id="u481_div" class=""></div>
-        <!-- Unnamed () -->
-        <div id="u482" class="text">
-            <p><span>advertisement</span></p>
-        </div>
-    </div>
-
-    <!-- Unnamed (矩形) -->
-    <div id="u483" class="ax_default label">
-        <div id="u483_div" class=""></div>
-        <!-- Unnamed () -->
-        <div id="u484" class="text">
-            <p><span>安全评分</span></p>
-        </div>
-    </div>
-
-    <!-- Unnamed (矩形) -->
-    <div id="u485" class="ax_default box_2">
-        <div id="u485_div" class=""></div>
-        <!-- Unnamed () -->
-        <div id="u486" class="text" style="display:none; visibility: hidden">
-            <p><span></span></p>
-        </div>
-    </div>
-
-    <!-- Unnamed (矩形) -->
-    <div id="u487" class="ax_default box_3">
-        <div id="u487_div" class=""></div>
-        <!-- Unnamed () -->
-        <div id="u488" class="text" style="display:none; visibility: hidden">
-            <p><span></span></p>
-        </div>
-    </div>
-
-    <!-- Unnamed (矩形) -->
-    <div id="u489" class="ax_default label">
-        <div id="u489_div" class=""></div>
-        <!-- Unnamed () -->
-        <div id="u490" class="text">
-            <p><span>70分！</span></p>
-        </div>
-    </div>
-
-    <!-- Unnamed (矩形) -->
-    <div id="u491" class="ax_default button">
-        <img id="u491_img" class="img " src="images/member_center/u491.png"/>
-        <!-- Unnamed () -->
-        <div id="u492" class="text">
-            <p><span>重新检测</span></p>
-        </div>
-    </div>
-
-    <!-- Unnamed (矩形) -->
-    <div id="u493" class="ax_default label">
-        <div id="u493_div" class=""></div>
-        <!-- Unnamed () -->
-        <div id="u494" class="text">
-            <p><span>您的账号存在安全风险，建议优化以下几项：</span></p>
-        </div>
-    </div>
-
-    <!-- Unnamed (组合) -->
-    <div id="u495" class="ax_default" data-left="516" data-top="655" data-width="515" data-height="35">
-
-        <!-- Unnamed (形状) -->
-        <div id="u496" class="ax_default icon">
-            <img id="u496_img" class="img " src="images/member_center/u496.png"/>
-            <!-- Unnamed () -->
-            <div id="u497" class="text" style="display:none; visibility: hidden">
-                <p><span></span></p>
-            </div>
-        </div>
-
-        <!-- Unnamed (矩形) -->
-        <div id="u498" class="ax_default label">
-            <div id="u498_div" class=""></div>
-            <!-- Unnamed () -->
-            <div id="u499" class="text">
-                <p><span>绑定手机号</span></p>
-            </div>
-        </div>
-
-        <!-- Unnamed (矩形) -->
-        <div id="u500" class="ax_default button">
-            <div id="u500_div" class=""></div>
-            <!-- Unnamed () -->
-            <div id="u501" class="text">
-                <p><span>立即绑定</span></p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Unnamed (组合) -->
-    <div id="u502" class="ax_default" data-left="516" data-top="700" data-width="515" data-height="35">
-
-        <!-- Unnamed (形状) -->
-        <div id="u503" class="ax_default icon">
-            <img id="u503_img" class="img " src="images/member_center/u496.png"/>
-            <!-- Unnamed () -->
-            <div id="u504" class="text" style="display:none; visibility: hidden">
-                <p><span></span></p>
-            </div>
-        </div>
-
-        <!-- Unnamed (矩形) -->
-        <div id="u505" class="ax_default label">
-            <div id="u505_div" class=""></div>
-            <!-- Unnamed () -->
-            <div id="u506" class="text">
-                <p><span>绑定密保邮箱</span></p>
-            </div>
-        </div>
-
-        <!-- Unnamed (矩形) -->
-        <div id="u507" class="ax_default button">
-            <div id="u507_div" class=""></div>
-            <!-- Unnamed () -->
-            <div id="u508" class="text">
-                <p><span>立即绑定</span></p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Unnamed (组合) -->
-    <div id="u509" class="ax_default" data-left="516" data-top="745" data-width="515" data-height="35">
-
-        <!-- Unnamed (形状) -->
-        <div id="u510" class="ax_default icon">
-            <img id="u510_img" class="img " src="images/member_center/u496.png"/>
-            <!-- Unnamed () -->
-            <div id="u511" class="text" style="display:none; visibility: hidden">
-                <p><span></span></p>
-            </div>
-        </div>
-
-        <!-- Unnamed (矩形) -->
-        <div id="u512" class="ax_default label">
-            <div id="u512_div" class=""></div>
-            <!-- Unnamed () -->
-            <div id="u513" class="text">
-                <p><span>设置密保问题</span></p>
-            </div>
-        </div>
-
-        <!-- Unnamed (矩形) -->
-        <div id="u514" class="ax_default button">
-            <div id="u514_div" class=""></div>
-            <!-- Unnamed () -->
-            <div id="u515" class="text">
-                <p><span>立即设置</span></p>
-            </div>
-        </div>
-    </div>
 </div>
+<footer>
+    © 2018 Esub - Made with ♥ for the people of the internet.
+</footer>
 </body>
 
 </html>
-
