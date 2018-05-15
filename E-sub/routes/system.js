@@ -9,6 +9,8 @@ var bodyParser = require('body-parser');
 var Dictionary = require('dictionaryjs')
 
 var uploadfile;
+var sqlURL = '45.76.169.253';
+var sqlUSER = 'root';
 var fs = require('fs');
 var languageList = new Dictionary.Dictionary();
 languageList.set("简体中文","zh-CN");
@@ -157,16 +159,52 @@ router.post('/upload',upload.single('upload_file'), function (req, res, next) {
 
 router.post('/search',function (req, res, next) {
     var query_name = req.body["search"];
+    var connection = mysql.createConnection({
+        host: sqlURL,
+        user: sqlUSER,
+        password: '123456',
+        database: 'esub'
+    });
+    connection.connect();
     console.log(query_name);
     var shellPath = path.join(__dirname,"/../public/uploads/subtitle/shell.sh ");
     shell.exec('. '+shellPath+ query_name +'',function(code, stdout, stderr) {
         console.log('Exit code:', code);
         console.log('Program output:', stdout);
         var decodedText = iconv.decode(stdout, 'gbk');
-        var result = decodedText.split("\n");
-        console.log('Program real:',result[0]);
-
-        res.json({"success":result[0],"file":result[0]});
+        var result = decodedText.split(" ");
+        var _getSubtitle = function (name, callback) {
+            var sql = "select * form subtitle where title=?";
+            connection.query(sql, name, function (err, results) {
+                if (!err) {
+                    callback(results);
+                } else {
+                    callback(error());
+                }
+            });
+            function error() {
+                return "database error";
+            }
+        }
+        var subtitleInfo ={};
+        for(var i = 0;i < result.length;i ++){
+            console.log('Program real:',result[i]);
+            // to do search the database
+            var getSubtitle = function (name, callback) {
+                return _getSubtitle(name, callback);
+            }
+            getSubtitle(result[i], function (data) {
+                var subtitle = data;
+                var title = subtitle.title;
+                var subtitleID = subtitle.subtitle_ID;
+                var videoID = subtitle.video_ID;
+                var publisher = subtitle.publisher;
+                var price = subtitle.price;
+                subtitleInfo.push({subtitle:title,subtitleID:subtitleID,videoID:videoID,publisher:publisher,price:price});
+            });
+        }
+        connection.end();
+        res.json({"success":subtitleInfo,"file":result[0]});
     });
 });
 

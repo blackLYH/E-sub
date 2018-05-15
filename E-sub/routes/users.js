@@ -51,7 +51,6 @@ router.post('/getForget_change', function (req, res, next) {
     connection.connect();
     var sql = 'update account set password= ?,pwd_strength=? where account= ? ';
     var piss = [password, password_strength, account];
-    console.log(sql);
     connection.query(sql, piss, function (err, result) {
         if (err) {
             console.log('[SELECT ERROR] - ', err.message);
@@ -81,7 +80,7 @@ router.post('/getForget_account', function (req, res, next) {
         var sql = "SELECT password FROM  account  WHERE account=?";
         connection.query(sql, account_outside, function (err, results) {
             if (!err) {
-                var res = hasUser(results)
+                var res = hasUser(results);
                 callback(res);
             } else {
                 callback(error());

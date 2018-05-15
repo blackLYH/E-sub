@@ -3,7 +3,7 @@ var onSearchClick = function() {
     var search = document.getElementById("search").value;
     var desc =document.getElementById("search-desc");
 
-    var result = function(r) {
+    var result2 = function(r) {
         var sr = document.getElementById("search-result")
         sr.innerHTML="";
         var items ='';
@@ -13,11 +13,11 @@ var onSearchClick = function() {
         }
         sr.innerHTML = items;
     }
-    doingSearch(search, result);
-    desc.style.display=""
+    doingSearch(search, result2);
+    desc.style.display="";
 }
 
-var doingSearch = function(search, result) {
+var doingSearch = function(search, result2) {
     console.log("查找的内容是："+search);
     var json = {"search": search};
     $.ajax({
@@ -28,10 +28,9 @@ var doingSearch = function(search, result) {
 
         success: function (data, textStatus) {
             var result = data["success"];
-            result[0].name;
+            console.log(result);
             file = data["file"];
-
-            text.value = result;
+            result2(result);
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
         },
@@ -45,29 +44,6 @@ var doingSearch = function(search, result) {
             }
         }
     });
-
-    var r = [{
-        name:"字幕测试1",
-        owner:"hxm",
-        time:"2018-7-6",
-        price:"free",
-        durl:"#"
-    },
-        {
-            name:"字幕测试2",
-            owner:"hxm",
-            time:"2018-7-6",
-            price:"free",
-            durl:"#"
-        },
-        {
-            name:"字幕测试3",
-            owner:"hxm",
-            time:"2018-7-6",
-            price:"free",
-            durl:"#"
-        }]
-    result(r);
 }
 
 function search() {
