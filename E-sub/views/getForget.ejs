@@ -1,597 +1,85 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <title>forgetPwd</title>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
-    <meta name="apple-mobile-web-app-capable" content="yes"/>
-    <link href="resources/css/jquery-ui-themes.css" type="text/css" rel="stylesheet"/>
-    <link href="resources/css/axure_rp_page.css" type="text/css" rel="stylesheet"/>
-    <link href="data/styles.css" type="text/css" rel="stylesheet"/>
-    <link href="files/forgetpwd/styles.css" type="text/css" rel="stylesheet"/>
-    <script src="resources/scripts/jquery-1.7.1.min.js"></script>
-    <script src="resources/scripts/jquery-ui-1.8.10.custom.min.js"></script>
-    <script src="resources/scripts/prototypePre.js"></script>
-    <script src="data/document.js"></script>
-    <script src="resources/scripts/prototypePost.js"></script>
-    <script src="files/forgetpwd/data.js"></script>
-    <script type="text/javascript">
-        $axure.utils.getTransparentGifPath = function() { return 'resources/images/transparent.gif'; };
-        $axure.utils.getOtherPath = function() { return 'resources/Other.html'; };
-        $axure.utils.getReloadPath = function() { return 'resources/reload.html'; };
-    </script>
-    <script src="javascripts/jsencrypt.min.js"></script>
-    <script src="javascripts/getForget.js"></script>
+    <meta charset="utf-8">
+    <title>Esub-忘记密码</title>
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/forget.css" />
+    <script type="text/javascript" src="js/jquery-3.3.1.min.js" ></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/forget.js"></script>
 </head>
+
 <body>
-<div id="base" class="">
-
-    <!-- Unnamed (形状) -->
-    <div id="u301" class="ax_default icon">
-        <img id="u301_img" class="img " src="images/forgetpwd/u301.png"/>
-        <!-- Unnamed () -->
-        <div id="u302" class="text" style="display:none; visibility: hidden">
-            <p><span></span></p>
-        </div>
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="navbar-header">
+        <a class="navbar-brand" href="#">E-SUB</a>
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#example-navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
     </div>
 
-    <!-- line1 (水平线) -->
-    <div id="u303" class="ax_default line" data-label="line1">
-        <img id="u303_img" class="img " src="images/forgetpwd/line1_u303.png"/>
-        <!-- Unnamed () -->
-        <div id="u304" class="text" style="display:none; visibility: hidden">
-            <p><span></span></p>
-        </div>
+    <div class="collapse navbar-collapse" id="example-navbar-collapse">
+        <ul class="nav navbar-nav">
+            <a class="navbar-text" href="generate.html">生成字幕</a>
+            <li></li>
+            <a class="navbar-text">历史记录</a>
+            <li></li>
+            <a class="navbar-text" href="#">搜索字幕</a>
+            <li></li>
+            <a class="navbar-text">购买字幕</a>
+            <li></li>
+            <a class="navbar-text">出售字幕</a>
+            <li></li>
+            <a class="navbar-text">我的分享</a>
+        </ul>
+
+        <ul class="nav navbar-nav navbar-right">
+            <li></li>
+            <img class="navbar-text account-item pic" src="img/user.png" />
+            <li></li>
+            <a class="navbar-text account-item name">呵呵</a>
+            <li></li>
+            <a class="navbar-text account-item exit" href="#">退出</a>
+            <li></li>
+            <a class="navbar-text" href="index.html">返回首页</a>
+            <li></li>
+            <a class="navbar-text account-item vip">会员中心</a>
+        </ul>
     </div>
+</nav>
 
-    <!-- Unnamed (矩形) -->
-    <div id="u305" class="ax_default label">
-        <div id="u305_div" class=""></div>
-        <!-- Unnamed () -->
-        <div id="u306" onclick="log()" class="text" style="cursor:pointer;">
-            <p><span style="text-decoration:underline;">登录</span></p>
-        </div>
+<div class="title">密码找回</div>
+
+<div class="container">
+    <div class="item"><label>选择找回方式：</label>
+        <select id="ways" onchange="sele_Change()">
+            <option value="1">手机号</option>
+            <option value="2">邮箱</option>
+        </select>
     </div>
-
-    <!-- Unnamed (矩形) -->
-    <div id="u307" class="ax_default label">
-        <div id="u307_div" class=""></div>
-        <!-- Unnamed () -->
-        <div id="u308" onclick="reg()" class="text" style="cursor:pointer;">
-            <p><span style="text-decoration:underline;">注册</span></p>
-        </div>
+    <div class="item"><label id="warming_label">输入手机号:</label>
+        <input  onchange="input_change(this.value)"/><img src="img/错误.png" class="error-img" id="error_img"/>
     </div>
-
-    <!-- Unnamed (垂直线) -->
-    <div id="u309" class="ax_default line">
-        <img id="u309_img" class="img " src="images/forgetpwd/u309.png"/>
-        <!-- Unnamed () -->
-        <div id="u310" class="text" style="display:none; visibility: hidden">
-            <p><span></span></p>
-        </div>
+    <div class="code item">
+        <label>验证码:</label>
+        <input />
+        <button class="btn getCodeBtn">点击获取验证码</button>
     </div>
+    <div class="item"><label>输入新密码:</label>
+        <input type="password" /></div>
+    <div class="item"><label>确认新密码:</label>
+        <input type="password" /></div>
+    <div class="btn submitBtn">提交</div>
 
-    <!-- Unnamed (矩形) -->
-    <div id="u311" class="ax_default label">
-        <div id="u311_div" class=""></div>
-        <!-- Unnamed () -->
-        <div id="u312" class="text">
-            <p><span>找回密码</span></p>
-        </div>
-    </div>
-
-    <!-- Unnamed (矩形) -->
-    <div id="u313" class="ax_default label">
-        <div id="u313_div" class=""></div>
-        <!-- Unnamed () -->
-        <div id="u314" class="text">
-            <p><span>E-sub</span></p>
-        </div>
-    </div>
-
-    <!-- Unnamed (图片) -->
-    <div id="u315" class="ax_default image">
-        <img id="u315_img" class="img " src="images/register/u72.png"/>
-        <!-- Unnamed () -->
-        <div id="u316" class="text" style="display:none; visibility: hidden">
-            <p><span></span></p>
-        </div>
-    </div>
-
-    <!-- Unnamed (垂直线) -->
-    <div id="u317" class="ax_default line">
-        <img id="u317_img" class="img " src="images/register/u74.png"/>
-        <!-- Unnamed () -->
-        <div id="u318" class="text" style="display:none; visibility: hidden">
-            <p><span></span></p>
-        </div>
-    </div>
-
-    <!-- button1 (矩形) -->
-    <div id="u319" class="ax_default button selected" data-label="button1">
-        <img id="u319_img" class="img " src="images/forgetpwd/button1_u319_selected.png"/>
-        <!-- Unnamed () -->
-        <div id="u320" class="text">
-            <p><span>确认账号</span></p>
-        </div>
-    </div>
-
-    <!-- button2 (矩形) -->
-    <div id="u321" class="ax_default button disabled" data-label="button2">
-        <img id="u321_img" class="img " src="images/forgetpwd/button1_u319.png"/>
-        <!-- Unnamed () -->
-        <div id="u322" class="text">
-            <p><span>安全验证</span></p>
-        </div>
-    </div>
-
-    <!-- Unnamed (形状) -->
-    <div id="u323" class="ax_default icon">
-        <img id="u323_img" class="img " src="images/forgetpwd/u301.png"/>
-        <!-- Unnamed () -->
-        <div id="u324" class="text" style="display:none; visibility: hidden">
-            <p><span></span></p>
-        </div>
-    </div>
-
-    <!-- button3 (矩形) -->
-    <div id="u325" class="ax_default button disabled" data-label="button3">
-        <img id="u325_img" class="img " src="images/forgetpwd/button1_u319.png"/>
-        <!-- Unnamed () -->
-        <div id="u326" class="text">
-            <p><span>重置密码</span></p>
-        </div>
-    </div>
-
-    <!-- Unnamed (动态面板) -->
-    <div id="u327" class="ax_default">
-        <div id="u327_state0" class="panel_state" data-label="State1" style="">
-            <div id="u327_state0_content" class="panel_state_content">
-
-                <!-- Unnamed (矩形) -->
-                <div id="u328" class="ax_default label">
-                    <div id="u328_div" class=""></div>
-                    <!-- Unnamed () -->
-                    <div id="u329" class="text">
-                        <p><span>请填写您需要找回的帐号</span></p>
-                    </div>
-                </div>
-
-                <!-- Unnamed (文本框) -->
-                <div id="u330" class="ax_default text_field">
-                    <input id="u330_input" type="text" placeholder="请输入用户名/手机号"/>
-                </div>
-
-                <!-- Unnamed (文本框) -->
-                <div id="u331" class="ax_default text_field">
-                    <input id="u331_input" type="text" placeholder="请输入验证码"/>
-                </div>
-
-                <!-- Unnamed (矩形) -->
-                <div id="u332" class="ax_default label">
-                    <div id="u332_div" class=""></div>
-                    <!-- Unnamed () -->
-                    <div id="u333" class="text" div style="cursor:pointer;">
-                        <p><span>换一张</span></p>
-                    </div>
-                </div>
-
-                <!-- Unnamed (矩形) -->
-                <div id="u334" onclick="nextStep()" class="ax_default button">
-                    <div id="u334_div" class=""></div>
-                    <!-- Unnamed () -->
-                    <div id="u335" class="text">
-                        <p><span>下一步</span></p>
-                    </div>
-                </div>
-
-                <!-- Unnamed (图片) -->
-                <div id="u336" class="ax_default image">
-                    <!--<img id="u336_img" class="img " src="images/forgetpwd/u336.png"/>-->
-                    <canvas id="canvas" width="100" height="40"></canvas>
-                    <!-- Unnamed () -->
-                    <div id="u337" class="text" style="display:none; visibility: hidden">
-                        <p><span></span></p>
-                    </div>
-                </div>
-
-
-
-            </div>
-        </div>
-        <div id="u327_state1" class="panel_state" data-label="State2" style="visibility: hidden;">
-            <div id="u327_state1_content" class="panel_state_content">
-
-                <!-- Unnamed (矩形) -->
-                <div id="u338" class="ax_default label">
-                    <div id="u338_div" class=""></div>
-                    <!-- Unnamed () -->
-                    <div id="u339" class="text">
-                        <p><span>为了你的账号安全，请完成身份验证</span></p>
-                    </div>
-                </div>
-
-                <!-- Unnamed (矩形) -->
-                <div id="u340" class="ax_default _三级标题">
-                    <div id="u340_div" class=""></div>
-                    <!-- Unnamed () -->
-                    <div id="u341" class="text">
-                        <p><span>验证方式</span></p>
-                    </div>
-                </div>
-
-                <!-- Unnamed (文本框) -->
-                <div id="u342" class="ax_default text_field">
-                    <input id="u342_input" type="text" placeholder="请输入验证码"/>
-                </div>
-
-                <!-- Unnamed (矩形) -->
-                <div id="u343" class="ax_default button">
-                    <div id="u343_div" class=""></div>
-                    <!-- Unnamed () -->
-                    <div id="u344" onclick="sendCheck()" class="text" div style="cursor:pointer;">
-                        <p><span>发送验证码</span></p>
-                    </div>
-                </div>
-
-                <!-- Unnamed (矩形) -->
-                <div id="u345" class="ax_default button">
-                    <div id="u345_div" class=""></div>
-                    <!-- Unnamed () -->
-                    <div id="u346" onclick="nextStep2()" class="text">
-                        <p><span>下一步</span></p>
-                    </div>
-                </div>
-
-                <!-- Unnamed (下拉列表框) -->
-                <div id="u347" class="ax_default droplist">
-                    <select id="u347_input">
-                        <option value="手机号123******23">手机号</option>
-                        <option value="密保问题">密保问题</option>
-                        <option value="邮箱验证">邮箱验证</option>
-                        <option value="账号申诉">账号申诉</option>
-                    </select>
-                </div>
-            </div>
-        </div>
-        <div id="u327_state2" class="panel_state" data-label="State3" style="visibility: hidden;">
-            <div id="u327_state2_content" class="panel_state_content">
-
-                <!-- Unnamed (矩形) -->
-                <div id="u348" class="ax_default label">
-                    <div id="u348_div" class=""></div>
-                    <!-- Unnamed () -->
-                    <div id="u349" class="text">
-                        <p><span>您正在找回的账号是哦哈哈哈哈</span></p>
-                    </div>
-                </div>
-
-                <!-- Unnamed (文本框) -->
-                <div id="u350" class="ax_default text_field">
-                    <input id="u350_input" type="password" placeholder="新密码"/>
-                </div>
-
-                <!-- Unnamed (矩形) -->
-                <div id="u351" class="ax_default _三级标题">
-                    <div id="u351_div" class=""></div>
-                    <!-- Unnamed () -->
-                    <div id="u352" class="text">
-                        <p><span>新密码</span></p>
-                    </div>
-                </div>
-
-                <!-- Unnamed (文本框) -->
-                <div id="u353" class="ax_default text_field">
-                    <input id="u353_input" type="password" placeholder="确认新密码"/>
-                </div>
-
-                <!-- Unnamed (矩形) -->
-                <div id="u354" class="ax_default _三级标题">
-                    <div id="u354_div" class=""></div>
-                    <!-- Unnamed () -->
-                    <div id="u355" class="text">
-                        <p><span>确认新密码</span></p>
-                    </div>
-                </div>
-
-                <!-- Unnamed (矩形) -->
-                <div id="u356" class="ax_default primary_button">
-                    <div id="u356_div" class=""></div>
-                    <!-- Unnamed () -->
-                    <div id="u357" onclick="buttonSure()" class="text" style="cursor:pointer;">
-                        <p><span>确定</span></p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- line2 (水平线) -->
-    <div id="u358" class="ax_default line ax_default_hidden" data-label="line2" style="display:none; visibility: hidden">
-        <img id="u358_img" class="img " src="images/forgetpwd/line1_u303.png"/>
-        <!-- Unnamed () -->
-        <div id="u359" class="text" style="display:none; visibility: hidden">
-            <p><span></span></p>
-        </div>
-    </div>
-
-    <!-- line3 (水平线) -->
-    <div id="u360" class="ax_default line ax_default_hidden" data-label="line3" style="display:none; visibility: hidden">
-        <img id="u360_img" class="img " src="images/forgetpwd/line1_u303.png"/>
-        <!-- Unnamed () -->
-        <div id="u361" class="text" style="display:none; visibility: hidden">
-            <p><span></span></p>
-        </div>
-    </div>
 </div>
+<footer>
+    © 2018 Esub - Made with ♥ for the people of the internet.
+</footer>
 </body>
 
-<<<<<<< HEAD
-<script>
-    var checkCode="";//
-    var num="";
-    var tele_page1;
-
-    creatCheckCode();
-    console.log("checkCode:"+checkCode);
-    function nextStep() {
-
-        tele_page1 = document.getElementById("u330_input").value;
-        var input_checkCode_page1 = document.getElementById("u331_input").value;
-
-        if(judgeTel(tele_page1)){
-            if(input_checkCode_page1.toUpperCase()!=checkCode){
-                alert("验证码错误！");
-                window.location.reload();
-            }
-            else{
-                var account1 = {"account": tele_page1}
-                $.ajax({
-                    url:"/users/getForget_account",
-                    type:"POST",
-                    dataType:"JSON",
-                    data:account1,
-                    success: function(data){
-                        alert("用户存在！");
-                        var sl=$("#u347_input");
-                        var ops=sl.find("option");
-                        ops.eq(0).val(tele_page1).text("手机号修改："+tele_page1).prop("selected",true);
-                    },
-                    error: function(data){
-                        window.location.reload();
-                    },
-                    statusCode:{
-                        404:function(){
-                            alert('404，页面不存在');
-                        }
-                    }
-                });
-
-            }
-        }
-    }
-
-    function nextStep2() {
-        var reg_check_page2 = document.getElementById("u342_input").value;
-        if(reg_check_page2.valueOf()==""||reg_check_page2.valueOf()!=num.valueOf()){
-            alert("验证码错误！请重新获取");
-            document.getElementById("u342_input").value="";
-            num="";
-            window.location.reload();
-        }
-
-    }
-
-    function buttonSure() {
-        var newPasswoed_page3 = document.getElementById("u350_input").value;
-        var newPasswoedAgain_page3 = document.getElementById("u353_input").value;
-        if(newPasswoed_page3!=newPasswoedAgain_page3||newPasswoed_page3==""){
-            alert("密码错误！");
-        }
-        else{
-
-
-            var crypt = new JSEncrypt();
-
-            crypt.setPublicKey('-----BEGIN PUBLIC KEY-----\n' +
-                'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAoV3HuEo0QkS87MvvkumL\n' +
-                'VxBnqYEea/khLUdZ15E7ShCzUnqMpA8nt8FXDoZJhLJC+zBv6sc1ugIg7n8mac2J\n' +
-                '9DgRxCDgYrP79dpoXwQOhMzQKQ39/s0br865TCDma0sO3UkT2pJ9UVueuqg/nz3D\n' +
-                'XXI390TsIWanC8l5pj28koxBKbYyeOEGs/VM4as4UrJ46FxB68o7EWgkMYWJJLJG\n' +
-                '5aQbzOQOCkRhrDe+dCpyJCIM/qeepBUYNmq2c86mrnYVlEWbTt4pIJhLxN7yHSXH\n' +
-                'i/9lFopLCVZIsJEWvVj1ficvy/VtTx09VG9mtDFgPl5v6EaS2rKU9ltp6HuQDeri\n' +
-                'IwIDAQAB\n' +
-                '-----END PUBLIC KEY-----\n');
-
-            var salt='-rMC](s\\s}>UW0,,3`{G)wj\')Sf{,uNdwet+y{WgQOwLQi-;Vb:+uqu)UUL`1hz-';
-
-            var cryptdata= crypt.encrypt(newPasswoed_page3+salt);
-
-
-
-            var info ={"forget_account":tele_page1,"forget_password":cryptdata};
-            $.ajax({
-                url:"/users/getForget_change",
-                type:"POST",
-                dataType:"JSON",
-                data:info,
-                success: function(data){
-
-                    console.log(data);
-                    var respond_json=data["success"];
-                    console.log(respond_json);
-                    if(respond_json=="same password"){
-                        alert("相同的密码！");
-                        document.getElementById("u350_input").value="";
-                        document.getElementById("u353_input").value="";
-                    }
-
-
-                    else if(respond_json=="password correct"){
-                        alert("修改成功！");
-                    }
-
-
-                },
-
-                error: function(XMLHttpRequest, textStatus) {
-                    console.log(XMLHttpRequest);  //XMLHttpRequest.responseText    XMLHttpRequest.status   XMLHttpRequest.readyState
-                    console.log(textStatus);
-                    $(".box").html("服务器错误！");
-                },
-                statusCode:{
-                    404:function(){
-                        alert('404，页面不存在');
-                    }
-                }
-            });
-        }
-    }
-
-    function sendCheck() {
-        num = Math.ceil(Math.random()*899999 + 100000);
-        alert("验证码："+num);
-    }
-
-    function getCode() {
-        email = document.getElementById("email").value;
-        r = {
-            "email":email
-        }
-        $.ajax({
-            type: "get",
-            url: "/users/getcode",
-            data: r,
-            success: function(data) {
-                alert("已发送验证码，有效时间为30分钟")
-            },
-            error: function(data) {
-                alert("验证码请求失败")
-            }
-        });
-
-    }
-
-    function verifyCode() {
-        email = document.getElementById("email").value;
-        code = document.getElementById("code").value;
-        r = {
-            "email":email,
-            "code":code
-        }
-        $.ajax({
-            type: "get",
-            url: "/users/verifycode",
-            data: r,
-            success: function(data) {
-                if(data == true){
-                    alert("验证码正确");
-                }else{
-                    alert("验证码错误或已过期");
-                }
-            },
-            error: function(data) {
-                alert("请求失败")
-            }
-        });
-    }
-
-    function judgeTel(teleNum) {
-        console.log(teleNum);
-        if(teleNum.length==11&&teleNum.match("^1[3|4|5|7|8][0-9]\\d{4,8}$"))
-        {
-            return true;
-        }
-        else
-        {
-           // alert("手机号错误");
-          //  window.location.reload();
-            return true;
-        }
-    }
-
-    function creatCheckCode(){
-        checkCode = "";
-        /**生成一个随机数**/
-        function randomNum(min,max){
-            return Math.floor( Math.random()*(max-min)+min);
-        }
-        /**生成一个随机色**/
-        function randomColor(min,max){
-            var r = randomNum(min,max);
-            var g = randomNum(min,max);
-            var b = randomNum(min,max);
-            return "rgb("+r+","+g+","+b+")";
-        }
-        drawPic();
-        document.getElementById("u333").onclick = function(e){
-            checkCode="";
-            e.preventDefault();
-            drawPic();
-        }
-
-        /**绘制验证码图片**/
-        function drawPic(){
-            var canvas=document.getElementById("canvas");
-            var width=canvas.width;
-            var height=canvas.height;
-            var ctx = canvas.getContext('2d');
-            ctx.textBaseline = 'bottom';
-
-            /**绘制背景色**/
-            ctx.fillStyle = randomColor(180,240); //颜色若太深可能导致看不清
-            ctx.fillRect(0,0,width,height);
-            /**绘制文字**/
-            var str = 'ABCEFGHJKLMNPQRSTWXY123456789';
-            for(var i=0; i<4; i++){
-                var txt = str[randomNum(0,str.length)];
-                checkCode=checkCode+txt;
-                console.log(checkCode);
-                ctx.fillStyle = randomColor(50,160);  //随机生成字体颜色
-                ctx.font = randomNum(15,40)+'px SimHei'; //随机生成字体大小
-                var x = 10+i*20;
-                var y = randomNum(25,45);
-                var deg = randomNum(-45, 45);
-                //修改坐标原点和旋转角度
-                ctx.translate(x,y);
-                ctx.rotate(deg*Math.PI/180);
-                ctx.fillText(txt, 0,0);
-                //恢复坐标原点和旋转角度
-                ctx.rotate(-deg*Math.PI/180);
-                ctx.translate(-x,-y);
-            }
-            /**绘制干扰线**/
-            for(var i=0; i<8; i++){
-                ctx.strokeStyle = randomColor(40,180);
-                ctx.beginPath();
-                ctx.moveTo( randomNum(0,width), randomNum(0,height) );
-                ctx.lineTo( randomNum(0,width), randomNum(0,height) );
-                ctx.stroke();
-            }
-            /**绘制干扰点**/
-            for(var i=0; i<100; i++){
-                ctx.fillStyle = randomColor(0,255);
-                ctx.beginPath();
-                ctx.arc(randomNum(0,width),randomNum(0,height), 1, 0, 2*Math.PI);
-                ctx.fill();
-            }
-        }
-    }
-
-    function log() {
-        window.location.href='/login';
-    }
-
-    function reg() {
-        window.location.href='/register';
-    }
-
-</script>
-
-
-
-
-=======
->>>>>>> 085ce9e468ef8904504ce1e75d42f12ed844bf34
 </html>
-

@@ -76,17 +76,12 @@ $.ajax({
         var userblood = userInfo[0].blood;
         var userimage = userInfo[0].image;
 
-
-        var login_info=data["login_info"];    
-        console.log(login_info);
-
+        var login_info=data["login_info"];
 
         var login_info_one=login_info.split("****");
         var login_info_more1=login_info_one[0].split("$$$");
         var login_info_more2=login_info_one[1].split("$$$");
-        console.log(login_info_one);
-        console.log(login_info_more1);
-        console.log(login_info_more2);
+
         $("#t11").append("哈衣没给");
         $("#t12").append(login_info_more1[0]);
         $("#t14").append(login_info_more1[1]);
