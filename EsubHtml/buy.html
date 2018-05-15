@@ -55,41 +55,65 @@
     </nav>
 
     <div class="container">
-        <div>
-            <div>
-                <img src="" alt="">
+        <div class="tab">
+            <div class="sub-tab super-tab selected" id="sub_super_vip" onclick="onSuperVipClick(this)">
+                <img src="./img/svip_77e1a49.png" alt="">
                 <span>超级会员</span>
             </div>
-            <div>
-                <img src="" alt="">
+            <div class="sub-tab normal-tab" id="sub_normal_vip" onclick="onNormalVipClick(this)">
+                <img src="./img/vip_1c3ae9d.png" alt="">
                 <span>会员</span>
             </div>
         </div>
-        <div>
-            <div>
+        <div class="op-container">
+            <div class="account">
                 <span>当前账号：</span>
                 <span>呵呵</span>
             </div>
-            <div>
+            <div class="time-choose">
                 <span>开通时长：</span>
-                <div>1年，</div>
-                <div>6个月</div>
-                <div>1个月</div>
+                <div class="choose-item" id="time_one_year" data-num="0" onclick="timeChooseClick(this)">
+                    <div class="time">1年</div>
+                    <div class="price" id="one_year_price">￥249</div>
+                    <span class="triangle-bottomright"></span>
+                </div>
+                <div class="choose-item" id="time_six_month" data-num="1" onclick="timeChooseClick(this)">
+                    <div class="time">6个月</div>
+                    <div class="price" id="six_month_price">￥149</div>
+                    <span class="normal"></span>
+                </div>
+                <div class="choose-item" id="time_one_month"  data-num="2" onclick="timeChooseClick(this)">
+                    <div class="time">1个月</div>
+                    <div class="price" id="one_month_price">￥29</div>
+                    <span class="normal"></span>
+                </div>
             </div>
-            <div>
+            <div class="pay-mathod">
                 <span>支付方式：</span>
-                <div>微信</div>
-                <div>支付宝</div>
-                <div>QQ支付</div>
+                <div class="choose-item" id="weixin-pay" data-num="0" onclick="onPayMethodChoose(this)" >
+                    <img src="./img/weixin-pay.jpg" alt="">
+                    <span class="triangle-bottomright"></span>
+                </div>
+                <div class="choose-item" id="ali-pay" data-num="1" onclick="onPayMethodChoose(this)">
+                    <img src="./img/ali-pay.jpeg" alt="">
+                    <span class="normal"></span>
+                </div>
+                <div class="choose-item" id="qq-pay" data-num="2" onclick="onPayMethodChoose(this)">
+                    <img src="./img/qq-pay.png" alt="">
+                    <span class="normal"></span>
+                </div>
             </div>
-            <div>
+            <div class="price-show">
                 <span>应付金额：</span>
-                <div>2220元</div>
+                <span class="price" id="money_need_pay">2220元</span>
+                <img src="./img/ecode.jpg" alt="" class="pay-ecode" id="pay_qrcode">
             </div>
         </div>
-
     </div>
-
+    <script src="js/buy.js"></script>
+    <footer>
+        © 2018 Esub - Made with ♥ for the people of the internet.
+    </footer>
 </body>
 
 </html>
