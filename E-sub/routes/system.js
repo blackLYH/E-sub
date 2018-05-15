@@ -123,6 +123,7 @@ router.post('/upload',upload.single('upload_file'), function (req, res, next) {
     var bh = req.body["bh"];
     var bm = req.body["bm"];
     var bs = req.body["bs"];
+    var user = req.body['user'];
     console.log(req.body["sourcelanguage"]);
     console.log(req.body["detlanguage"]);
     console.log(sourcelanguage);
@@ -143,6 +144,26 @@ router.post('/upload',upload.single('upload_file'), function (req, res, next) {
         targetlanguage = '';
 
     shell.exec('python3 '+timeAddPath+' '+subPath+filename+targetlanguage+'.srt '+bs+' '+bm+' '+bh);
+    var connection = mysql.createConnection({
+        host: sqlURL,
+        user: sqlUSER,
+        password: '123456',
+        database: 'esub'
+    });
+    connection.connect();
+    var sql = 'insert into subtitle(subtitle_ID,title,publisher,price) values (?,?,?,?)';
+    var piss = [null, filename, user, 20];
+
+    connection.query(sql, piss, function (err, result) {
+        if (err) { //注册失败
+            console.log('[INSERT ERROR] - ', err.message);
+        }
+        else { //注册成功
+
+            console.log("写入数据库");
+        }
+    });
+    connection.end();
     shell.exec('cat '+subPath+filename+targetlanguage+'.srt',  {encoding: 'gbk'},function(code, stdout, stderr) {
         console.log('Exit code:', code);
 
