@@ -9,7 +9,8 @@
     <link rel="stylesheet" href="css/forget.css" />
     <script type="text/javascript" src="js/jquery-3.3.1.min.js" ></script>
     <script type="text/javascript" src="js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="js/forget.js"></script>
+    <script type="text/javascript" src="javascripts/forget.js"></script>
+
 </head>
 
 <body>
@@ -63,17 +64,17 @@
         </select>
     </div>
     <div class="item"><label id="warming_label">输入手机号:</label>
-        <input  onchange="input_change(this.value)"/><img src="img/错误.png" class="error-img" id="error_img"/>
+        <input id="email" onchange="input_change(this.value)"/><img src="img/错误.png" class="error-img" id="error_img"/>
     </div>
     <div class="code item">
         <label>验证码:</label>
-        <input />
+        <input id="code"/>
         <button class="btn getCodeBtn">点击获取验证码</button>
     </div>
     <div class="item"><label>输入新密码:</label>
-        <input type="password" /></div>
+        <input id="password1" type="password" /></div>
     <div class="item"><label>确认新密码:</label>
-        <input type="password" /></div>
+        <input id="password2" type="password" /></div>
     <div class="btn submitBtn">提交</div>
 
 </div>

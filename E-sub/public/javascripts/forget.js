@@ -1,31 +1,67 @@
-var num = "";
-var info;
-var teleNum = document.getElementById("u50_input").value;
-var reg_account = document.getElementById("u49_input").value;
-var reg_password = document.getElementById("u58_input").value;
-var reg_check = document.getElementById("u59_input").value;
+var cw = 1;
+var email;
+function sele_Change() {
+    var ways = document.getElementById("ways");
+    cw = ways.options[ways.selectedIndex].value;
 
-function reg() {
-    var teleNum = document.getElementById("u50_input").value;
-    var reg_account = document.getElementById("u49_input").value;
-    var reg_password = document.getElementById("u58_input").value;
-    var reg_check = document.getElementById("u59_input").value;
-    var info = {"teleNum": teleNum, "reg_account": reg_account, "reg_password": reg_password};
-    var check = document.getElementById('u64_input');
-    if (!check.checked) {
-        alert("请阅读并接受《E-sub用户协议》及《E-sub隐私保护权声明》");
-        return;
+    var wl = document.getElementById("warming_label");
+    if(cw == 1) {
+        wl.innerText = "输入手机号:";
+    } else if(cw == 2) {
+        wl.innerText = "输入邮箱:";
     }
-    verifyCode();
 }
 
+//检查输入
+function input_change(e) {
+
+    var ei = document.getElementById("error_img");
+    if(cw == 1) {
+        var phone_re = /^1[34578]\d{9}$/;
+
+        if(phone_re.test(e)) {
+            ei.style.display = "none";
+        } else {
+            ei.style.display = "inline";
+            alert("手机号错误！");
+            return;
+        }
+    } else if(cw == 2) {
+        var email_re = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
+        if(email_re.test(e)) {
+            ei.style.display = "none";
+            getCheckCode();
+
+        } else {
+            ei.style.display = "inline";
+            alert("邮箱错误！");
+            return;
+        }
+    }
+}
+
+/*
+/users/forget_1
+传参数：info = {"email": email};
+功能：判断email是否存在
+存在："account exist"
+不存在："NO account"
+ */
+
+
+/*
+/users/forget_2
+传参数：info = {"teleNum": email,  "password": cryptdata};
+功能：将email账户的password修改为新的（已加密）
+存在："update success"
+不存在：""
+ */
 
 function getCheckCode() {
-    alert("验证码已发送");
-    //getCode();
-    info = {"teleNum": teleNum, "account": reg_account};
+    email = document.getElementById("email").value;
+    info = {"email": email};
     $.ajax({
-        url: "/users/register_1",
+        url: "/users/forget_1",
         type: "POST",
         dataType: "JSON",
         data: info,
@@ -34,7 +70,6 @@ function getCheckCode() {
             if (respond_json == "NO account") {
                 //发验证码
                 getCode();
-                //info = {"teleNum": teleNum, "account": reg_account, "password": reg_password};
             }
             else if (respond_json == "account exist") {
                 alert("账号已存在!");
@@ -52,7 +87,7 @@ function getCheckCode() {
 
 //邮箱
 function getCode() {
-    var email = document.getElementById("u50_input").value;
+    email = document.getElementById("email").value;
     var r = {
         "email": email
     }
@@ -70,12 +105,15 @@ function getCode() {
 }
 
 function verifyCode() {
-    var email = document.getElementById("u50_input").value;
-    var code = document.getElementById("u59_input").value;
-    var teleNum = document.getElementById("u50_input").value;
-    var reg_account = document.getElementById("u49_input").value;
-    var reg_password = document.getElementById("u58_input").value;
-    var reg_check = document.getElementById("u59_input").value;
+
+    var code = document.getElementById("code").value;
+    var password1 = document.getElementById("password1").value;
+    var password2 = document.getElementById("password2").value;
+    if(password1!=password2){
+        alert("密码不一致");
+        return;
+    }
+
     r = {
         "email": email,
         "code": code
@@ -93,9 +131,9 @@ function verifyCode() {
         '-----END PUBLIC KEY-----\n');
 
     var salt = '-rMC](s\\s}>UW0,,3`{G)wj\')Sf{,uNdwet+y{WgQOwLQi-;Vb:+uqu)UUL`1hz-';
-    var cryptdata = crypt.encrypt(reg_password + salt);
+    var cryptdata = crypt.encrypt(password1 + salt);
     info = {
-        "teleNum": email, "account": reg_account, "password": cryptdata
+        "teleNum": email,  "password": cryptdata
     }
     $.ajax({
         type: "get",
@@ -105,21 +143,20 @@ function verifyCode() {
             if (data == true) {
                 alert("验证码正确");
                 //跳转
-                window.location.href = '/login';
 
                 $.ajax({
 
-                    url: "/users/register_2",
+                    url: "/users/forget_2",
                     type: "POST",
                     dataType: "JSON",
                     data: info,
                     success: function (data, textStatus) {
                         var result = data["success"];
-                        if (result == "register success") {
-                            alert("注册成功！");
+                        if (result == "update success") {
+                            alert("修改成功！");
                         }
                         else {
-                            alert("注册失败！");
+                            alert("修改失败！");
                         }
                     },
                     statusCode: {
@@ -137,9 +174,3 @@ function verifyCode() {
         }
     });
 }
-
-function buttonLog() {
-    window.location.href = '/login';
-}
-
-
