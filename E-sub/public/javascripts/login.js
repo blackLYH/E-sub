@@ -93,7 +93,22 @@ function login() {
 
     var salt02="$$$";
 
-    var login_info=loginIP+salt02+loginPlace+salt02+browser;
+    var date = new Date();
+    var seperator1 = "_";
+    var seperator2 = "_";
+    var month1 = date.getMonth() + 1;
+    var strDate = date.getDate();
+    if (month1 >= 1 && month1 <= 9) {
+        month1 = "0" + month1;
+    }
+    if (strDate >= 0 && strDate <= 9) {
+        strDate = "0" + strDate;
+    }
+    var currentdate = date.getFullYear() + seperator1 + month1 + seperator1 + strDate
+        + "_" + date.getHours() + seperator2 + date.getMinutes()
+        + seperator2 + date.getSeconds();
+
+    var login_info=loginIP+salt02+loginPlace+salt02+browser+salt02+currentdate;
 
     console.log("=======================");
 
