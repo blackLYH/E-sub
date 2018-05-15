@@ -1,0 +1,108 @@
+.account-item {}
+
+.account-item.pic {
+	width: 30px;
+	height: 30px;
+	margin-top: 10px;
+}
+
+.account-item.name {
+	margin-left: 0;
+}
+
+.account-item.exit {}
+
+.account-item.vip {
+	background-color: red;
+	color: white;
+	padding: 0 8px;
+	height: 30px;
+	line-height: 30px;
+	margin-top: 10px;
+	border-radius: 5px;
+	margin-right: 30px;
+}
+
+.title-bar{
+	margin-top: 50px;
+    padding-top: 120px;
+    height: 360px;
+    width: 100%;
+	text-align: center;
+	background: url("../img/bar.png")
+}
+
+.title-bar .main-title{
+	font-size: 36px;
+	color: antiquewhite;
+}
+
+.title-bar .btn{
+	margin-top: 50px;
+	width: 150px;
+}
+
+.powers-contrast{
+	width: 800px;
+	margin: 0 auto;
+	margin-top: 60px;
+}
+.powers-contrast table{
+	border: 1px solid gainsboro;
+}
+.powers-contrast tr{
+    margin: 10px 0;
+}
+.powers-contrast th{
+	font-size: 20px;
+	font-weight: bold;
+	height: 60px;
+	padding-left: 10px;
+}
+.powers-contrast td{
+	min-width: 200px;
+	height: 40px;
+	padding-left: 10px;
+}
+.powers-contrast .bg{
+	background-color: antiquewhite;
+}
+
+.powers-contrast .normal-vip{
+	color: rgb(245, 161, 59);
+}
+.powers-contrast .super-vip{
+	color: red;
+}
+
+.desc-container{
+	width: 320px;
+	height: 20px;
+	line-height: 20px;;
+	margin: 50px auto;
+}
+.desc-container div{
+	display: inline-block;
+}
+.desc-container .left{
+	width: 84px;
+	height: 16px;
+	background: url("../img/leftArrow_3ad8545.png");
+}
+.desc-container .desc{
+	margin: 0 20px;
+	font-size: 24px;
+	text-align: center;
+	
+}
+.desc-container .right{
+	width: 84px;
+	height: 16px;
+	background: url("../img/rightArrow_9e79a4a.png");
+}
+
+footer {
+	margin: 20px auto;
+	text-align: center;
+	margin-top: 80px;
+}
