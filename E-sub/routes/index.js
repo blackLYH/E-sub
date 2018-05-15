@@ -7,6 +7,8 @@ var sha512 = require('../public/javascripts/sha512');
 var NodeRSA = require('node-rsa');
 
 
+
+
 var sqlURL = '45.76.169.253';
 var sqlUSER = 'root';
 
@@ -129,3 +131,4 @@ router.get('/member_center', function (req, res, next) {
 });
 
 module.exports = router;
+

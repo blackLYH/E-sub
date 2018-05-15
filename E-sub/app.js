@@ -1,12 +1,22 @@
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
+var fs = require('fs');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var logger = require('morgan');
 
+var https=require('https');
+
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+
+var opinions={
+    key:fs.readFileSync('./public/cert/1527938577743.key'),
+    cert:fs.readFileSync('./public/cert/1527938577743.pem')
+
+};
+
 
 var app = express();
 
@@ -42,5 +52,7 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+https.createServer(opinions,app).listen(443);
 
 module.exports = app;
