@@ -1,91 +1,31 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <title>404page</title>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
-    <meta name="apple-mobile-web-app-capable" content="yes"/>
-    <link href="resources/css/jquery-ui-themes.css" type="text/css" rel="stylesheet"/>
-    <link href="resources/css/axure_rp_page.css" type="text/css" rel="stylesheet"/>
-    <link href="data/styles.css" type="text/css" rel="stylesheet"/>
-    <link href="files/404page/styles.css" type="text/css" rel="stylesheet"/>
-    <script src="resources/scripts/jquery-1.7.1.min.js"></script>
-    <script src="resources/scripts/jquery-ui-1.8.10.custom.min.js"></script>
-    <script src="resources/scripts/prototypePre.js"></script>
-    <script src="data/document.js"></script>
-    <script src="resources/scripts/prototypePost.js"></script>
-    <script src="files/404page/data.js"></script>
-    <script type="text/javascript">
-        $axure.utils.getTransparentGifPath = function() { return 'resources/images/transparent.gif'; };
-        $axure.utils.getOtherPath = function() { return 'resources/Other.html'; };
-        $axure.utils.getReloadPath = function() { return 'resources/reload.html'; };
-    </script>
+    <meta charset="UTF-8">
+    <title>Esub-请求错误404</title>
+    <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
 </head>
+
 <body>
-<div id="base" class="">
-
-    <!-- Unnamed (矩形) -->
-    <div id="u362" class="ax_default box_1">
-        <img id="u362_img" class="img " src="images/404page/u362.png"/>
-        <!-- Unnamed () -->
-        <div id="u363" class="text" style="display:none; visibility: hidden">
-            <p><span></span></p>
-        </div>
-    </div>
-
-    <!-- Unnamed (矩形) -->
-    <div id="u364" class="ax_default label">
-        <div id="u364_div" class=""></div>
-        <!-- Unnamed () -->
-        <div id="u365" class="text">
-            <p><span>E-sub</span></p>
-        </div>
-    </div>
-
-    <!-- Unnamed (矩形) -->
-    <div id="u366" class="ax_default _二级标题">
-        <div id="u366_div" class=""></div>
-        <!-- Unnamed () -->
-        <div id="u367" class="text">
-            <p><span>404</span></p>
-        </div>
-    </div>
-
-    <!-- Unnamed (矩形) -->
-    <div id="u368" class="ax_default label">
-        <div id="u368_div" class=""></div>
-        <!-- Unnamed () -->
-        <div id="u369" class="text">
-            <p><span>您要访问的界面找不回来了，但是我们可以？？？待定</span></p>
-        </div>
-    </div>
-
-    <!-- Unnamed (矩形) -->
-    <div id="u370" class="ax_default label">
-        <div id="u370_div" class=""></div>
-        <!-- Unnamed () -->
-        <div id="u371" class="text">
-            <p><span>这里放咱们的网址-。-</span></p>
-        </div>
-    </div>
-
-    <!-- Unnamed (矩形) -->
-    <div id="u372" class="ax_default box_1">
-        <img id="u372_img" class="img " src="images/404page/u372.png"/>
-        <!-- Unnamed () -->
-        <div id="u373" class="text">
-            <p><span>内容待定</span></p>
-        </div>
-    </div>
-
-    <!-- Unnamed (矩形) -->
-    <div id="u374" class="ax_default label">
-        <div id="u374_div" class=""></div>
-        <!-- Unnamed () -->
-        <div id="u375" class="text">
-            <p><span style="text-decoration:underline;">返回首页</span></p>
-        </div>
-    </div>
+<style>
+    .container {
+        width: 300px;
+        text-align: center;
+        margin: 0 auto;
+        color: cornflowerblue;
+    }
+</style>
+<div class="container" id="container">
+    <img src="img/error.png" />
+    <div>对不起，您请求的页面不存在</div>
 </div>
+<script>
+    document.getElementById("container").style.marginTop = (window.innerHeight / 2 - 200) + "px";
+    $(window).resize(function() {
+        document.getElementById("container").style.marginTop = (window.innerHeight / 2 - 200) + "px";
+    });
+</script>
 </body>
+
 </html>

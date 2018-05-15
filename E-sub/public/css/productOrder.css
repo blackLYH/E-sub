@@ -1,0 +1,239 @@
+.priceHeader h2, 
+.priceHeader h3 {
+  text-align: center;
+}
+
+.planContact {
+  background: #5c636c;
+  width: 100%;
+  padding-bottom: 50px;
+  padding-top: 50px;
+  color: #fff;
+  text-align: center;
+  margin: 40px 0;
+}
+
+.planContact p {
+  font-size: 26px;
+  text-indent: 0;
+  margin-bottom: 22px;
+  color: #fff;
+}
+
+.planContact .contactItem {
+  margin-right: 20px;
+  font-size: 16px;
+  display: inline-block;
+  line-height: 200%;
+}
+
+.planContact p a,
+.planContact .contactItem a {
+  color: #fff;
+}
+
+.priceTable{
+	background: #ededed;
+	border-collapse: inherit;
+  border-spacing: 1px;
+  width: 100%;
+}
+
+.priceTable tr{
+
+}
+
+.priceTable tr.priceTitle{
+
+}
+
+.priceTable tr.priceTitle th,
+.priceTable tr.priceTitle td{
+	background: #d60608;
+	color: #fff;
+}
+
+.priceTable th{
+	background: #fff;
+	color: #2c3239;
+	padding: 4px 10px;
+	text-align: right;
+	font-size: 14px;
+	font-weight: 500;
+}
+
+.priceTable td{
+	background: #fff;
+	color: #2c3239;
+	padding: 10px 10px;
+	text-align: center;
+	font-size: 14px;
+	width: 20%;
+}
+
+.priceTable td del{
+	font-size: 14px;
+	color: #c1c1c1;
+}
+
+.priceTable td .btn{
+  font-size: 16px;
+	min-width: 140px;
+	margin: 5px 0;
+	padding: 6px 6px;
+	text-align: right;
+	background: #fff;
+	color: #1e2227;
+	text-shadow:none;
+	border-width : 1px;
+}
+
+.priceTable td .btn:hover{
+	background: #1e2227;
+	color: #fff;
+}
+
+
+
+.priceTable td .btn span{
+	font-size: 12px;
+}
+
+
+
+
+
+.priceSelect{
+	font-size: 16px;
+	padding: 20px;
+	min-width: 700px;
+}
+.priceSelect label{
+	display: inline-block;
+	padding: 4px 10px;
+}
+
+.productTitle{
+	margin: 10px 0 20px 0;
+}
+
+.productTitle label{
+	
+}
+
+.productTitle .productSelector{
+	padding: 4px 16px;
+	cursor: pointer;
+	text-decoration: none;
+	color: #2c3239;
+	border: 1px #2c3239 dashed;
+	margin-right: 8px;
+}
+
+.productTitle .selected,
+.productTitle .productSelector:hover{
+	color: #fff;
+	background: #2c3239;
+}
+
+
+.productPrice {
+	margin: 0 0 20px 0;
+}
+
+
+.productPrice label{
+	
+}
+
+.productPrice .rolePrice{
+	display: none;
+}
+.productPrice .rolePrice.selected{
+	display: block;
+}
+
+.productPrice .priceSelectLabel{
+	padding: 4px 10px;
+	cursor: pointer;
+	display: inline-block;
+  text-align: right;
+}
+
+.productPrice .priceSlector{
+	padding: 4px 16px;
+	cursor: pointer;
+	display: inline-block;
+  text-align: center;
+	text-decoration: none;
+	color: #2c3239;
+	border: 1px #2c3239 dashed;
+	margin-right: 8px;
+}
+
+.productPrice .priceSlectorDisabled{
+	cursor: inherit;
+}
+
+.productPrice .priceSlector del{
+	color: #c1c1c1;
+}
+
+.productPrice .priceSlector:hover,
+.productPrice .priceSlector.selected{
+	color: #fff;
+	background: #2c3239;
+}
+
+.productPrice .priceSlectorDisabled:hover{
+	color: #2c3239;
+	background: #fff;
+}
+
+
+.productPrice .priceSlector:hover del,
+.productPrice .priceSlector.selected del{
+	color: #929090;
+}
+
+.productPrice .priceSlectorDisabled:hover del{
+	color: #c1c1c1;
+	background: #fff;
+}
+
+.payableZone{
+
+}
+
+.payableZone label{
+	
+}
+
+.payableZone .payable{
+	padding: 4px 0px;
+	cursor: pointer;
+	display: inline-block;
+}
+
+.payableZone .confirmPay{
+	
+}
+
+.payTable{
+	margin: 0 0 30px;
+}
+
+.payTable td{
+	padding: 4px 58px;
+}
+
+.confirmUpgrade{
+	text-align: center;
+  line-height: 200%;
+  padding: 20px;
+}
+
+.confirmUpgrade a{
+	
+}s/* CSS Document */
+

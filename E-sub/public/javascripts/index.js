@@ -183,6 +183,7 @@ function upload_file() {
     $.each(file1, function (i, file) {
         data.append('upload_file', file);
     });
+    data.append('user',getCookie("user"));
     data.append('sourcelanguage', sourcelangue.value);
     data.append('detlanguage', detlangue.value);
     data.append('bh', bh);

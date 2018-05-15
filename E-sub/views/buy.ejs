@@ -2,14 +2,14 @@
 <html>
 
 <head>
-    <meta charset="utf-8">
-    <title>Esub-忘记密码</title>
-    <link rel="stylesheet" href="css/main.css" />
-    <link rel="stylesheet" href="css/bootstrap.min.css" />
-    <link rel="stylesheet" href="css/forget.css" />
-    <script type="text/javascript" src="js/jquery-3.3.1.min.js" ></script>
-    <script type="text/javascript" src="js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="javascripts/forget.js"></script>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Esub - 购买字幕</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/buy.css">
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
 
 </head>
 
@@ -54,33 +54,42 @@
     </div>
 </nav>
 
-<div class="title">密码找回</div>
-
 <div class="container">
-    <div class="item"><label>选择找回方式：</label>
-        <select id="ways" onchange="sele_Change()">
-            <option value="1">手机号</option>
-            <option value="2">邮箱</option>
-        </select>
+    <div>
+        <div>
+            <img src="" alt="">
+            <span>超级会员</span>
+        </div>
+        <div>
+            <img src="" alt="">
+            <span>会员</span>
+        </div>
     </div>
-    <div class="item"><label id="warming_label">输入手机号:</label>
-        <input id="email" onchange="input_change(this.value)"/><img src="img/错误.png" class="error-img" id="error_img"/>
+    <div>
+        <div>
+            <span>当前账号：</span>
+            <span>呵呵</span>
+        </div>
+        <div>
+            <span>开通时长：</span>
+            <div>1年，</div>
+            <div>6个月</div>
+            <div>1个月</div>
+        </div>
+        <div>
+            <span>支付方式：</span>
+            <div>微信</div>
+            <div>支付宝</div>
+            <div>QQ支付</div>
+        </div>
+        <div>
+            <span>应付金额：</span>
+            <div>2220元</div>
+        </div>
     </div>
-    <div class="code item">
-        <label>验证码:</label>
-        <input id="code"/>
-        <button class="btn getCodeBtn">点击获取验证码</button>
-    </div>
-    <div class="item"><label>输入新密码:</label>
-        <input id="password1" type="password" /></div>
-    <div class="item"><label>确认新密码:</label>
-        <input id="password2" type="password" /></div>
-    <div class="btn submitBtn">提交</div>
 
 </div>
-<footer>
-    © 2018 Esub - Made with ♥ for the people of the internet.
-</footer>
+
 </body>
 
 </html>

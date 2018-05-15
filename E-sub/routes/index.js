@@ -30,6 +30,15 @@ router.get('/search', function (req, res, next) {
 router.get('/login', function (req, res, next) {
     res.render('login', {title: 'Express'});
 });
+router.get('/vip_center', function (req, res, next) {
+    res.render('vip_center', {title: 'Express'});
+});
+router.get('/price_view', function (req, res, next) {
+    res.render('price_view', {title: 'Express'});
+});
+router.get('/buy', function (req, res, next) {
+    res.render('buy', {title: 'Express'});
+});
 
 router.post('/login/test', function (req, res, next) {
     var privatePem = fs.readFileSync('./public/private.pem').toString();

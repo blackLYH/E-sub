@@ -1,0 +1,43 @@
+.dev{
+  background: #000;
+  color: #fff;
+  padding: 20px;
+  margin-top: 40px;
+}
+
+.dev:before,
+.dev:after {
+  content: "";
+  display: table;
+}
+.dev:after {
+  clear: both;
+  overflow:hidden;
+}
+
+
+.dev .devBox{
+	background: #000;
+  color: #fff;
+}
+
+
+.dev .devBox .devRow{
+  list-style-position: outside;
+  list-style-type: decimal;
+	background: #000;
+  color: #fff;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  height: 30px;
+  line-height: 30px;
+}
+
+.dev ul{
+	padding-left: 20px;
+}
+
+.dev ul li{
+	color: #fff;
+}/* CSS Document */
+

@@ -76,22 +76,24 @@ $.ajax({
         var userblood = userInfo[0].blood;
         var userimage = userInfo[0].image;
 
-
-        var login_info=data["login_info"];    
-        console.log(login_info);
-
+        var login_info=data["login_info"];
 
         var login_info_one=login_info.split("****");
-        var login_info_more1=login_info_one[0].split("$$$");
-        var login_info_more2=login_info_one[1].split("$$$");
-        console.log(login_info_one);
-        console.log(login_info_more1);
-        console.log(login_info_more2);
-        $("#t11").append("哈衣没给");
+
+        var login_info_more1=login_info_one[login_info_one.length-2].split("$$$");
+        var login_info_more2=login_info_one[login_info_one.length-3].split("$$$");
+
+        var logintime = login_info_more1[3].split("_");
+        var logintime1 = login_info_more2[3].split("_");
+        $("#t11").append(logintime[0]+"年"+logintime[1]+"月"+logintime[2]+"日"+logintime[3]+"时"
+            +logintime[4]+"分"+logintime[5]+"秒");
         $("#t12").append(login_info_more1[0]);
         $("#t14").append(login_info_more1[1]);
         $("#t13").append(login_info_more1[2]);
-        $("#t21").append("哈衣没给");
+
+
+        $("#t21").append(logintime1[0]+"年"+logintime1[1]+"月"+logintime1[2]+"日"+logintime1[3]+"时"
+            +logintime1[4]+"分"+logintime1[5]+"秒");
         $("#t22").append(login_info_more2[0]);
         $("#t24").append(login_info_more2[1]);
         $("#t23").append(login_info_more2[2]);
