@@ -152,10 +152,8 @@ router.post('/upload',upload.single('upload_file'), function (req, res, next) {
         database: 'esub'
     });
     connection.connect();
-    console.log("1240");
-    var sql = 'insert into subtitle(title,publisher,price) values(?,?,?)';
-    var piss = [filename, user, 20];
-    console.log("1241");
+    var sql = 'insert into subtitle(title,publisher,price,path,language) values(?,?,?,?,?)';
+    var piss = [filename, user, 20,subPath,targetlanguage];
     connection.query(sql, piss, function (err, result) {
         if (err) { //注册失败
             console.log('[INSERT ERROR] - ', err.message);
@@ -166,7 +164,6 @@ router.post('/upload',upload.single('upload_file'), function (req, res, next) {
         }
     });
     connection.end();
-    console.log("1242");
     shell.exec('cat '+subPath+filename+targetlanguage+'.srt',  {encoding: 'gbk'},function(code, stdout, stderr) {
         console.log('Exit code:', code);
 
