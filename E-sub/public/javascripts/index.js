@@ -16,8 +16,9 @@ function quitout() {
 }
 
 var user = {"account": getCookie("user")};
-
-if(getCookie("user")!="null"){
+console.log(getCookie("user"));
+if(getCookie("user")!=null){
+    
     $.ajax({
         url: "/users/member_center",
         type: "POST",
@@ -51,6 +52,10 @@ if(getCookie("user")!="null"){
         }
     });
 
+}
+else{
+
+    window.location.href = '/login';
 }
 
 function member_center() {
