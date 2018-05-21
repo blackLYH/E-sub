@@ -233,7 +233,6 @@ router.post('/search',function (req, res, next) {
                     return;
                 }
             });
-
         }
         connection.end();
     });
