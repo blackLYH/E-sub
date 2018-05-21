@@ -159,7 +159,6 @@ router.post('/register_1', function (req, res, next) {
             if (!err) {
                 var res = hasUser(results)
                 callback(res);
-
             } else {
                 callback(error());
             }

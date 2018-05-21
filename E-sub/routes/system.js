@@ -207,7 +207,7 @@ router.post('/search',function (req, res, next) {
                 return "database error";
             }
         }
-        var subtitleInfo ={};
+        var subtitleInfo =[];
         for(var i = 0;i < result.length;i ++){
             console.log('Program real:',result[i]);
             // to do search the database
@@ -220,13 +220,17 @@ router.post('/search',function (req, res, next) {
                 var subtitleID = subtitle.subtitle_ID;
                 var videoID = subtitle.video_ID;
                 var publisher = subtitle.publisher;
+                var time = subtitle.upload_time;
                 var price = subtitle.price;
-                subtitleInfo.push({subtitle:title,subtitleID:subtitleID,videoID:videoID,publisher:publisher,price:price});
+                subtitleInfo.push({subtitle:title,Time:time,subtitleID:subtitleID,videoID:videoID,Owner:publisher,price:price});
             });
         }
         connection.end();
-        res.json({"success":subtitleInfo,"file":result[0]});
-    });
+        //subtitleInfo.push({subtitle:"test",Owner:"hh",Time:"234567",subtitleID:"test",videoID:"test",publisher:"test",price:"test"});
+        //subtitleInfo.push({subtitle:"storyboarden.srt",Owner:"hh",Time:"234567",subtitleID:"test2",videoID:"test2",publisher:"test2",price:"test2"});
+        //console.log(subtitleInfo);
+        res.json({"success":subtitleInfo});
+   });
 });
 
 router.post('/download', function(req, res, next) {
