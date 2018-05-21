@@ -18,7 +18,7 @@ function quitout() {
 var user = {"account": getCookie("user")};
 console.log(getCookie("user"));
 if(getCookie("user")!=null){
-    
+
     $.ajax({
         url: "/users/member_center",
         type: "POST",
@@ -54,7 +54,7 @@ if(getCookie("user")!=null){
 
 }
 else{
-
+    alert("请登陆！");
     window.location.href = '/login';
 }
 
