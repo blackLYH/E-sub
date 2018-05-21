@@ -246,13 +246,8 @@ router.post('/register_2', function (req, res, next) {
 
 router.post('/member_center', function (req, res, next) {
     var account = req.body["account"];
-
-
     var Filename="./public/log/"+account+".txt";
-
     var login_info = fs.readFileSync(Filename, 'utf-8');
-
-
 
     var connection = mysql.createConnection({
         host: sqlURL,

@@ -8,7 +8,10 @@ var onSearchClick = function() {
         sr.innerHTML="";
         var items ='';
         for(var i = 0; i < r.length; i++) {
-            var item='<div class="result-item"><div class="name"><label>'+r[i].subtitle+'</label></div><div class="info"><label>Owner:</label><a class="b">'+r[i].Owner+' </a><label class="a">Time:</label><label class="b">'+r[i].Time+'</label><label class="a">Price:</label><label class="b">'+r[i].price+'</label><a class="c" href="uploads/subtitle/'+r[i].subtitle+'" download="'+r[i].subtitle+'">下载</a><a class="c" style="margin-right: 10px;" onclick="">查看详情</a></div><div class="line"></div></div>';
+            var time = r[i].Time.replace("Z","UTC");
+            time = time.replace("T"," ");
+            time = time.replace(".000","");
+            var item='<div class="result-item"><div class="name"><label>'+r[i].subtitle+'</label></div><div class="info"><label>Owner:</label><a class="b">'+r[i].Owner+' </a><label class="a">Time:</label><label class="b">'+time+'</label><label class="a">Price:</label><label class="b">'+r[i].price+'</label><a class="c" href="uploads/subtitle/'+r[i].subtitle+'" download="'+r[i].subtitle+'">下载</a><a class="c" style="margin-right: 10px;" onclick="">查看详情</a></div><div class="line"></div></div>';
             items+=item;
         }
         sr.innerHTML = items;

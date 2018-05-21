@@ -153,7 +153,7 @@ router.post('/upload',upload.single('upload_file'), function (req, res, next) {
     });
     connection.connect();
     var sql = 'insert into subtitle(title,publisher,price,path,language) values(?,?,?,?,?)';
-    var piss = [filename, user, 20,subPath,targetlanguage];
+    var piss = [filename+targetlanguage, user, 20,subPath,targetlanguage];
     connection.query(sql, piss, function (err, result) {
         if (err) { //注册失败
             console.log('[INSERT ERROR] - ', err.message);
@@ -190,14 +190,17 @@ router.post('/search',function (req, res, next) {
     console.log(query_name);
     var shellPath = path.join(__dirname,"/../public/uploads/subtitle/shell.sh ");
     shell.exec('. '+shellPath+ query_name +'',function(code, stdout, stderr) {
-        console.log('Exit code:', code);
         console.log('Program output:', stdout);
         var decodedText = iconv.decode(stdout, 'gbk');
         var result = decodedText.split(" ");
         var _getSubtitle = function (name, callback) {
-            var sql = "select * form subtitle where title=?";
+            var pos = name.lastIndexOf(".");
+            name = name.substring(0,pos);
+            console.log(name);
+            var sql = "select * from subtitle where title=?";
             connection.query(sql, name, function (err, results) {
                 if (!err) {
+                   // console.log(results);
                     callback(results);
                 } else {
                     callback(error());
@@ -207,6 +210,7 @@ router.post('/search',function (req, res, next) {
                 return "database error";
             }
         }
+       // var result = ["storyboard.srt"];
         var subtitleInfo =[];
         for(var i = 0;i < result.length;i ++){
             console.log('Program real:',result[i]);
@@ -216,21 +220,22 @@ router.post('/search',function (req, res, next) {
             }
             getSubtitle(result[i], function (data) {
                 var subtitle = data;
-                var title = subtitle.title;
-                var subtitleID = subtitle.subtitle_ID;
-                var videoID = subtitle.video_ID;
-                var publisher = subtitle.publisher;
-                var time = subtitle.upload_time;
-                var price = subtitle.price;
+                console.log(subtitle);
+                var title = subtitle[0].title;
+                var subtitleID = subtitle[0].subtitle_ID;
+                var videoID = subtitle[0].video_ID;
+                var publisher = subtitle[0].publisher;
+                var time = subtitle[0].upload_time;
+                var price = subtitle[0].price;
                 subtitleInfo.push({subtitle:title,Time:time,subtitleID:subtitleID,videoID:videoID,Owner:publisher,price:price});
+                if(subtitleInfo.length == result.length){
+                    res.json({"success":subtitleInfo});
+                    return;
+                }
             });
         }
         connection.end();
-        //subtitleInfo.push({subtitle:"test",Owner:"hh",Time:"234567",subtitleID:"test",videoID:"test",publisher:"test",price:"test"});
-        //subtitleInfo.push({subtitle:"storyboarden.srt",Owner:"hh",Time:"234567",subtitleID:"test2",videoID:"test2",publisher:"test2",price:"test2"});
-        //console.log(subtitleInfo);
-        res.json({"success":subtitleInfo});
-   });
+    });
 });
 
 router.post('/download', function(req, res, next) {
