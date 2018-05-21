@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>我的分享</title>
+</head>
+
+<body>
+    <div class="list_container" id="list_container">
+        <link rel="stylesheet" href="./css/shared_history.css">
+        <!-- <div class="list_item">
+            <h3>字幕名称</h3>
+            <p>摘要：发违法而阿尔额肺癌我飞啊飞阿尔法而发放安肺癌飞啊飞</p>
+            <div class="bottom">
+                <div class="left">
+                    <label>分享时间:</label>
+                    <span>2018-8-9</span>
+                    <label>价格:</label>
+                    <span>10</span>
+                    <label>被下载次数:</label>
+                    <span>10</span>
+                </div>
+                <div class="right">
+                    <a href="#">查看内容</a>
+                    <a href="#">取消分享</a>
+                    <a href="#">修改价格</a>
+                </div>
+            </div>
+        </div> -->
+        <!-- <div class="list_item">
+            <h3>字幕名称</h3>
+            <p>摘要：发违法而阿尔额肺癌我飞啊飞阿尔法而发放安肺癌飞啊飞</p>
+            <div class="bottom">
+                <div class="left">
+                    <label>分享时间:</label>
+                    <span>2018-8-9</span>
+                    <label>被下载次数:</label>
+                    <span>10</span>
+                </div>
+                <div class="right">
+                    <a data-num="1" onclick="onViewDetailClick(this)">查看内容</a>
+                    <a href="#">取消分享</a>
+                    <a href="#">修改价格</a>
+                </div>
+            </div>
+        </div> -->
+    </div>
+    <script src="./js/shared_history.js"></script>
+    <div class="pop_window" id="pop_window">
+        <div class="close">
+            <img src="./img/关闭.png" alt="" onclick="on_pop_close()"> </div>
+        <p id="pop_window_content"></p>
+    </div>
+
+
+    <div class="pop_window mprice_pop_window" id="mprice_pop_window">
+        <div class="close">
+            <img src="./img/关闭.png" alt="" onclick="on_mpop_close()"> </div>
+        <div class="line"><div class="title">修改价格</div></div>
+        <div class="line">
+            <div class="t_label">原始价格：</div>
+            <span id="oprice">123</span>
+        </div>
+        <div class="line">
+            <div class="t_label">修改为：</div>
+            <input type="text" class="price_input" id="new_price">
+        </div>
+        <div class="line">
+            <div class="t_label">邮箱验证码：</div>
+            <input type="text" class="code_input"id="n_email_code">
+            <button class="btn get_code_btn" id="n_email_btn" onclick="getEmailCode(this)">获取</button>
+        </div>
+        <button class="btn modify_btn" id="mdify_btn" onclick="onMdifyClick(this)">修改</button>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,135 @@
+body{
+    margin: 0 0;
+}
+.list_container{
+    border-top: 1px solid gainsboro;
+}
+.list_item{
+    min-width: 500px;
+    padding: 20px 10px;
+    border-bottom: 1px solid gainsboro;
+}
+.list_item h3{
+    margin: 0 0;
+}
+.list_item p{
+    font-size: 14px;
+}
+.list_item span{
+    margin-right: 10px;
+}
+.list_item .bottom{
+    position: relative;
+    font-size: 14px;
+}
+.list_item .left{
+ display: inline-block;
+}
+.list_item .right{
+    display: inline-block;
+    position: absolute;
+    right: 0;
+
+}
+.list_item .right .link{
+    display: inline-block;
+    width: 70px;
+    text-align: center;
+    color: orange;
+}
+
+.pop_window{
+    background: white;
+    position: absolute;
+    width: 500px;
+    border-radius: 10px;
+    padding: 20px 20px;
+    max-height: 500px;
+    top: 50px;
+    left: calc(50% - 250px);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    display: none;
+    /* -webkit-user-select:none;
+    -moz-user-select:none;
+    -ms-user-select:none;
+    user-select:none; */
+}
+.pop_window p{
+    margin: 0 0;
+    margin-top: -15px;
+}
+
+.pop_window .close{
+    display: inline-block;
+}
+.pop_window .close img{
+    position: absolute;
+    right: 10px;
+    top: 5px;
+    width: 20px;
+    height: 20px;
+}
+.mprice_pop_window .line{
+    margin-left: 100px;
+}
+.mprice_pop_window .title{
+    font-size: 20px;
+    font-weight: bold;
+    padding-left: 100px;
+    margin-bottom: 15px;
+}
+.mprice_pop_window .t_label{
+    display: inline-block;
+    width: 100px;
+    margin: 10px 0;
+}
+.mprice_pop_window .price_input{
+    width: 180px;
+}
+.mprice_pop_window .code_input{
+    width: 100px;
+}
+.mprice_pop_window .get_code_btn{
+    width: 70px;
+    height: 30px;
+    line-height: 30px;
+}
+.mprice_pop_window .modify_btn{
+    width: 150px;
+    margin: 20px 175px;
+    margin-bottom: 50px;
+    height: 30px;
+    line-height: 30px;
+}
+
+.mprice_pop_window input{
+    height: 24px;
+    line-height: 24px;
+    border: 1px solid gainsboro;
+    border-radius: 3px;
+}
+
+.btn {
+	font-family: "微软雅黑";
+	text-align: center;
+	background: #FFCC99;
+	color: #666666;
+    border: 0px solid #FFCC99;
+    border-radius: 5px;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	cursor: pointer;
+	outline: none;
+}
+
+.btn:hover {
+	background: #FF9966;
+}
+
+.btn:active {
+	background: #FF6666;
+}
+
+
