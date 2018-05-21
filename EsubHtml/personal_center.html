@@ -1,181 +1,210 @@
 <!DOCTYPE html>
 <html>
 
-	<head>
-		<meta charset="UTF-8">
-		<title>Esub-个人中心</title>
-		<link rel="stylesheet" href="css/main.css" />
-		<link rel="stylesheet" href="css/bootstrap.min.css" />
-		<link rel="stylesheet" href="css/person_center.css" />
-		<script type="text/javascript" src="js/jquery-3.3.1.min.js" ></script>
-		<script type="text/javascript" src="js/bootstrap.min.js"></script>
-	</head>
+<head>
+	<meta charset="UTF-8">
+	<title>Esub-个人中心</title>
+	<link rel="stylesheet" href="css/main.css" />
+	<link rel="stylesheet" href="css/bootstrap.min.css" />
+	<link rel="stylesheet" href="css/person_center.css" />
+	<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="js/bootstrap.min.js"></script>
+</head>
 
-	<body>
-		<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-			<div class="navbar-header">
-				<a class="navbar-brand" href="#">E-SUB</a>
-				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#example-navbar-collapse">
-			<span class="icon-bar"></span>
-			<span class="icon-bar"></span>
-			<span class="icon-bar"></span>
-		</button>
-			</div>
-
-			<div class="collapse navbar-collapse" id="example-navbar-collapse">
-				<ul class="nav navbar-nav">
-					<a class="navbar-text" href="generate.html">生成字幕</a>
-					<li></li>
-					<a class="navbar-text">历史记录</a>
-					<li></li>
-					<a class="navbar-text" href="#">搜索字幕</a>
-					<li></li>
-					<a class="navbar-text">购买字幕</a>
-					<li></li>
-					<a class="navbar-text">出售字幕</a>
-					<li></li>
-					<a class="navbar-text">我的分享</a>
-				</ul>
-
-				<ul class="nav navbar-nav navbar-right">
-					<li></li>
-					<img class="navbar-text account-item pic" src="img/user.png" />
-					<li></li>
-					<a class="navbar-text account-item name">呵呵</a>
-					<li></li>
-					<a class="navbar-text account-item exit" href="#">退出</a>
-					<li></li>
-					<a class="navbar-text" href="index.html">返回首页</a>
-					<li></li>
-					<a class="navbar-text account-item vip">会员中心</a>
-				</ul>
-			</div>
-		</nav>
-
-		<div class="container">
-			<div class="tab">
-				<div class="choice-item">个人资料</div>
-				<div class="choice-item">会员中心</div>
-				<div class="choice-item">消费记录</div>
-				<div class="choice-item">帮助中心</div>
-			</div>
-
-			<div class="tab-item" id="tab-person">
-				<!--个人中心-->
-
-				<div class="info-1">
-					<div class="title">个人资料</div>
-					<div class="pic"><img src="img/user.png" /><label>呵呵</label></div>
-					<div class="other">
-						<div>性别：<input type="radio" name="radio" value="1" />男<input type="radio" name="radio" value="2" />女<input type="radio" name="radio" value="3" />其他</div>
-						<div>生日：
-							<select id="sele_year">
-								<option value="-1">年</option>
-							</select>
-							<select id="sele_month">
-								<option value="-1">月</option>
-							</select>
-							<script>
-								var sy = document.getElementById("sele_year");
-								var sm = document.getElementById("sele_month");
-								for(var i = 1900; i <= 2018; i++) {
-									var o = document.createElement("option");
-									o.value = i;
-									o.innerText = i + "";
-									sy.appendChild(o);
-								}
-
-								for(var i = 1; i <= 12; i++) {
-									var o = document.createElement("option");
-									o.value = i;
-									o.innerText = i + "";
-									sm.appendChild(o);
-								}
-							</script>
-						</div>
-						<div>血型：
-							<select>
-								<option>A</option>
-								<option>B</option>
-								<option>O</option>
-								<option>其他</option>
-							</select>
-						</div>
-						<div class="btn">保存</div>
-					</div>
-				</div>
-
-				<div class="info-2">
-					<div class="material">
-						<div class="item item-title" style="font-weight: bold;;">账号资料</div>
-						<div class="line"></div>
-						<div class="item"><a href="#">修改密码</a></div>
-						<div class="item"><a>手机：未绑定</a></div>
-						<div class="item"><a>账号申诉</a></div>
-						<div class="item"><a>在线客服</a></div>
-						<div class="item"><a>身份认证</a></div>
-					</div>
-					<div class="security">
-						<div class="title-label">安全评分</div>
-						<div class="mark-view"><progress max="100" value="70"></progress> <label>70分!</label></div>
-						<div class="need-op">
-							<div>您的账号存在安全风险，建议优化以下几项：</div>
-							<div><img src="img/warming.png" /><label>绑定手机号</label>
-								<div class="btn">立即绑定</div>
-							</div>
-							<div><img src="img/warming.png" /><label>绑定密保邮箱</label>
-								<div class="btn">立即绑定</div>
-							</div>
-							<div><img src="img/warming.png" /><label>设置密保问题</label>
-								<div class="btn">立即设置</div>
-							</div>
-						</div>
-						<div class="history-container">
-							<!--登录历史-->
-							<div><label>登录历史</label></div>
-							<div>以下为您最近2次登录记录，若存在异常情况，请在核实后尽快
-								<a>修改密码</a>
-							</div>
-
-							<table>
-								<tr>
-									<th>时间</th>
-									<th>IP</th>
-									<th>设备</th>
-									<th>登录方式</th>
-								</tr>
-								<tr>
-									<td>2</td>
-									<td>2</td>
-									<td>2</td>
-									<td>2</td>
-								</tr>
-								<tr>
-									<td>3</td>
-									<td>3</td>
-									<td>3</td>
-									<td>3</td>
-								</tr>
-							</table>
-
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="tab-item" id="tab-member">
-				<!--会员中心-->
-			</div>
-			<div class="tab-item" id="tab-history">
-				<!--消费记录-->
-			</div>
-			<div class="tab-item" id="tab-help">
-				<!--帮助中心-->
-			</div>
-
+<body>
+	<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+		<div class="navbar-header">
+			<a class="navbar-brand" href="#">E-SUB</a>
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#example-navbar-collapse">
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
 		</div>
-		<footer>
-			© 2018 Esub - Made with ♥ for the people of the internet.
-		</footer>
-	</body>
+
+		<div class="collapse navbar-collapse" id="example-navbar-collapse">
+			<ul class="nav navbar-nav">
+				<a class="navbar-text" href="generate.html">生成字幕</a>
+				<li></li>
+				<a class="navbar-text">历史记录</a>
+				<li></li>
+				<a class="navbar-text" href="#">搜索字幕</a>
+				<li></li>
+				<a class="navbar-text">购买字幕</a>
+				<li></li>
+				<a class="navbar-text">出售字幕</a>
+				<li></li>
+				<a class="navbar-text">我的分享</a>
+			</ul>
+
+			<ul class="nav navbar-nav navbar-right">
+				<li></li>
+				<img class="navbar-text account-item pic" src="img/user.png" />
+				<li></li>
+				<a class="navbar-text account-item name">呵呵</a>
+				<li></li>
+				<a class="navbar-text account-item exit" href="#">退出</a>
+				<li></li>
+				<a class="navbar-text" href="index.html">返回首页</a>
+				<li></li>
+				<a class="navbar-text account-item vip">会员中心</a>
+			</ul>
+		</div>
+	</nav>
+
+	<div class="container">
+
+		<div class="tab">
+			<div class="choice-item" data-id="0" onclick="onTabClick(this)">个人资料</div>
+			<div class="choice-item" data-id="1" onclick="onTabClick(this)">历史记录</div>
+			<div class="choice-item" data-id="2" onclick="onTabClick(this)">消费记录</div>
+			<div class="choice-item" data-id="3" onclick="onTabClick(this)">帮助中心</div>
+		</div>
+
+		<div class="tab-item" id="tab-person">
+			<!--个人中心-->
+			<div class="info-1">
+				<div class="title">个人资料</div>
+				<div class="pic">
+					<img src="img/user.png" />
+					<label>呵呵</label>
+				</div>
+				<div class="other">
+					<div>性别：
+						<input type="radio" name="radio" value="1" />男
+						<input type="radio" name="radio" value="2" />女
+						<input type="radio" name="radio" value="3" />其他</div>
+					<div>生日：
+						<select id="sele_year">
+							<option value="-1">年</option>
+						</select>
+						<select id="sele_month">
+							<option value="-1">月</option>
+						</select>
+						<script>
+							var sy = document.getElementById("sele_year");
+							var sm = document.getElementById("sele_month");
+							for (var i = 1900; i <= 2018; i++) {
+								var o = document.createElement("option");
+								o.value = i;
+								o.innerText = i + "";
+								sy.appendChild(o);
+							}
+
+							for (var i = 1; i <= 12; i++) {
+								var o = document.createElement("option");
+								o.value = i;
+								o.innerText = i + "";
+								sm.appendChild(o);
+							}
+						</script>
+					</div>
+					<div>血型：
+						<select>
+							<option>A</option>
+							<option>B</option>
+							<option>O</option>
+							<option>其他</option>
+						</select>
+					</div>
+					<div class="btn">保存</div>
+				</div>
+			</div>
+
+			<div class="info-2">
+				<div class="material">
+					<div class="item item-title" style="font-weight: bold;;">账号资料</div>
+					<div class="line"></div>
+					<div class="item">
+						<a href="#">修改密码</a>
+					</div>
+					<div class="item">
+						<a>手机：未绑定</a>
+					</div>
+					<div class="item">
+						<a>账号申诉</a>
+					</div>
+					<div class="item">
+						<a>在线客服</a>
+					</div>
+					<div class="item">
+						<a>身份认证</a>
+					</div>
+				</div>
+				<div class="security">
+					<div class="title-label">安全评分</div>
+					<div class="mark-view">
+						<progress max="100" value="70"></progress>
+						<label>70分!</label>
+					</div>
+					<div class="need-op">
+						<div>您的账号存在安全风险，建议优化以下几项：</div>
+						<div>
+							<img src="img/warming.png" />
+							<label>绑定手机号</label>
+							<div class="btn">立即绑定</div>
+						</div>
+						<div>
+							<img src="img/warming.png" />
+							<label>绑定密保邮箱</label>
+							<div class="btn">立即绑定</div>
+						</div>
+						<div>
+							<img src="img/warming.png" />
+							<label>设置密保问题</label>
+							<div class="btn">立即设置</div>
+						</div>
+					</div>
+					<div class="history-container">
+						<!--登录历史-->
+						<div>
+							<label>登录历史</label>
+						</div>
+						<div>以下为您最近2次登录记录，若存在异常情况，请在核实后尽快
+							<a>修改密码</a>
+						</div>
+
+						<table>
+							<tr>
+								<th>时间</th>
+								<th>IP</th>
+								<th>设备</th>
+								<th>登录方式</th>
+							</tr>
+							<tr>
+								<td>2</td>
+								<td>2</td>
+								<td>2</td>
+								<td>2</td>
+							</tr>
+							<tr>
+								<td>3</td>
+								<td>3</td>
+								<td>3</td>
+								<td>3</td>
+							</tr>
+						</table>
+
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="tab-item" id="tab-history" style="display: none">
+			<object type="text/html" data="我的分享.html" width="100%" height="100%" style="margin-top: 20px"></object>
+		</div>
+		<div class="tab-item" id="tab-cost" style="display: none">
+			消费记录
+		</div>
+		<div class="tab-item" id="tab-help" style="display: none">
+			帮助中心
+		</div>
+
+		<script src="./js/person_center.js"></script>
+
+	</div>
+	<footer>
+		© 2018 Esub - Made with ♥ for the people of the internet.
+	</footer>
+</body>
 
 </html>
