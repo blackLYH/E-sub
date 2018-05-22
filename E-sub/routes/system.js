@@ -191,7 +191,7 @@ router.post('/search',function (req, res, next) {
     var shellPath = path.join(__dirname,"/../public/uploads/subtitle/shell.sh ");
     shell.exec('. '+shellPath+ query_name +'',function(code, stdout, stderr) {
         console.log('Program output:', stdout);
-        var decodedText = iconv.decode(stdout, 'gbk');
+        var decodedText = iconv.decode(stdout, 'unicode');
         var result = decodedText.split(" ");
         var _getSubtitle = function (name, callback) {
             var pos = name.lastIndexOf(".");
