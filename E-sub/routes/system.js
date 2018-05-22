@@ -213,6 +213,8 @@ router.post('/search',function (req, res, next) {
        // var result = ["storyboard.srt"];
         var subtitleInfo =[];
         for(var i = 0;i < result.length;i ++){
+            if(result[i]=="" || result[i]=='\n')
+                break;
             console.log('Program real:',result[i]);
             // to do search the database
             var getSubtitle = function (name, callback) {
