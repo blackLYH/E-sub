@@ -1,15 +1,15 @@
-var c = document.getElementById("container");
-var a = (window.innerHeight - c.offsetHeight) / 2 - 30;
-if (a > 0) {
-    c.style.marginTop = a + "px";
-}
+// var c = document.getElementById("container");
+// var a = (window.innerHeight - c.offsetHeight) / 2 - 100;
+// if (a > 0) {
+//     c.style.marginTop = a + "px";
+// }
 
-$(window).resize(function () {
-    var a = (window.innerHeight - c.offsetHeight) / 2 - 30;
-    if (a > 0) {
-        c.style.marginTop = a + "px";
-    }
-});
+// $(window).resize(function () {
+//     var a = (window.innerHeight - c.offsetHeight) / 2 - 100;
+//     if (a > 0) {
+//         c.style.marginTop = a + "px";
+//     }
+// });
 
 function tabClick(e) {
 

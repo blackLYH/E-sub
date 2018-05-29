@@ -20,8 +20,8 @@ router.get('/index', function (req, res, next) {
     res.render('index', {title: 'Express'});
 });
 
-router.get('/choose', function (req, res, next) {
-    res.render('choose', {title: 'Express'});
+router.get('/generate', function (req, res, next) {
+    res.render('generate', {title: 'Express'});
 });
 
 router.get('/search', function (req, res, next) {
