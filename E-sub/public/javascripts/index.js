@@ -1,5 +1,5 @@
 var file;
-
+var vip;
 function transtomember(){
     if(getCookie("user")!="null"){
         window.location.href = '/member_center';
@@ -16,7 +16,7 @@ function quitout() {
 }
 
 var user = {"account": getCookie("user")};
-console.log(getCookie("user"));
+//console.log(getCookie("user"));
 if(getCookie("user")!=null){
 
     $.ajax({
@@ -29,6 +29,7 @@ if(getCookie("user")!=null){
                 return;
 
             var userInfo = data["success"];
+            vip = userInfo[0].premium;
             var useraccount = userInfo[0].account;
             var userphone = userInfo[0].phone;
             var usermail = userInfo[0].mail;
@@ -153,8 +154,23 @@ var uploadDoing = function(uploading, endUpload, endGenerating) {
     endGenerating("#");
 }
 
+function checkfile() {
+    var file1 = $("#filename")[0].files;
+    if(file1[0] == null){alert("文件为空！");return;}
+    if(!(file1[0].type.match("video")||file1[0].type.match("audio"))){alert("文件格式错误！");$("#filename")[0].files = null;return;}
+    var opCenter = document.getElementById("op-center");
+    var opBottom = document.getElementById("op-bottom");
+    var uploadView = document.getElementById("doing-view");
+    //opCenter.style.display = "block";
+    //opBottom.style.display = "none";
+    //uploadView.style.display = "block";
+    //opBottom.style.display = "block";
+}
+
 function upload_file() {
     var file1 = $("#filename")[0].files;
+    if(file1[0] == null){alert("文件为空！");return;}
+    if(!(file1[0].type.match("video")||file1[0].type.match("audio"))){alert("文件格式错误！");$("#filename")[0].files = null;return;}
     //获取开始时分秒，结束时分秒。-1表示没有选择，0-59表示对应时间
     var bh = $('#begin-hour option:selected').val()
     var bm = $('#begin-minute option:selected').val()
@@ -174,14 +190,19 @@ function upload_file() {
     var opCenter = document.getElementById("op-center");
     var opBottom = document.getElementById("op-bottom");
     var uploadView = document.getElementById("doing-view");
-    opCenter.style.display = "none";
-    opBottom.style.display = "none";
-    uploadView.style.display = "block";
+    
     //var progressbar = document.getElementById("progressbar");
     button.onprogress = setProgress;
     console.log(file1[0].type);
     var sourcelangue = document.getElementById("movie-language");
     var detlangue = document.getElementById("result-language");
+    if(sourcelangue != detlangue && vip ==0){
+        alert("想翻译？请充值会员");
+        return ;
+    }
+    opCenter.style.display = "none";
+    opBottom.style.display = "none";
+    uploadView.style.display = "block";
     //var text = document.getElementById("u130_input");
     var data = new FormData();
     //为FormData对象添加数据
