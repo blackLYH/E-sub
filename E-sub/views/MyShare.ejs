@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>我的分享</title>
+</head>
+
+<body>
+<div class="list_container" id="list_container">
+    <link rel="stylesheet" href="./css/shared_history.css">
+</div>
+<script src="./javascripts/shared_history.js"></script>
+<div class="pop_window" id="pop_window">
+    <div class="close">
+        <img src="./img/关闭.png" alt="" onclick="on_pop_close()"> </div>
+    <p id="pop_window_content"></p>
+</div>
+
+
+<div class="pop_window mprice_pop_window" id="mprice_pop_window">
+    <div class="close">
+        <img src="./img/关闭.png" alt="" onclick="on_mpop_close()"> </div>
+    <div class="line"><div class="title">修改价格</div></div>
+    <div class="line">
+        <div class="t_label">原始价格：</div>
+        <span id="oprice">123</span>
+    </div>
+    <div class="line">
+        <div class="t_label">修改为：</div>
+        <input type="text" class="price_input" id="new_price">
+    </div>
+    <div class="line">
+        <div class="t_label">邮箱验证码：</div>
+        <input type="text" class="code_input"id="n_email_code">
+        <button class="btn get_code_btn" id="n_email_btn" onclick="getEmailCode(this)">获取</button>
+    </div>
+    <button class="btn modify_btn" id="mdify_btn" onclick="onMdifyClick(this)">修改</button>
+</div>
+</body>
+
+<script>
+    console.log(getCookie("user"));
+    var user = {"account": getCookie("user")};
+    $.ajax({
+        url: "/users/MyShare",
+        type: "POST",
+        dataType: "JSON",
+        data: user,
+        success: function (data, textStatus) {
+            var userInfo = data["success"];
+
+        },
+        statusCode: {
+            404: function () {
+                alert('404，页面不存在');
+            }
+        }
+    });
+
+    function getCookie(name) {
+        var arr = document.cookie.match(new RegExp("(^| )" + name + "=([^;]*)(;|$)"));
+        if (arr != null) return unescape(arr[2]);
+        return null;
+    }
+</script>
+
+</html>

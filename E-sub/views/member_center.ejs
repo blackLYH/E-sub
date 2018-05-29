@@ -35,7 +35,7 @@
             <li></li>
             <a class="navbar-text" href="/sale">出售字幕</a>
             <li></li>
-            <a class="navbar-text" href="/share">我的分享</a>
+            <a class="navbar-text" href="/MyShare">我的分享</a>
         </ul>
 
         <ul class="nav navbar-nav navbar-right">
@@ -46,19 +46,19 @@
             <li></li>
             <a class="navbar-text account-item exit" onclick="clearcookie()" href="#">退出</a>
             <li></li>
-            <a class="navbar-text" href="index.html">返回首页</a>
+            <a class="navbar-text" href="/index">返回首页</a>
             <li></li>
-            <a class="navbar-text account-item vip">会员中心</a>
+            <a class="navbar-text account-item vip" href="/member_center">会员中心</a>
         </ul>
     </div>
 </nav>
 
 <div class="container">
     <div class="tab">
-        <div class="choice-item">个人资料</div>
-        <div class="choice-item">会员中心</div>
-        <div class="choice-item">消费记录</div>
-        <div class="choice-item">帮助中心</div>
+        <div class="choice-item" data-id="0" onclick="onTabClick(this)">个人资料</div>
+        <div class="choice-item" data-id="1" onclick="onTabClick(this)">历史记录</div>
+        <div class="choice-item" data-id="2" onclick="onTabClick(this)">消费记录</div>
+        <div class="choice-item" data-id="3" onclick="onTabClick(this)">帮助中心</div>
     </div>
 
     <div class="tab-item" id="tab-person">
@@ -176,15 +176,17 @@
             </div>
         </div>
     </div>
-    <div class="tab-item" id="tab-member">
-        <!--会员中心-->
+    <div class="tab-item" id="tab-history" style="display: none">
+        <object type="text/html" data="/MyShare" width="100%" height="100%" style="margin-top: 20px"></object>
     </div>
-    <div class="tab-item" id="tab-history">
-        <!--消费记录-->
+    <div class="tab-item" id="tab-cost" style="display: none">
+        消费记录
     </div>
-    <div class="tab-item" id="tab-help">
-        <!--帮助中心-->
+    <div class="tab-item" id="tab-help" style="display: none">
+        帮助中心
     </div>
+
+    <script src="./javascripts/person_center.js"></script>
 
 </div>
 <footer>

@@ -98,10 +98,6 @@ $.ajax({
         $("#t24").append(login_info_more2[1]);
         $("#t23").append(login_info_more2[2]);
 
-
-
-
-
         imageold = userimage;
 
         if(userimage=="system_default.jpg"){

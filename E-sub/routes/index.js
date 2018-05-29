@@ -24,6 +24,10 @@ router.get('/generate', function (req, res, next) {
     res.render('generate', {title: 'Express'});
 });
 
+router.get('/MyShare', function (req, res, next) {
+    res.render('MyShare', {title: 'Express'});
+});
+
 router.get('/search', function (req, res, next) {
     res.render('search', {title: 'Express'});
 });

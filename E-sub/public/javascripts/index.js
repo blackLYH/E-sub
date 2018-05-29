@@ -87,6 +87,8 @@ function setCookie(name, value) {
     document.cookie = name + "=" + escape(value) + ";expires=" + exp.toGMTString();
     location.href = "/member_center"; //接收页面.
     location.href = "/index";
+    location.href = "/MyShare";
+
 }
 
 function getCookie(name) {
