@@ -188,7 +188,7 @@ router.post('/search',function (req, res, next) {
     });
     connection.connect();
     console.log(query_name);
-    var shellPath = path.join(__dirname,"/../public/uploads/subtitle/shell.sh ");
+    var shellPath = path.join(__dirname,"/../public/uploads/shell.sh ");
     shell.exec('. '+shellPath+ query_name +'',function(code, stdout, stderr) {
         console.log('Program output:', stdout);
         var decodedText = iconv.decode(stdout, 'gbk');
