@@ -30,9 +30,9 @@
             <li></li>
             <a class="navbar-text">价格</a>
             <li></li>
-            <a class="navbar-text" href="/login">注册</a>
+            <a class="navbar-text" onclick="jumptoreg(2)" >注册</a>
             <li></li>
-            <a class="navbar-text" href="/login">登陆</a>
+            <a class="navbar-text" onclick="jumptoreg(1)">登陆</a>
         </ul>
     </div>
 </nav>
@@ -57,6 +57,45 @@
     <a style="text-decoration:none;color:#000000;">立即登录</a>
 
 </div>
+
+<script>
+
+    function jumptoreg(value) {
+        if (value==2){
+            setCookie("value",2);
+            window.location.href = '/login';
+        }
+        else{
+            setCookie("value",1);
+            window.location.href = '/login';
+        }
+
+    }
+
+    function setCookie(name, value) {
+        /*
+        *--------------- setCookie(name,value) -----------------
+        * setCookie(name,value)
+        * 功能:设置得变量name的值
+        * 参数:name,字符串;value,字符串.
+        * 实例:setCookie('username','baobao')
+        *--------------- setCookie(name,value) -----------------
+        */
+        var Days = 30; //此 cookie 将被保存 30 天
+        var exp = new Date();
+        exp.setTime(exp.getTime() + Days * 24 * 60 * 60 * 1000);
+        document.cookie = name + "=" + escape(value) + ";expires=" + exp.toGMTString();
+        location.href = "/login"; //接收页面.
+
+    }
+
+    function getCookie(name) {
+        var arr = document.cookie.match(new RegExp("(^| )" + name + "=([^;]*)(;|$)"));
+        if (arr != null) return unescape(arr[2]);
+        return null;
+    }
+
+</script>
 
 <footer>
     © 2018 Esub - Made with ♥ for the people of the internet.

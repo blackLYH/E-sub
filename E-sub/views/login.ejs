@@ -124,7 +124,12 @@
 
 <script>
     //跳转参数
+    if(getCookie("value")==1)
+        switchTab(1);
+    else{
+        switchTab(2);
 
+    }
 
 
     function switchTab(n) {
@@ -142,11 +147,36 @@
                 lb.className = "super-link";
                 document.getElementById("login").style.display = "none";
                 document.getElementById("register").style.display = "inline";
+
                 break;
             default:
                 break;
         }
     }
+
+    function setCookie(name, value) {
+        /*
+        *--------------- setCookie(name,value) -----------------
+        * setCookie(name,value)
+        * 功能:设置得变量name的值
+        * 参数:name,字符串;value,字符串.
+        * 实例:setCookie('username','baobao')
+        *--------------- setCookie(name,value) -----------------
+        */
+        var Days = 30; //此 cookie 将被保存 30 天
+        var exp = new Date();
+        exp.setTime(exp.getTime() + Days * 24 * 60 * 60 * 1000);
+        document.cookie = name + "=" + escape(value) + ";expires=" + exp.toGMTString();
+        location.href = "/login"; //接收页面.
+
+    }
+
+    function getCookie(name) {
+        var arr = document.cookie.match(new RegExp("(^| )" + name + "=([^;]*)(;|$)"));
+        if (arr != null) return unescape(arr[2]);
+        return null;
+    }
+
 </script>
 
 </body>
