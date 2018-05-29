@@ -89,6 +89,7 @@ function setCookie(name, value) {
     location.href = "/member_center"; //接收页面.
     location.href = "/index";
     location.href = "/MyShare";
+    location.href = "/vip_center";
 
 }
 

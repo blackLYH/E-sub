@@ -120,9 +120,7 @@ function login() {
         type: "POST",
         dataType: "JSON",
         data: transToBack,
-        success: function (data, textStatus) {
-            window.location.href = '/index';
-        },
+
         error: function (data) {
 
             var respond_json = JSON.parse(data.responseText);
@@ -136,14 +134,20 @@ function login() {
             }
         },
         success: function (data) {
-            setCookie("user", account);
-            alert("Welcome");
-            window.location.href = "/index";
+            console.log(data["success"]);
+            if(data["success"]=='password correct'){
+                setCookie("user", account);
+                window.location.href = "/index";
+            }
+            else {
+                alert("账号或密码错误！");
+            }
+
         },
         statusCode: {
-            200: function () {
-                window.location.href = '/index';
-            },
+            // 200: function () {
+            //     window.location.href = '/index';
+            // },
             404: function () {
                 window.location.href = '/error';
             }
