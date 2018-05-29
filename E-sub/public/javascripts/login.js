@@ -1,15 +1,15 @@
-var c = document.getElementById("container");
-var a = (window.innerHeight - c.offsetHeight) / 2 - 30;
-if (a > 0) {
-    c.style.marginTop = a + "px";
-}
+// var c = document.getElementById("container");
+// var a = (window.innerHeight - c.offsetHeight) / 2 - 100;
+// if (a > 0) {
+//     c.style.marginTop = a + "px";
+// }
 
-$(window).resize(function () {
-    var a = (window.innerHeight - c.offsetHeight) / 2 - 30;
-    if (a > 0) {
-        c.style.marginTop = a + "px";
-    }
-});
+// $(window).resize(function () {
+//     var a = (window.innerHeight - c.offsetHeight) / 2 - 100;
+//     if (a > 0) {
+//         c.style.marginTop = a + "px";
+//     }
+// });
 
 function tabClick(e) {
 
@@ -138,11 +138,11 @@ function login() {
         success: function (data) {
             setCookie("user", account);
             alert("Welcome");
-            window.location.href = "/choose";
+            window.location.href = "/index";
         },
         statusCode: {
             200: function () {
-                window.location.href = '/choose';
+                window.location.href = '/index';
             },
             404: function () {
                 window.location.href = '/error';
@@ -168,7 +168,7 @@ function setCookie(name, value) {
     var exp = new Date();
     exp.setTime(exp.getTime() + Days * 24 * 60 * 60 * 1000);
     document.cookie = name + "=" + escape(value) + ";expires=" + exp.toGMTString();
-    location.href = "/index"; //接收页面.
+    location.href = "/generate"; //接收页面.
 
 }
 

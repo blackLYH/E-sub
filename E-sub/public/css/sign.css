@@ -8,6 +8,10 @@ input {
 	font-family: "微软雅黑";
 }
 
+.container{
+	padding-top: 130px;
+}
+
 .tab {
 	width: 120px;
 	margin: 45px auto;

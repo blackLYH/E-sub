@@ -384,4 +384,32 @@ router.post('/upload', upload.single('file'), function (req, res, next) {
     })
 });
 
+router.post('/Myshare', function (req, res, next) {
+
+    var publisher = req.body["account"];
+
+    var connection = mysql.createConnection({
+        host: sqlURL,
+        user: sqlUSER,
+        password: '123456',
+        database: 'esub'
+    });
+    connection.connect();
+    var sql = 'select * from subtitle where publisher=?';
+    var piss = publisher;
+
+    connection.query(sql, piss, function (err, result) {
+        if (err) {   //失败
+            console.log('[Search account ERROR] - ', err.message);
+            return;
+        }
+        else {  //成功
+            res.json({success: result});
+            return;
+        }
+    });
+    connection.end();
+});
+
+
 module.exports = router;
