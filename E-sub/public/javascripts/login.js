@@ -169,6 +169,7 @@ function setCookie(name, value) {
     exp.setTime(exp.getTime() + Days * 24 * 60 * 60 * 1000);
     document.cookie = name + "=" + escape(value) + ";expires=" + exp.toGMTString();
     location.href = "/generate"; //接收页面.
+    location.href = "/index";
 
 }
 
