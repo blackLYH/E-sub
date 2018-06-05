@@ -19,8 +19,8 @@ router.get('/', function (req, res, next) {
 
 router.post('/getForget_change', function (req, res, next) {
 
-    var account = req.body["forget_account"];
-    var password = req.body["forget_password"];
+    var account = req.body["teleNum"];
+    var password = req.body["password"];
     var privatePem = fs.readFileSync('./public/private.pem').toString();
     var privatekey = new NodeRSA(privatePem);
     privatekey.setOptions({encryptionScheme: 'pkcs1'});
@@ -49,7 +49,7 @@ router.post('/getForget_change', function (req, res, next) {
         database: 'esub'
     });
     connection.connect();
-    var sql = 'update account set password= ?,pwd_strength=? where account= ? ';
+    var sql = 'update account set password= ?,pwd_strength=? where mail= ? ';
     var piss = [password, password_strength, account];
     connection.query(sql, piss, function (err, result) {
         if (err) {
@@ -77,7 +77,7 @@ router.post('/getForget_account', function (req, res, next) {
     });
     connection.connect();
     var _getUser = function (name, callback) {
-        var sql = "SELECT password FROM  account  WHERE account=?";
+        var sql = "SELECT password FROM  account  WHERE mail=?";
         connection.query(sql, account_outside, function (err, results) {
             if (!err) {
                 var res = hasUser(results);
