@@ -71,6 +71,7 @@ function getCheckCode() {
                 alert("邮箱不存在");
                 return;
             }
+            alert("邮箱存在");
             getCode();
         },
         statusCode: {
@@ -85,6 +86,7 @@ function getCheckCode() {
 //邮箱
 function getCode() {
     email = document.getElementById("email").value;
+    console.log(email);
     var r = {
         "email": email
     }
@@ -143,7 +145,7 @@ function verifyCode() {
 
                 $.ajax({
 
-                    url: "/users/forget_2",
+                    url: "/users/getForget_change",
                     type: "POST",
                     dataType: "JSON",
                     data: info,
@@ -170,4 +172,8 @@ function verifyCode() {
             alert("请求失败")
         }
     });
+}
+
+function submitresult() {
+    verifyCode();
 }

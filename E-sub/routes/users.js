@@ -67,7 +67,7 @@ router.post('/getForget_change', function (req, res, next) {
 
 router.post('/getForget_account', function (req, res, next) {
 
-    var account_outside = req.body["account"];
+    var account_outside = req.body["email"];
     var password = "haha";
     var connection = mysql.createConnection({
         host: sqlURL,
@@ -75,6 +75,7 @@ router.post('/getForget_account', function (req, res, next) {
         password: '123456',
         database: 'esub'
     });
+    console.log(account_outside);
     connection.connect();
     var _getUser = function (name, callback) {
         var sql = "SELECT password FROM  account  WHERE mail=?";
@@ -110,11 +111,12 @@ router.post('/getForget_account', function (req, res, next) {
 
         if (User.password == undefined) {
             console.log("该用户未注册");
-            res.status(404);
+            //res.status(404);
             res.json({error: 'NO account'});
             return;
         }
         else {
+            res.json({success: 'account exist'});
             console.log("账号存在");
         }
     });
