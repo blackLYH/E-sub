@@ -41,6 +41,7 @@ if(getCookie("user")!=null){
             var userimage = userInfo[0].image;
 
             $("#username").text(getCookie("user"));
+            $("#uName").text(getCookie("user"));
             if(userimage=="system_defalut.jpg")
                 return;
             document.getElementById('userimg').src = "images/head/" + userimage;
