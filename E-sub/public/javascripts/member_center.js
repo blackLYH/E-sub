@@ -4,6 +4,74 @@
 var imagename;
 var imageold;
 
+
+
+//**********
+/*
+        三个参数
+        file：一个是文件(类型是图片格式)，
+        w：一个是文件压缩的后宽度，宽度越小，字节越小
+        objDiv：一个是容器或者回调函数
+        photoCompress()
+         */
+function photoCompress(file,w,objDiv){
+    var ready=new FileReader();
+    /*开始读取指定的Blob对象或File对象中的内容. 当读取操作完成时,readyState属性的值会成为DONE,如果设置了onloadend事件处理程序,则调用之.同时,result属性中将包含一个data: URL格式的字符串以表示所读取文件的内容.*/
+    ready.readAsDataURL(file);
+    ready.onload=function(){
+        var re=this.result;
+        canvasDataURL(re,w,objDiv)
+    }
+}
+function canvasDataURL(path, obj, callback){
+    var img = new Image();
+    img.src = path;
+    img.onload = function(){
+        var that = this;
+        // 默认按比例压缩
+        var w = that.width,
+            h = that.height,
+            scale = w / h;
+        w = obj.width || w;
+        h = obj.height || (w / scale);
+        var quality = 0.7;  // 默认图片质量为0.7
+        //生成canvas
+        var canvas = document.createElement('canvas');
+        var ctx = canvas.getContext('2d');
+        // 创建属性节点
+        var anw = document.createAttribute("width");
+        anw.nodeValue = w;
+        var anh = document.createAttribute("height");
+        anh.nodeValue = h;
+        canvas.setAttributeNode(anw);
+        canvas.setAttributeNode(anh);
+        ctx.drawImage(that, 0, 0, w, h);
+        // 图像质量
+        if(obj.quality && obj.quality <= 1 && obj.quality > 0){
+            quality = obj.quality;
+        }
+        // quality值越小，所绘制出的图像越模糊
+        var base64 = canvas.toDataURL('image/jpeg', quality);
+        // 回调函数返回base64的值
+        callback(base64);
+    }
+}
+/**
+ * 将以base64的图片url数据转换为Blob
+ * @param urlData
+ *            用url方式表示的base64图片数据
+ */
+function convertBase64UrlToBlob(urlData){
+    var arr = urlData.split(','), mime = arr[0].match(/:(.*?);/)[1],
+        bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+    while(n--){
+        u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new Blob([u8arr], {type:mime});
+}
+//**********
+
+
 function uploadfile() {
     var file = document.getElementById("file");
     var formData = new FormData();
@@ -11,22 +79,49 @@ function uploadfile() {
         alert("格式错误，重新选择！");
         return;
     }
-    formData.append('file', file.files[0]);
+
     imagename = file.files[0].name;
+
     var date = new Date();
-    var seperator1 = "-";
-    var seperator2 = ":";
-    var month = date.getMonth() + 1;
+    var seperator1 = "_";
+    var seperator2 = "_";
+    var month1 = date.getMonth() + 1;
     var strDate = date.getDate();
-    if (month >= 1 && month <= 9) {
-        month = "0" + month;
+    if (month1 >= 1 && month1 <= 9) {
+        month1 = "0" + month1;
     }
     if (strDate >= 0 && strDate <= 9) {
         strDate = "0" + strDate;
     }
-    var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
-        + " " + date.getHours() + seperator2 + date.getMinutes()
+    var currentdate = date.getFullYear() + seperator1 + month1 + seperator1 + strDate
+        + "_" + date.getHours() + seperator2 + date.getMinutes()
         + seperator2 + date.getSeconds();
+
+    imagename = getCookie("user") + '_' + currentdate + '_' + imagename;
+    console.log(file.files[0]);
+    if(file.files[0].size/1024>1025){//如果大于1m
+        photoCompress(file.files[0], {
+            quality: 0.2
+        }, function(base64Codes){
+            //console.log("压缩后：" + base.length / 1024 + " " + base);
+            var bl = convertBase64UrlToBlob(base64Codes);
+            console.log("bl"+bl);
+            formData.append("file", bl,imagename); // 文件对象
+            f(formData);
+        });
+    }else {
+        formData.append('file', file.files[0],imagename);
+        f(formData);
+    }
+    //console.log(file.files[0]);
+
+
+
+}
+
+function f(formData) {
+
+
     $.ajax({
         url: '/users/upload',
         type: 'POST',
@@ -42,7 +137,7 @@ function uploadfile() {
             } else {
                 $('#result').html("上传失败！");
             }
-            var road = "images/head/" + file.files[0].name;
+            var road = "images/head/" +imagename;
             document.getElementById('userimg1').src = road;
         },
         error: function () {
