@@ -193,6 +193,10 @@ router.post('/search',function (req, res, next) {
         console.log('Program output:', stdout);
         var decodedText = iconv.decode(stdout, 'gbk');
         var result = decodedText.split(" ");
+        if(result[0]==""){
+            res.json({"success":null});
+            return;
+        }
         var _getSubtitle = function (name, callback) {
             var pos = name.lastIndexOf(".");
             name = name.substring(0,pos);

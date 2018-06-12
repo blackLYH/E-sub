@@ -157,6 +157,7 @@ var uploadDoing = function(uploading, endUpload, endGenerating) {
 }
 
 function checkfile() {
+
     var file1 = $("#filename")[0].files;
     if(file1[0] == null){alert("文件为空！");return;}
     if(!(file1[0].type.match("video")||file1[0].type.match("audio"))){alert("文件格式错误！");$("#filename")[0].files = null;return;}
