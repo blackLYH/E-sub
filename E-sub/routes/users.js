@@ -282,7 +282,7 @@ router.post('/member_center_save', function (req, res, next) {
     var headpic = req.body["image"];
     var oldheadpic = req.body["old"];
 
-    console.log("月"+month);
+
 
     var oldpath = './public/images/head/' + headpic;
 
@@ -292,29 +292,27 @@ router.post('/member_center_save', function (req, res, next) {
         gate=0;
 
 
-    var date = new Date();
-    var seperator1 = "_";
-    var seperator2 = "_";
-    var month1 = date.getMonth() + 1;
-    var strDate = date.getDate();
-    if (month1 >= 1 && month1 <= 9) {
-        month1 = "0" + month1;
-    }
-    if (strDate >= 0 && strDate <= 9) {
-        strDate = "0" + strDate;
-    }
-    var currentdate = date.getFullYear() + seperator1 + month1 + seperator1 + strDate
-        + "_" + date.getHours() + seperator2 + date.getMinutes()
-        + seperator2 + date.getSeconds();
-
-    headpic = account + '_' + currentdate + '_' + headpic;
+    // var date = new Date();
+    // var seperator1 = "_";
+    // var seperator2 = "_";
+    // var month1 = date.getMonth() + 1;
+    // var strDate = date.getDate();
+    // if (month1 >= 1 && month1 <= 9) {
+    //     month1 = "0" + month1;
+    // }
+    // if (strDate >= 0 && strDate <= 9) {
+    //     strDate = "0" + strDate;
+    // }
+    // var currentdate = date.getFullYear() + seperator1 + month1 + seperator1 + strDate
+    //     + "_" + date.getHours() + seperator2 + date.getMinutes()
+    //     + seperator2 + date.getSeconds();
+    //
+    // headpic = account + '_' + currentdate + '_' + headpic;
 
     var newpath = './public/images/head/' + headpic;
     var deletepath = './public/images/head/' + oldheadpic;
 
-    console.log(newpath);
-    console.log(deletepath);
-    console.log(oldpath);
+
 
 
     if(oldpath!="./public/images/head/system_default.jpg") {
@@ -324,7 +322,12 @@ router.post('/member_center_save', function (req, res, next) {
             }
             else {
                 if (deletepath != "./public/images/head/system_default.jpg" && headpic != oldheadpic) {
-                    fs.unlink(deletepath);
+                    fs.exists(deletepath,function (exists) {
+                        if(exists){
+                            fs.unlink(deletepath);
+                        }
+                    })
+
                 }
             }
         });
@@ -379,7 +382,9 @@ var upload = multer({
 });
 
 router.post('/upload', upload.single('file'), function (req, res, next) {
-    var url = 'http://' + req.headers.host + '/images/' + req.file.originalname
+
+    var url = 'http://' + req.headers.host + '/images/' + req.file.originalname;
+
     res.json({
         code: 200,
         data: url
