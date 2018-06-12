@@ -24,6 +24,10 @@ router.get('/generate', function (req, res, next) {
     res.render('generate', {title: 'Express'});
 });
 
+router.get('/vip_center', function (req, res, next) {
+    res.render('vip_center', {title: 'Express'});
+});
+
 router.get('/MyShare', function (req, res, next) {
     res.render('MyShare', {title: 'Express'});
 });
@@ -111,14 +115,14 @@ router.post('/login/test', function (req, res, next) {
 
         if (User.password == undefined) {
             console.log("未注册用户");
-            res.status(404);
+
             res.json({error: 'NO account'});
             return;
         }
 
         if (User.password != password_outside) {
             console.log("密码错误");
-            res.status(404);
+
             res.json({error: 'password wrong'});
         } else {
             console.log("密码正确");

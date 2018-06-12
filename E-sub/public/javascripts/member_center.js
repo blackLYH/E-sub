@@ -58,7 +58,6 @@ var useraccount;
 var user = {"account": getCookie("user")};
 
 
-
 $.ajax({
     url: "/users/member_center",
     type: "POST",
@@ -184,6 +183,8 @@ function setCookie(name, value) {
     document.cookie = name + "=" + escape(value) + ";expires=" + exp.toGMTString();
     location.href = "/member_center"; //接收页面.
     location.href = "/index";
+    location.href = "/vip_center";
+    location.href = "/MyShare";
 }
 
 function getCookie(name) {

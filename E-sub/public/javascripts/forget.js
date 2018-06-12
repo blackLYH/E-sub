@@ -41,7 +41,7 @@ function input_change(e) {
 }
 
 /*
-/users/forget_1
+/users/getForget_account
 传参数：info = {"email": email};
 功能：判断email是否存在
 存在："account exist"
@@ -61,20 +61,18 @@ function getCheckCode() {
     email = document.getElementById("email").value;
     info = {"email": email};
     $.ajax({
-        url: "/users/forget_1",
+        url: "/users/getForget_account",
         type: "POST",
         dataType: "JSON",
         data: info,
         success: function (data) {
             var respond_json = data["success"];
-            if (respond_json == "NO account") {
-                //发验证码
-                getCode();
+            if(respond_json=="No account"){
+                alert("邮箱不存在");
+                return;
             }
-            else if (respond_json == "account exist") {
-                alert("账号已存在!");
-                //不发验证码
-            }
+            alert("邮箱存在");
+            getCode();
         },
         statusCode: {
             404: function () {
@@ -88,6 +86,7 @@ function getCheckCode() {
 //邮箱
 function getCode() {
     email = document.getElementById("email").value;
+    console.log(email);
     var r = {
         "email": email
     }
@@ -146,7 +145,7 @@ function verifyCode() {
 
                 $.ajax({
 
-                    url: "/users/forget_2",
+                    url: "/users/getForget_change",
                     type: "POST",
                     dataType: "JSON",
                     data: info,
@@ -173,4 +172,8 @@ function verifyCode() {
             alert("请求失败")
         }
     });
+}
+
+function submitresult() {
+    verifyCode();
 }

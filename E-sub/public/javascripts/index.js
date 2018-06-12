@@ -41,6 +41,7 @@ if(getCookie("user")!=null){
             var userimage = userInfo[0].image;
 
             $("#username").text(getCookie("user"));
+            $("#uName").text(getCookie("user"));
             if(userimage=="system_defalut.jpg")
                 return;
             document.getElementById('userimg').src = "images/head/" + userimage;
@@ -89,6 +90,7 @@ function setCookie(name, value) {
     location.href = "/member_center"; //接收页面.
     location.href = "/index";
     location.href = "/MyShare";
+    location.href = "/vip_center";
 
 }
 

@@ -1,4 +1,31 @@
+console.log(getCookie("user"));
+var user = {"account": getCookie("user")};
+$.ajax({
+    url: "/users/MyShare",
+    type: "POST",
+    dataType: "JSON",
+    data: user,
+    success: function (data, textStatus) {
+        var userInfo = data["success"];
+        console.log(userInfo);
+        console.log(userInfo.length);
+        for(i=0;i<userInfo.length;i++){
+            sh_add_item(i+1,userInfo[i].title,userInfo[i].title,userInfo[i].upload_time,userInfo[i].price,userInfo[i].download_count);
+        }
+        //sh_add_item(1, "字幕名称", "摘要：发违法而阿尔额肺癌我飞啊飞阿尔法而发放安肺癌飞啊飞", "2018-8-9", "10", "20");
+    },
+    statusCode: {
+        404: function () {
+            alert('404，页面不存在');
+        }
+    }
+});
 
+function getCookie(name) {
+    var arr = document.cookie.match(new RegExp("(^| )" + name + "=([^;]*)(;|$)"));
+    if (arr != null) return unescape(arr[2]);
+    return null;
+}
 
 var list_container = document.getElementById("list_container");
 var sh_add_item = function (num, name, introduction, time, price, download_times) {
@@ -100,9 +127,9 @@ var onMdifyClick = function (e) {
  * 添加列表，1，2，3是id后边的函数会使用
  */
 var sh_load = function () {
-    sh_add_item(1, "字幕名称", "摘要：发违法而阿尔额肺癌我飞啊飞阿尔法而发放安肺癌飞啊飞", "2018-8-9", "10", "20");
-    sh_add_item(2, "字幕名称", "摘要：发违法而阿尔额肺癌我飞啊飞阿尔法而发放安肺癌飞啊飞", "2018-8-9", "10", "20");
-    sh_add_item(3, "字幕名称", "摘要：发违法而阿尔额肺癌我飞啊飞阿尔法而发放安肺癌飞啊飞", "2018-8-9", "10", "20");
+    // sh_add_item(1, "字幕名称", "摘要：发违法而阿尔额肺癌我飞啊飞阿尔法而发放安肺癌飞啊飞", "2018-8-9", "10", "20");
+    // sh_add_item(2, "字幕名称", "摘要：发违法而阿尔额肺癌我飞啊飞阿尔法而发放安肺癌飞啊飞", "2018-8-9", "10", "20");
+    // sh_add_item(3, "字幕名称", "摘要：发违法而阿尔额肺癌我飞啊飞阿尔法而发放安肺癌飞啊飞", "2018-8-9", "10", "20");
 }
 /**
  * 获取详细内容

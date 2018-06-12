@@ -28,11 +28,11 @@
             <li></li>
             <a class="navbar-text">功能概述</a>
             <li></li>
-            <a class="navbar-text">价格</a>
+            <a class="navbar-text" href="price_view">价格</a>
             <li></li>
-            <a class="navbar-text" onclick="jumptoreg(2)" >注册</a>
+            <a id="c1" class="navbar-text" onclick="jumptoreg(2)" >注册</a>
             <li></li>
-            <a class="navbar-text" onclick="jumptoreg(1)">登陆</a>
+            <a id="c2" class="navbar-text" onclick="jumptoreg(1)">登陆</a>
         </ul>
     </div>
 </nav>
@@ -55,14 +55,30 @@
 </div>
 
 
-<div class="experience" onclick="window.open('/login','_self')">
+<div id="bt" class="experience" onclick="jumptoreg(1)">
+
     <a style="text-decoration:none;color:#000000;">立即登录</a>
 
 </div>
 
 <script>
+    console.log(getCookie("user"));
+    if(getCookie("user")!="null"){
+        document.getElementById("bt").style.visibility="hidden";
+        $("#c2").text(getCookie("user"));
+        $("#c1").text("HELLO!");
+    }
+    else {
+        console.log(getCookie("user"));
+        document.getElementById("bt").style.visibility="visible";
+        $("#c2").text("登录");
+        $("#c1").text("注册");
+    }
 
     function jumptoreg(value) {
+        if(getCookie("user")!="null"){
+            return;
+        }
         if (value==2){
             setCookie("value",2);
             window.location.href = '/login';

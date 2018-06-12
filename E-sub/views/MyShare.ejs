@@ -43,30 +43,6 @@
 </div>
 </body>
 
-<script>
-    console.log(getCookie("user"));
-    var user = {"account": getCookie("user")};
-    $.ajax({
-        url: "/users/MyShare",
-        type: "POST",
-        dataType: "JSON",
-        data: user,
-        success: function (data, textStatus) {
-            var userInfo = data["success"];
 
-        },
-        statusCode: {
-            404: function () {
-                alert('404，页面不存在');
-            }
-        }
-    });
-
-    function getCookie(name) {
-        var arr = document.cookie.match(new RegExp("(^| )" + name + "=([^;]*)(;|$)"));
-        if (arr != null) return unescape(arr[2]);
-        return null;
-    }
-</script>
 
 </html>
