@@ -172,7 +172,7 @@ var toShare = function (num, success) {
 var modifyPriceOption = function (num, new_price, code, success, fail) {
     console.log("修改" + num + "," + new_price + "," + code)
     var change_price={"id":num,"newprice":new_price};
-    
+
     $.ajax({
         url: "/users/MyShare_change_price",
         type: "POST",
@@ -182,6 +182,7 @@ var modifyPriceOption = function (num, new_price, code, success, fail) {
             result = data["success"];
             if(result=="ok"){
                 alert("修改成功");
+                success();
             }
             else
                 alert("修改不成功");
@@ -193,7 +194,7 @@ var modifyPriceOption = function (num, new_price, code, success, fail) {
             }
         }
     });
-    success();
+
 }
 
 
