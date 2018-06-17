@@ -148,7 +148,29 @@ var getContentByNum = function (num) {
  */
 var cancelShare = function (num, success) {
     console.log("取消分享" + num)
-    success();
+    var Ifshare={"id":num,"IfShare":"N"};
+    $.ajax({
+        url: "/users/MyShare_change_share",
+        type: "POST",
+        dataType: "JSON",
+        data: Ifshare,
+        success: function (data, textStatus) {
+            result = data["success"];
+            if(result=="ok"){
+                alert("修改成功");
+                success();
+            }
+            else
+                alert("修改不成功");
+
+        },
+        statusCode: {
+            404: function () {
+                alert('404，页面不存在');
+            }
+        }
+    });
+
 }
 
 /**
@@ -157,8 +179,30 @@ var cancelShare = function (num, success) {
  * @param {分享成功后调用的函数} success 
  */
 var toShare = function (num, success) {
-    console.log("分享" + num)
-    success();
+    console.log("分享" + num);
+    var Ifshare={"id":num,"IfShare":"Y"};
+    $.ajax({
+        url: "/users/MyShare_change_share",
+        type: "POST",
+        dataType: "JSON",
+        data: Ifshare,
+        success: function (data, textStatus) {
+            result = data["success"];
+            if(result=="ok"){
+                alert("分享成功");
+                success();
+            }
+            else
+                alert("分享不成功");
+
+        },
+        statusCode: {
+            404: function () {
+                alert('404，页面不存在');
+            }
+        }
+    });
+
 }
 
 /**
