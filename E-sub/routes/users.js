@@ -47,7 +47,7 @@ router.post('/MyShare_change_price', function (req, res, next) {
     connection.end();
 });
 
-router.post('/IfShare', function (req, res, next) {
+router.post('/MyShare_change_share', function (req, res, next) {
 
     var id = req.body["id"];
     var ifshare = req.body["IfShare"];
@@ -66,7 +66,7 @@ router.post('/IfShare', function (req, res, next) {
     });
     connection.connect();
     var sql = 'update subtitle set isshared=? where subtitle_id= ? ';
-    var piss = [ifshared,id];
+    var piss = [ifshare,id];
 
     connection.query(sql, piss, function (err, result) {
         if (err) {

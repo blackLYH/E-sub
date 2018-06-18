@@ -11,7 +11,14 @@ $.ajax({
         console.log(userInfo);
         console.log(userInfo.length);
         for(i=0;i<userInfo.length;i++){
-            sh_add_item(i+1,userInfo[i].title,userInfo[i].title,userInfo[i].upload_time,userInfo[i].price,userInfo[i].download_count);
+            var time = userInfo[i].upload_time.replace("Z","");
+            time = time.replace("T"," ");
+            time = time.replace(".000","");
+            var issharedn = userInfo[i].isshared;
+            var isshared;
+            if(issharedn == 0) isshared ="分享"
+            else isshared="取消分享"
+            sh_add_item(userInfo[i].subtitle_ID,userInfo[i].title,userInfo[i].title,time,userInfo[i].price,userInfo[i].download_count,isshared);
         }
         //sh_add_item(1, "字幕名称", "摘要：发违法而阿尔额肺癌我飞啊飞阿尔法而发放安肺癌飞啊飞", "2018-8-9", "10", "20");
     },
@@ -29,7 +36,7 @@ function getCookie(name) {
 }
 
 var list_container = document.getElementById("list_container");
-var sh_add_item = function (num, name, introduction, time, price, download_times) {
+var sh_add_item = function (num, name, introduction, time, price, download_times,isshared) {
     var list_item = document.createElement("div");
     list_item.className = "list_item";
     var html = '<h3>' + name + '</h3>' +
@@ -45,7 +52,7 @@ var sh_add_item = function (num, name, introduction, time, price, download_times
         '</div>' +
         '<div class="right">' +
         '<div class="link" data-num="' + num + '" onclick="onViewDetailClick(this)">查看内容</div>' +
-        '<div class="link" data-num="' + num + '" onclick="onCancelShareClick(this)">取消分享</div>' +
+        '<div class="link" data-num="' + num + '" onclick="onCancelShareClick(this)">'+isshared+'</div>' +
         '<div class="link"data-num="' + num + '" onclick="onModifyPriceClick(this)">修改价格</div>' +
         '</div>' +
         '</div>';

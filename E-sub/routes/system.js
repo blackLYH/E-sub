@@ -201,7 +201,7 @@ router.post('/search',function (req, res, next) {
             var pos = name.lastIndexOf(".");
             name = name.substring(0,pos);
             console.log(name);
-            var sql = "select * from subtitle where title=?";
+            var sql = "select * from subtitle where title=? and isshared=1";
             connection.query(sql, name, function (err, results) {
                 if (!err) {
                    // console.log(results);
