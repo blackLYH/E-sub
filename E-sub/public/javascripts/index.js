@@ -1,7 +1,7 @@
 var file;
 var vip;
-function transtomember(){
-    if(getCookie("user")!="null"){
+function transtomember() {
+    if (getCookie("user") != "null") {
         window.location.href = '/member_center';
     }
     else {
@@ -11,13 +11,13 @@ function transtomember(){
 }
 
 function quitout() {
-    setCookie("user",null);
+    setCookie("user", null);
     window.location.href = '/login';
 }
 
-var user = {"account": getCookie("user")};
+var user = { "account": getCookie("user") };
 //console.log(getCookie("user"));
-if(getCookie("user")!=null){
+if (getCookie("user") != null) {
 
     $.ajax({
         url: "/users/member_center",
@@ -25,7 +25,7 @@ if(getCookie("user")!=null){
         dataType: "JSON",
         data: user,
         success: function (data, textStatus) {
-            if (data["success"]=="")
+            if (data["success"] == "")
                 return;
 
             var userInfo = data["success"];
@@ -42,7 +42,7 @@ if(getCookie("user")!=null){
 
             $("#username").text(getCookie("user"));
             $("#uName").text(getCookie("user"));
-            if(userimage=="system_defalut.jpg")
+            if (userimage == "system_defalut.jpg")
                 return;
             document.getElementById('userimg').src = "images/head/" + userimage;
 
@@ -55,14 +55,14 @@ if(getCookie("user")!=null){
     });
 
 }
-else{
+else {
     alert("请登陆！");
     window.location.href = '/login';
 }
 
 function member_center() {
 
-    if(a==null){
+    if (a == null) {
         alert("请登陆！");
         window.location.href = '/login';
     }
@@ -107,7 +107,7 @@ function quit() {
 }
 
 
-var uploading = function(position) {
+var uploading = function (position) {
     var uf2 = document.getElementById("uf2");
     var uploadBack = document.getElementById("upload-back");
 
@@ -115,14 +115,14 @@ var uploading = function(position) {
     uploadBack.style.height = a + "px";
     uf2.innerText = position + "%";
 }
-var endUpload = function() {
+var endUpload = function () {
     var uploading = document.getElementById("uploading");
     var generating = document.getElementById("generating");
     uploading.style.display = "none";
     generating.style.display = "block";
 }
 
-var endGenerating = function(url) {
+var endGenerating = function (url) {
     var generated = document.getElementById("generated");
     var generating = document.getElementById("generating");
     var d = document.getElementById("download-url");
@@ -137,7 +137,7 @@ var endGenerating = function(url) {
  * @param {Object} uploading 更新上传状态函数 uploading(int_position)
  * @param {Object} endGenerating 结束生成，给予下载地址
  */
-var uploadDoing = function(uploading, endUpload, endGenerating) {
+var uploadDoing = function (uploading, endUpload, endGenerating) {
     //获取开始时分秒，结束时分秒。-1表示没有选择，0-59表示对应时间
     var bh = $('#begin-hour option:selected').val()
     var bm = $('#begin-minute option:selected').val()
@@ -161,8 +161,19 @@ var uploadDoing = function(uploading, endUpload, endGenerating) {
 function checkfile() {
 
     var file1 = $("#filename")[0].files;
-    if(file1[0] == null){alert("文件为空！");return;}
-    if(!(file1[0].type.match("video")||file1[0].type.match("audio"))){alert("文件格式错误！");$("#filename")[0].files = null;return;}
+    console.log(file1)
+    if (file1[0] == null) {
+        alert("文件为空！");
+        document.getElementById("file_select_desc").innerText = "将视频拖放到这里"
+        // to_change_select_file
+        document.getElementById("to_change_select_file").innerText = "选择视屏"
+        return;
+    }
+    else {
+        document.getElementById("file_select_desc").innerText = "已选择文件：" + file1[0].name;
+        document.getElementById("to_change_select_file").innerText = "重新选择"
+    }
+    if (!(file1[0].type.match("video") || file1[0].type.match("audio"))) { alert("文件格式错误！"); $("#filename")[0].files = null; return; }
     var opCenter = document.getElementById("op-center");
     var opBottom = document.getElementById("op-bottom");
     var uploadView = document.getElementById("doing-view");
@@ -174,8 +185,8 @@ function checkfile() {
 
 function upload_file() {
     var file1 = $("#filename")[0].files;
-    if(file1[0] == null){alert("文件为空！");return;}
-    if(!(file1[0].type.match("video")||file1[0].type.match("audio"))){alert("文件格式错误！");$("#filename")[0].files = null;return;}
+    if (file1[0] == null) { alert("文件为空！"); return; }
+    if (!(file1[0].type.match("video") || file1[0].type.match("audio"))) { alert("文件格式错误！"); $("#filename")[0].files = null; return; }
     //获取开始时分秒，结束时分秒。-1表示没有选择，0-59表示对应时间
     var bh = $('#begin-hour option:selected').val()
     var bm = $('#begin-minute option:selected').val()
@@ -184,26 +195,26 @@ function upload_file() {
     var eh = $('#end-hour option:selected').val()
     var em = $('#end-minute option:selected').val()
     var es = $('#end-second option:selected').val()
-    if(bh == -1) bh=0;
-    if(bm == -1) bm=0;
-    if(bs == -1) bs=0;
-    if(eh == -1) eh=0;
-    if(em == -1) em=0;
-    if(es == -1) es=0;
+    if (bh == -1) bh = 0;
+    if (bm == -1) bm = 0;
+    if (bs == -1) bs = 0;
+    if (eh == -1) eh = 0;
+    if (em == -1) em = 0;
+    if (es == -1) es = 0;
     var button = document.getElementById("upload");
     //var progress = document.querySelector('#progress');
     var opCenter = document.getElementById("op-center");
     var opBottom = document.getElementById("op-bottom");
     var uploadView = document.getElementById("doing-view");
-    
+
     //var progressbar = document.getElementById("progressbar");
     button.onprogress = setProgress;
     console.log(file1[0].type);
     var sourcelangue = document.getElementById("movie-language");
     var detlangue = document.getElementById("result-language");
-    if(sourcelangue != detlangue && vip ==0){
+    if (sourcelangue != detlangue && vip == 0) {
         alert("想翻译？请充值会员");
-        return ;
+        return;
     }
     opCenter.style.display = "none";
     opBottom.style.display = "none";
@@ -214,7 +225,7 @@ function upload_file() {
     $.each(file1, function (i, file) {
         data.append('upload_file', file);
     });
-    data.append('user',getCookie("user"));
+    data.append('user', getCookie("user"));
     data.append('sourcelanguage', sourcelangue.value);
     data.append('detlanguage', detlangue.value);
     data.append('bh', bh);
@@ -247,9 +258,9 @@ function upload_file() {
             //progressbar.max = event.total;
             // //progressbar.value = event.loaded;
             // progress.innerHTML = complete + '%';
-             if (complete >= 100) {
-            //     progress.innerHTML = "字幕生成中"
-                 endUpload();
+            if (complete >= 100) {
+                //     progress.innerHTML = "字幕生成中"
+                endUpload();
             }
         }
     }
@@ -278,7 +289,7 @@ function get_filename() {
             reader.onload = function (e) {
                 // 转换完成，创建一个a标签用于下载
                 var a = document.createElement('a');
-                var t  = file.split("/");
+                var t = file.split("/");
                 file = t[t.length - 1];
                 console.log(file);
                 a.download = file;

@@ -13,6 +13,7 @@ var uploadBtn = function() {
 	var uploadView = document.getElementById("doing-view");
 	opCenter.style.display = "none";
 	opBottom.style.display = "none";
+
 	uploadView.style.display = "block";
 
 	var endUpload = function() {

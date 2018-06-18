@@ -1,4 +1,5 @@
 console.log(getCookie("user"));
+var userInfo;
 var user = {"account": getCookie("user")};
 $.ajax({
     url: "/users/MyShare",
@@ -6,7 +7,7 @@ $.ajax({
     dataType: "JSON",
     data: user,
     success: function (data, textStatus) {
-        var userInfo = data["success"];
+        userInfo = data["success"];
         console.log(userInfo);
         console.log(userInfo.length);
         for(i=0;i<userInfo.length;i++){
@@ -120,7 +121,8 @@ var onMdifyClick = function (e) {
     var fail = function () {
 
     }
-    modifyPriceOption(modify_num, nprice, n_email_code, success, fail);
+
+    modifyPriceOption(userInfo[modify_num-1].subtitle_ID, nprice, n_email_code, success, fail);
 }
 
 /**
@@ -146,7 +148,29 @@ var getContentByNum = function (num) {
  */
 var cancelShare = function (num, success) {
     console.log("取消分享" + num)
-    success();
+    var Ifshare={"id":num,"IfShare":"N"};
+    $.ajax({
+        url: "/users/MyShare_change_share",
+        type: "POST",
+        dataType: "JSON",
+        data: Ifshare,
+        success: function (data, textStatus) {
+            result = data["success"];
+            if(result=="ok"){
+                alert("修改成功");
+                success();
+            }
+            else
+                alert("修改不成功");
+
+        },
+        statusCode: {
+            404: function () {
+                alert('404，页面不存在');
+            }
+        }
+    });
+
 }
 
 /**
@@ -155,8 +179,30 @@ var cancelShare = function (num, success) {
  * @param {分享成功后调用的函数} success 
  */
 var toShare = function (num, success) {
-    console.log("分享" + num)
-    success();
+    console.log("分享" + num);
+    var Ifshare={"id":num,"IfShare":"Y"};
+    $.ajax({
+        url: "/users/MyShare_change_share",
+        type: "POST",
+        dataType: "JSON",
+        data: Ifshare,
+        success: function (data, textStatus) {
+            result = data["success"];
+            if(result=="ok"){
+                alert("分享成功");
+                success();
+            }
+            else
+                alert("分享不成功");
+
+        },
+        statusCode: {
+            404: function () {
+                alert('404，页面不存在');
+            }
+        }
+    });
+
 }
 
 /**
@@ -169,7 +215,30 @@ var toShare = function (num, success) {
  */
 var modifyPriceOption = function (num, new_price, code, success, fail) {
     console.log("修改" + num + "," + new_price + "," + code)
-    success();
+    var change_price={"id":num,"newprice":new_price};
+
+    $.ajax({
+        url: "/users/MyShare_change_price",
+        type: "POST",
+        dataType: "JSON",
+        data: change_price,
+        success: function (data, textStatus) {
+            result = data["success"];
+            if(result=="ok"){
+                alert("修改成功");
+                success();
+            }
+            else
+                alert("修改不成功");
+
+        },
+        statusCode: {
+            404: function () {
+                alert('404，页面不存在');
+            }
+        }
+    });
+
 }
 
 

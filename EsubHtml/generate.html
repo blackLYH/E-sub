@@ -107,6 +107,7 @@
 					<a>选择视屏</a>
 				</div>
 			</div>
+			
 			<div class="op-bottom" id="op-bottom">
 				<label>视屏语言：</label>
 				<select id="movie-language">
@@ -140,14 +141,15 @@
 					<div class="uf1">正在上传</div>
 					<div class="uf2" id="uf2">0%</div>
 				</div>
+				
 				<div class="generating" id="generating">
 					<img src="img/doing.gif" />
 					<div>正在生成，请耐心等待</div>
 				</div>
 				<div class="uploaded-view" id="generated">
 					<img src="img/video.png" />
-					<div>已完成字幕生成</div>
-					<a href="#" id="download-url">点击下载</a>
+					<div id="download-url" style="font-size: 20px; margin: 10px 0px; color: cornflowerblue; cursor: pointer;">点击下载</div>
+					<div id="re-download" style="color: cornflowerblue; cursor: pointer;" ><u>再次使用</u></div>
 				</div>
 			</div>
 		</div>
