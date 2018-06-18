@@ -17,6 +17,70 @@ router.get('/', function (req, res, next) {
     res.send('respond with a resource');
 });
 
+
+
+router.post('/MyShare_change_price', function (req, res, next) {
+
+    var id = req.body["id"];
+    var newprice = req.body["newprice"];
+
+    var connection = mysql.createConnection({
+        host: sqlURL,
+        user: sqlUSER,
+        password: '123456',
+        database: 'esub'
+    });
+    connection.connect();
+    var sql = 'update subtitle set price=? where subtitle_id= ? ';
+    var piss = [newprice,id];
+
+    connection.query(sql, piss, function (err, result) {
+        if (err) {
+            console.log('[SELECT ERROR] - ', err.message);
+            return;
+        }
+        else {
+            res.json({success: 'ok'});
+            return;
+        }
+    });
+    connection.end();
+});
+
+router.post('/IfShare', function (req, res, next) {
+
+    var id = req.body["id"];
+    var ifshare = req.body["IfShare"];
+    var ifshared;
+
+    if(ifshare=='Y')
+        ifshare=1;
+    else
+        ifshare=0;
+
+    var connection = mysql.createConnection({
+        host: sqlURL,
+        user: sqlUSER,
+        password: '123456',
+        database: 'esub'
+    });
+    connection.connect();
+    var sql = 'update subtitle set isshared=? where subtitle_id= ? ';
+    var piss = [ifshared,id];
+
+    connection.query(sql, piss, function (err, result) {
+        if (err) {
+            console.log('[SELECT ERROR] - ', err.message);
+            return;
+        }
+        else {
+            res.json({success: 'ok'});
+            return;
+        }
+    });
+    connection.end();
+});
+
 router.post('/getForget_change', function (req, res, next) {
 
     var account = req.body["teleNum"];
