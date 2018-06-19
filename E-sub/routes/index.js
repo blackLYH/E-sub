@@ -20,6 +20,10 @@ router.get('/index', function (req, res, next) {
     res.render('index', {title: 'Express'});
 });
 
+router.get('/user_help', function (req, res, next) {
+    res.render('user_help', {title: 'Express'});
+});
+
 router.get('/generate', function (req, res, next) {
     res.render('generate', {title: 'Express'});
 });
